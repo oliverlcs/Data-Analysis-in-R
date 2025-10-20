@@ -5,7 +5,9 @@ date: today
 format: html
 ---
 
-# Projekt-Template
+# Report von Nele Hauck und Oliver Lucius
+
+Wollen wir eigentlich Gendern?
 
 ## 1. Definition/Formulierung der Fragestellung
 
@@ -18,6 +20,43 @@ Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusam
 -   Welche spezifische Fragestellung würden Sie gern mit Hilfe des Datensatzes beantworten?
 -   Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?
 :::
+
+### Fragestellung: Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich das auf Sport- und Ernährungsgewohnheiten aus?
+
+(! BITTE KRITISIEREN BZW. VERBESSERN)
+
+### Was interessiert Sie an dem Datensatz?
+
+-   Zusammenhänge zwischen Lebensstilfaktoren: Ich möchte verstehen, wie stark körperliche Aktivität und Ernährungsverhalten miteinander verbunden sind und ob sie sich gegenseitig beeinflussen.
+
+-   Gesundheitsverhalten im Alltag: Mich interessiert, welche Muster oder Typen von gesundem Verhalten (z. B. „sportlich & gesund ernährend“) sich in der Bevölkerung erkennen lassen.
+
+-   Präventive Bedeutung: Ich möchte herausfinden, welche Verhaltensweisen am stärksten zu einem gesunden BMI beitragen und somit Ansatzpunkte für Gesundheitsförderung liefern.
+
+### Welche Fragestellungen würden Sie gern mit Hilfe des Datensatzes beantworten?
+
+###### Deskriptiv
+
+-   Wie ist die **Verteilung des BMI** in der Stichprobe?
+
+-   Welche **Sportarten** werden am häufigsten betrieben?
+
+-   Wie unterscheiden sich **Kalorienaufnahme und -verbrauch** zwischen Männern und Frauen?
+
+-   Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?
+
+###### Analysierend
+
+-   Wie stark beeinflussen sich BMI, Essens- und Sportgewohnheiten gegenseitig?
+-   Ist der BMI ein guter Prediktor für Essens- und Sportgewohnheiten?
+-   Besteht ein wechselseitiger Zusammenhang zwischen körperlicher Aktivität und gesundem Ernährungsverhalten, und wenn ja, in welche Richtung wirkt dieser Zusammenhang stärker?
+-   Wie wirken sich die unterschiedliche Typen von Sport (Krafttraining, Ausdauer, etc.) auf die Ernährungsweise und den BMI aus?
+-   Wie viele Features sind notwendig, um den BMI mit 95% Genauigkeit zu bestimmen? (geht vllt. zu sehr Richtung Modelltraining)
+
+###### Geschlechtsspezifische Unterschiede
+
+-   Leben grundsätzlich Frauen oder Männer gesünder? Welches Geschlecht treibt mehr Sport bzw. ernährt sich gesünder?
+-   Unterscheidet sich die Art und Weise wie Frauen und Männer Sport treiben? Gibt es geschlechtsspezifische Cluster?
 
 ## 2. Laden der Daten
 
