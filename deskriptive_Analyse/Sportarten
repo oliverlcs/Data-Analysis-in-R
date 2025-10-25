@@ -1,0 +1,31 @@
+install.packages("treemap")
+library(treemap)
+library(dplyr)
+
+data <- read.csv("data/Final_data.csv")
+
+unique(data$Workout_Type)
+
+names(data)
+
+sport_counts <- data %>%
+  group_by(Workout_Type) %>%
+  summarise(count=n(), .groups="drop")
+
+treemap(
+  sport_counts,
+  index="Workout_Type",
+  vSize = "count",
+  type = "index"
+)
+
+bodypart_counts <- data %>%
+  group_by(Body.Part) %>%
+  summarise(count=n(), .groups="drop")
+
+treemap(
+  bodypart_counts,
+  index="Body.Part",
+  vSize = "count",
+  type = "index"
+)

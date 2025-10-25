@@ -1,0 +1,45 @@
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+
+max(data$Workout_Frequency..days.week.)
+
+data$Sporty <- cut(
+  data$Workout_Frequency..days.week.,
+  breaks = c(0, 1, 2, 3, 4, 5, max(data$Workout_Frequency..days.week., na.rm=TRUE)+1),
+  include.lowest = TRUE,
+  right = FALSE,
+  labels = c("<1", "1-2","2-3","3-4", "4-5", "5+")
+)
+
+table(data$Sporty)
+
+ggplot(data, aes(x=Sporty)) + 
+  geom_bar() + 
+  labs(
+    title="How often do the tested people sports?",
+    x = "Amount of days per week",
+    y = "Amount of persons"
+  )
+
+data$hoursperweek <- data$Session_Duration..hours. * data$Workout_Frequency..days.week.
+head(data[, c("hoursperweek")])
+max(data$hoursperweek)
+
+data$Distribution_hours_per_week <- cut(
+  data$hoursperweek,
+  breaks = c(0, 2, 4, 6, 8, 10, max(data$hoursperweek, na.rm=TRUE)+1),
+  include.lowest = TRUE,
+  right = FALSE,
+  labels = c("0-2", "2-4","4-6","6-8", "8-10", "10+")
+)
+
+table(data$Distribution_hours_per_week)
+
+ggplot(data, aes(x=Distribution_hours_per_week)) + 
+  geom_bar() + 
+  labs(
+    title="How many hours do the tested people sports within a week?",
+    x = "Amount of hours per week",
+    y = "Amount of persons"
+  )

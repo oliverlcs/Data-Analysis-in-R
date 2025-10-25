@@ -1,0 +1,10 @@
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+
+data$hoursperweek <- data$Session_Duration..hours. * data$Workout_Frequency..days.week.
+
+ggplot(data, aes(x=hoursperweek, y=BMI)) +
+  geom_rect(aes(xmin= -Inf, xmax = Inf, ymin = 19, ymax = 25),
+    fill = "green", alpha = 0.3) +
+  geom_point()

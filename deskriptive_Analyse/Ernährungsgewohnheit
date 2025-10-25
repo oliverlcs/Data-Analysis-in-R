@@ -1,0 +1,47 @@
+library(ggplot2)
+install.packages("forcats")
+library(forcats)
+library(dplyr)
+data <- read.csv("data/Final_data.csv")
+
+unique(data$cooking_method)
+
+data %>%
+  count(cooking_method) %>%
+  mutate(cooking_method=fct_reorder(cooking_method, n)) %>%
+  ggplot(aes(x=cooking_method, y=n))+
+  geom_bar(stat="identity")+
+  coord_flip()+
+  ylab("Anzahl")
+
+max(data$Daily.meals.frequency)
+
+data$Meals_group <- cut(
+  data$Daily.meals.frequency,
+  breaks = c(0, 1, 2, 3, 4, max(data$Daily.meals.frequency, na.rm=TRUE)+1),
+  include.lowest = TRUE,
+  right = FALSE,
+  labels = c("0-1", "1-2","2-3","3-4", "4+")
+)
+
+table(data$Meals_group)
+
+ggplot(data, aes(x=Meals_group)) + 
+  geom_bar() + 
+  labs(
+    title="How often do people eat?",
+    x = "Meal frequency",
+    y = "Amount of persons"
+  )
+
+unique(data$diet_type)
+
+any(is.na(data$diet_type))
+
+data %>%
+  count(diet_type) %>%
+  mutate(diet_type=fct_reorder(diet_type, n)) %>%
+  ggplot(aes(x=diet_type, y=n))+
+  geom_bar(stat="identity")+
+  coord_flip()+
+  ylab("Anzahl")

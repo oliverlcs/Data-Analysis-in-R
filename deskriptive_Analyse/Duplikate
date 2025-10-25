@@ -1,0 +1,9 @@
+library(dplyr)
+data <- read.csv("data/Final_data.csv")
+names(data)
+counts <- data %>%
+    group_by(Age, Weight..kg., Height..m., Gender, Fat_Percentage) %>%
+    summarise(count = n(), .groups="drop") %>%
+    arrange(desc(count))
+counts
+# -> alles unterschiedliche Personen

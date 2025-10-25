@@ -1,0 +1,24 @@
+#install.packages("ggplot2")
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+
+max(data$Age)
+
+data$Age_group <- cut(
+  data$Age,
+  breaks = c(0, 10, 20, 30, 40, 50, max(data$Age, na.rm=TRUE)+1),
+  include.lowest = TRUE,
+  right = FALSE,
+  labels = c("0-9", "10-19","20-29","30-39", "40-49", "50+")
+)
+
+table(data$Age_group)
+
+ggplot(data, aes(x=Age_group)) + 
+  geom_bar() + 
+  labs(
+    title="Amount of Persons per Age Group",
+    x = "Age group",
+    y = "Amount of persons"
+  )

@@ -1,0 +1,36 @@
+#install.packages("ggplot2")
+#install.packages("dplyr")
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+
+unique(data$Gender)
+
+library(dplyr)
+
+data <- data %>%
+  group_by(Gender) %>%
+  mutate(
+    BMI_group = cut(
+      BMI,
+      breaks = if (unique(Gender)=="Male")
+        c(0, 20, 26, 31, 41, max(BMI, na.rm=TRUE)+1)
+      else 
+        c(0, 19, 25, 31, 41, max(BMI, na.rm=TRUE)+1),
+        include.lowest = TRUE,
+        right = FALSE,
+        labels = c("Untergewicht", "Normalgewicht","Übergewicht","Adipositas", "starke Adipositas")
+    )%>%
+  )
+  ungroup()
+
+
+table(data$BMI_group)
+
+ggplot(data, aes(x=BMI_group)) + 
+  geom_bar() + 
+  labs(
+    title="Amount of Persons per BMI",
+    x = "BMI",
+    y = "Amount of persons"
+  )

@@ -1,0 +1,18 @@
+#install.packages("paletteer")
+library(paletteer)
+colors = paletteer_c("scico::berlin", n=2)
+
+data <- read.csv("data/Final_data.csv")
+
+data$Gender <- factor(data$Gender)
+
+caloriesPerWeek <- data$Calories * 7
+burnedCaloriesPerWeekThroughSport <- data$Calories_Burned * data$Workout_Frequency..days.week.
+
+plot(
+    x= caloriesPerWeek,
+    y= burnedCaloriesPerWeekThroughSport,
+    col = colors[unclass(data$Gender)],
+    cex=0.5,
+    pch=19
+)
