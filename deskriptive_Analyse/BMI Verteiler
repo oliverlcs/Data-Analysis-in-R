@@ -1,5 +1,5 @@
-#install.packages("ggplot2")
-#install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("dplyr")
 library(ggplot2)
 
 data <- read.csv("data/Final_data.csv")
@@ -13,17 +13,17 @@ data <- data %>%
   mutate(
     BMI_group = cut(
       BMI,
-      breaks = if (unique(Gender)=="Male")
-        c(0, 20, 26, 31, 41, max(BMI, na.rm=TRUE)+1)
-      else 
-        c(0, 19, 25, 31, 41, max(BMI, na.rm=TRUE)+1),
-        include.lowest = TRUE,
-        right = FALSE,
-        labels = c("Untergewicht", "Normalgewicht","Übergewicht","Adipositas", "starke Adipositas")
-    )%>%
-  )
+      breaks = if (unique(Gender) == "Male") {
+        c(0, 20, 26, 31, 41, max(BMI, na.rm = TRUE) + 1)
+      } else {
+        c(0, 19, 25, 31, 41, max(BMI, na.rm = TRUE) + 1)
+      },
+      include.lowest = TRUE,
+      right = FALSE,
+      labels = c("Untergewicht", "Normalgewicht", "Übergewicht", "Adipositas", "starke Adipositas")
+    )
+  ) %>%
   ungroup()
-
 
 table(data$BMI_group)
 

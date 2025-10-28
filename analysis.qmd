@@ -7,8 +7,6 @@ format: html
 
 # Report von Nele Hauck und Oliver Lucius
 
-Wollen wir eigentlich Gendern?
-
 ## 1. Definition/Formulierung der Fragestellung
 
 ::: {.callout-note icon="false"}
@@ -21,7 +19,7 @@ Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusam
 -   Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?
 :::
 
-### Fragestellung: Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich das auf Sport- und Ernährungsgewohnheiten aus?
+### Fragestellung: Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich dieser auf Sport- und Ernährungsgewohnheiten aus?
 
 (! BITTE KRITISIEREN BZW. VERBESSERN)
 
@@ -45,6 +43,12 @@ Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusam
 
 -   Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?
 
+-   Was ist der Anteil an Sportlern vs. Nicht-Sportler?
+
+-   Wie ist die generelle Ernährungsgewohnheit im Datensatz?
+
+-   Wie ist die Altersverteilung im Datensatz?
+
 ###### Analysierend
 
 -   Wie stark beeinflussen sich BMI, Essens- und Sportgewohnheiten gegenseitig?
@@ -58,6 +62,12 @@ Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusam
 -   Leben grundsätzlich Frauen oder Männer gesünder? Welches Geschlecht treibt mehr Sport bzw. ernährt sich gesünder?
 -   Unterscheidet sich die Art und Weise wie Frauen und Männer Sport treiben? Gibt es geschlechtsspezifische Cluster?
 
+### Text
+
+Ziel des Reports ist es, die Zusammenhänge zwischen Gesundheit, Ernährung und Sport zu untersuchen. Dafür kommt der Datensatz "Life Style Data" von der Online-Plattform Kaggle zum Einsatz. In diesem Datensatz werden von 20000 Personen eine Momentaufnahme der biologischen Merkmale sowie der Ernährungs- und Trainingsgewohnheiten erfasst. Beispielsweise wird die Trainingsart, wie HIIT oder Krafttraining, oder die Kalorien pro Mahlzeit aufgezeichnet. Durch diese detaillierten Informationen lassen sich Faktoren identifizieren, die eine Antwort auf die zentrale Fragestellung des Reports liefern:
+
+**Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich dieser auf Sport- und Ernährungsgewohnheiten aus?**
+
 ## 2. Laden der Daten
 
 ::: {.callout-note icon="false"}
@@ -67,6 +77,37 @@ Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Über
 
 Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
 :::
+
+###### Deskriptiv
+
+-   Wie ist die **Verteilung des BMI** in der Stichprobe?
+
+-   Welche **Sportarten** werden am häufigsten betrieben?
+
+-   Wie unterscheiden sich **Kalorienaufnahme und -verbrauch** zwischen Männern und Frauen?
+
+-   Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?
+
+-   Was ist der Anteil an Sportlern vs. Nicht-Sportler?
+
+-   Wie ist die generelle Ernährungsgewohnheit im Datensatz?
+
+-   Wie ist die Altersverteilung im Datensatz?
+
+### Text
+
+Der Datensatz umfasst 20000 Zeilen und 54 Features. Von diesen 54 Features sind 40 numerisch, 9 kategorial und die verbleibenden 5 unstrukturiert. Alle Features lassen sich weiter in 4 Bereiche unterteilen:
+
+1. Biologische Daten: Alter, Geschlecht, Gewicht, Größe
+2. Gesundheitliche Faktoren: Daten zum Herzschlag, Muskelanteil, Fettanteil, BMI,
+3. Ernährung: Trinkmenge, Anzahl der Mahlzeiten pro Tag, (Kalorien, Proteine, Kalorien pro Tag oder pro Mahlzeit?)
+4. Training: Trainingsdauer, Trainingsart, Schwierigkeitsgrad, Trainingseinheiten pro Woche, verbrannte Kalorien, Erfahrungslevel
+
+Die genannten Features pro Bereich bilden nur einen Ausschnitt der 54 Features dar. Dennoch hilft dieser zu verstehen, welche Art von Daten im Datensatz vorliegen. 
+Insgesamt hat der Datensatz eine hohe Qualität, da keine fehlende Werte existieren. Beispielsweise ist für alle 20000 Zeilen der Wert für den BMI vorhanden. Folglich muss man nicht mit fehlenden Werte umgehen.
+Dennoch müssen manche Features aus dem Datensatz entfernt werden. Diese Features enthalten keine sinnvollen Informationen oder es ist unklar, was sie aussagen sollen. So trägt jedes Gericht den Namen "Other", woraus keine Rückschlüsse auf Kalorien, Proteine, etc. geschlossen werden kann. Daher werden solche Features aus dem Datensatz entfernt.
+
+
 
 ## 3. Bearbeiten/Transformieren der Daten
 

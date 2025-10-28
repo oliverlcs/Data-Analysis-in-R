@@ -1,6 +1,9 @@
 # Termine & allg. Informationen
 
 ## Deadlines
+So., 26. Okt.: Beschreibung der Datengrundgesamtheit fertig 
+-------------: Korrelationen zw. Sport & Ernährung | Nele
+Fr., 32. Okt.: Geschlechtsspezifische Unterschiede Analysiert | Oliver
 Mo., 01. Dez.: 95% Fertig -> mit Dietzsch besprechen
 Mo., 08. Dez.: 100% Fertig -> mit Dietsch besprechen
 Mi., 31. Dez.: späteste Abgabe
@@ -14,8 +17,7 @@ Mi., 14. Jan.: offizieller Abgabetermin
 
 ## Abgabeformat
 
-Abzugeben ist ein Zip-Archiv, dass den Datensatz, alle verwendeten Quelldateien, d.h. R-Skripte ( .R / .r ), die Quarto- bzw. R-Markdown-Files ( .qmd / .Rmd ), eventuell verwendete Datenbank-Files ... etc., sowie die zugehörigen fertig gerenderten .html -Files enthält. Wer möchte kann den Report auch noch als statische PDF-Version
-hinzufügen
+Abzugeben ist ein Zip-Archiv, dass den Datensatz, alle verwendeten Quelldateien, d.h. R-Skripte ( .R / .r ), die Quarto- bzw. R-Markdown-Files ( .qmd / .Rmd ), eventuell verwendete Datenbank-Files ... etc., sowie die zugehörigen fertig gerenderten .html -Files enthält. Wer möchte kann den Report auch noch als statische PDF-Version hinzufügen.
 
 ## Aufbau des Reports/Berichts nach Aufgabenstellung
 
