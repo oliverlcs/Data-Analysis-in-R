@@ -1,12 +1,10 @@
 #install.packages("ggplot2")
 #install.packages("dplyr")
+
 library(ggplot2)
+library(dplyr)
 
 data <- read.csv("data/Final_data.csv")
-
-unique(data$Gender)
-
-library(dplyr)
 
 data <- data %>%
   group_by(Gender) %>%
@@ -20,17 +18,41 @@ data <- data %>%
         include.lowest = TRUE,
         right = FALSE,
         labels = c("Untergewicht", "Normalgewicht","Übergewicht","Adipositas", "starke Adipositas")
-    )%>%
-  )
+    )
+  )%>%
   ungroup()
 
-
-table(data$BMI_group)
-
 ggplot(data, aes(x=BMI_group)) + 
-  geom_bar() + 
+  geom_bar(aes(y=(after_stat(count))/sum(after_stat(count)) * 100), color="gray20", fill="#6095b3ff", width = 0.7) + 
   labs(
-    title="Amount of Persons per BMI",
+    title="Anteil der Personen pro BMI-Gruppe",
     x = "BMI",
-    y = "Amount of persons"
+    y = "Anteil in %"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face="bold", size=16),
+    axis.text = element_text(size=12),
+    axis.title = element_text(size=13, face="bold")
+  )
+
+bmi_percentage <- data %>%
+  count(BMI_group) %>%
+  mutate(
+    perc = n / sum(n) * 100,
+    label_legend = paste0(BMI_group, " (", round(perc,1), "%)")
+  )
+ggplot(bmi_percentage, aes(x=1, y=perc, fill=label_legend)) +
+  geom_col(color="white")+
+  coord_polar(theta="y") +
+  scale_fill_brewer(palette="Blues") +
+  labs(
+    title = "Anteil der Personen pro BMI-Gruppe",
+    fill = "BMI-Gruppe"
+  ) +
+  theme_void(base_size = 14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face="bold", size=16),
+    legend.text = element_text(size=12),
+    legend.title = element_text(size=13, face="bold")
   )

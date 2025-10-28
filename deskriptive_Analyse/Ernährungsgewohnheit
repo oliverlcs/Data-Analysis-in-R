@@ -1,47 +1,73 @@
+#install.packages("ggplot2")
+#install.packages("dplyr")
+#install.packages("forcats")
 library(ggplot2)
-install.packages("forcats")
 library(forcats)
 library(dplyr)
 data <- read.csv("data/Final_data.csv")
 
-unique(data$cooking_method)
-
-data %>%
+cooking_counts <- data %>%
   count(cooking_method) %>%
-  mutate(cooking_method=fct_reorder(cooking_method, n)) %>%
-  ggplot(aes(x=cooking_method, y=n))+
-  geom_bar(stat="identity")+
-  coord_flip()+
-  ylab("Anzahl")
-
-max(data$Daily.meals.frequency)
-
-data$Meals_group <- cut(
-  data$Daily.meals.frequency,
-  breaks = c(0, 1, 2, 3, 4, max(data$Daily.meals.frequency, na.rm=TRUE)+1),
-  include.lowest = TRUE,
-  right = FALSE,
-  labels = c("0-1", "1-2","2-3","3-4", "4+")
-)
-
-table(data$Meals_group)
-
-ggplot(data, aes(x=Meals_group)) + 
-  geom_bar() + 
-  labs(
-    title="How often do people eat?",
-    x = "Meal frequency",
-    y = "Amount of persons"
+  mutate(
+    cooking_method = fct_reorder(cooking_method, n), #Sortieren nach Werten
+    perc = n / sum(n) * 100
   )
 
-unique(data$diet_type)
+ggplot(cooking_counts, aes(x=cooking_method, y=perc))+
+  geom_segment(aes(xend=cooking_method, y=0, yend=perc), color="#6095b3", size=1)+
+  geom_point(size=5, color="#1f78b4")+
+  coord_flip() +
+  geom_text(aes(label=paste0(round(perc,1), "%")), hjust=-0.3, size=4, fontface = "bold")+
+  labs(
+    title = "Kochmethoden",
+    x="",
+    y="Anteil in %"
+  )+
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title= element_text(hjust=0.5, face="bold", size=16),
+    axis.text = element_text(size=12),
+    axis.title = element_text(size=13, face="bold")
+  )+
+  scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
+  
+ggplot(data, aes(x=Daily.meals.frequency))+
+  geom_histogram(aes(y=after_stat(count / sum(count) * 100)), binwidth=1, fill = "#6095b3", color="white")+
+  labs(
+    title="Wie viele Gerichte werden pro Tag gegessen?",
+    x = "Häufigkeit der Gerichte",
+    y = "Anteil in %"
+  ) +
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13, face = "bold")
+  )
 
 any(is.na(data$diet_type))
 
-data %>%
+diet_counts <- data %>%
   count(diet_type) %>%
-  mutate(diet_type=fct_reorder(diet_type, n)) %>%
-  ggplot(aes(x=diet_type, y=n))+
-  geom_bar(stat="identity")+
-  coord_flip()+
-  ylab("Anzahl")
+  mutate(
+    diet_type = fct_reorder(diet_type, n),
+    perc = n / sum(n) * 100
+  )
+
+ggplot(diet_counts, aes(x=diet_type, y=perc))+
+  geom_segment(aes(xend=diet_type, y=0, yend=perc), color="#6095b3", size=1)+
+  geom_point(size=5, color="#1f78b4")+
+  coord_flip() +
+  geom_text(aes(label=paste0(round(perc,1), "%")), hjust=-0.3, size=4, fontface = "bold")+
+  theme_minimal(base_size=14)+
+  labs(
+    title = "Diät Typen",
+    x="",
+    y="Anteil in %"
+  )+
+  theme(
+    plot.title= element_text(hjust=0.5, face="bold", size=16),
+    axis.text = element_text(size=12),
+    axis.title = element_text(size=13, face="bold")
+  )+
+  scale_y_continuous(expand = expansion(mult = c(0, 0.2)))

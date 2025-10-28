@@ -1,9 +1,11 @@
+#install.packages("dplyr")
 library(dplyr)
 data <- read.csv("data/Final_data.csv")
-names(data)
-counts <- data %>%
-    group_by(Age, Weight..kg., Height..m., Gender, Fat_Percentage) %>%
-    summarise(count = n(), .groups="drop") %>%
-    arrange(desc(count))
-counts
-# -> alles unterschiedliche Personen
+
+unique <- data %>%
+    summarise(
+        total_rows = n(),
+        unique_persons = n_distinct(paste(Age, Weight..kg., Height..m., Gender, Fat_Percentage, sep="_"))
+    ) %>%
+    mutate(all_unique = total_rows == unique_persons)
+unique
