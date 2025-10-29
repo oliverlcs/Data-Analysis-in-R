@@ -5,11 +5,11 @@ library(ggplot2)
 data <- read.csv("data/Final_data.csv")
 
 # Create bar plot
-ggplot(data, aes(x=Calories, fill=Gender)) + 
+ggplot(data, aes(x=Weight..kg., fill=Gender)) + 
   geom_density(alpha = 0.6) + # alpha: adds transparency
   labs(
-    title = "Verteilung der täglichen Kalorienaufnahme pro Geschlecht",
-    x = "Kalorien",
+    title = "Verteilung des Gewichts pro Geschlecht",
+    x = "Kilogramm",
     y = "Dichte",
     fill = "Gender"
   ) +
