@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nele Hauck, Oliver Lucius">
+<meta name="dcterms.date" content="2025-10-26">
+
+<title>Wie wirkt sich Ernährung und Sport auf den BMI aus?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="analysis_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="analysis_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="analysis_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="analysis_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Wie wirkt sich Ernährung und Sport auf den BMI aus?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nele Hauck, Oliver Lucius </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 26, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="report-von-nele-hauck-und-oliver-lucius" class="level1">
+<h1>Report von Nele Hauck und Oliver Lucius</h1>
+<section id="definitionformulierung-der-fragestellung" class="level2">
+<h2 class="anchored" data-anchor-id="definitionformulierung-der-fragestellung">1. Definition/Formulierung der Fragestellung</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aufgabenstellung (10 Pkt.)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusammenhang mit dem Datensatz:</p>
+<ul>
+<li>Was interessiert Sie an dem Datensatz?</li>
+<li>Welche spezifische Fragestellung würden Sie gern mit Hilfe des Datensatzes beantworten?</li>
+<li>Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?</li>
+</ul>
+</div>
+</div>
+<section id="fragestellung-was-sind-die-treibenden-faktoren-für-einen-gesunden-bmi-und-wie-wirkt-sich-dieser-auf-sport--und-ernährungsgewohnheiten-aus" class="level3">
+<h3 class="anchored" data-anchor-id="fragestellung-was-sind-die-treibenden-faktoren-für-einen-gesunden-bmi-und-wie-wirkt-sich-dieser-auf-sport--und-ernährungsgewohnheiten-aus">Fragestellung: Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich dieser auf Sport- und Ernährungsgewohnheiten aus?</h3>
+<p>(! BITTE KRITISIEREN BZW. VERBESSERN)</p>
+</section>
+<section id="was-interessiert-sie-an-dem-datensatz" class="level3">
+<h3 class="anchored" data-anchor-id="was-interessiert-sie-an-dem-datensatz">Was interessiert Sie an dem Datensatz?</h3>
+<ul>
+<li><p>Zusammenhänge zwischen Lebensstilfaktoren: Ich möchte verstehen, wie stark körperliche Aktivität und Ernährungsverhalten miteinander verbunden sind und ob sie sich gegenseitig beeinflussen.</p></li>
+<li><p>Gesundheitsverhalten im Alltag: Mich interessiert, welche Muster oder Typen von gesundem Verhalten (z. B. „sportlich &amp; gesund ernährend“) sich in der Bevölkerung erkennen lassen.</p></li>
+<li><p>Präventive Bedeutung: Ich möchte herausfinden, welche Verhaltensweisen am stärksten zu einem gesunden BMI beitragen und somit Ansatzpunkte für Gesundheitsförderung liefern.</p></li>
+</ul>
+</section>
+<section id="welche-fragestellungen-würden-sie-gern-mit-hilfe-des-datensatzes-beantworten" class="level3">
+<h3 class="anchored" data-anchor-id="welche-fragestellungen-würden-sie-gern-mit-hilfe-des-datensatzes-beantworten">Welche Fragestellungen würden Sie gern mit Hilfe des Datensatzes beantworten?</h3>
+<section id="deskriptiv" class="level6">
+<h6 class="anchored" data-anchor-id="deskriptiv">Deskriptiv</h6>
+<ul>
+<li><p>Wie ist die <strong>Verteilung des BMI</strong> in der Stichprobe?</p></li>
+<li><p>Welche <strong>Sportarten</strong> werden am häufigsten betrieben?</p></li>
+<li><p>Wie unterscheiden sich <strong>Kalorienaufnahme und -verbrauch</strong> zwischen Männern und Frauen?</p></li>
+<li><p>Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?</p></li>
+<li><p>Was ist der Anteil an Sportlern vs.&nbsp;Nicht-Sportler?</p></li>
+<li><p>Wie ist die generelle Ernährungsgewohnheit im Datensatz?</p></li>
+<li><p>Wie ist die Altersverteilung im Datensatz?</p></li>
+</ul>
+</section>
+<section id="analysierend" class="level6">
+<h6 class="anchored" data-anchor-id="analysierend">Analysierend</h6>
+<ul>
+<li>Wie stark beeinflussen sich BMI, Essens- und Sportgewohnheiten gegenseitig?</li>
+<li>Ist der BMI ein guter Prediktor für Essens- und Sportgewohnheiten?</li>
+<li>Besteht ein wechselseitiger Zusammenhang zwischen körperlicher Aktivität und gesundem Ernährungsverhalten, und wenn ja, in welche Richtung wirkt dieser Zusammenhang stärker?</li>
+<li>Wie wirken sich die unterschiedliche Typen von Sport (Krafttraining, Ausdauer, etc.) auf die Ernährungsweise und den BMI aus?</li>
+<li>Wie viele Features sind notwendig, um den BMI mit 95% Genauigkeit zu bestimmen? (geht vllt. zu sehr Richtung Modelltraining)</li>
+</ul>
+</section>
+<section id="geschlechtsspezifische-unterschiede" class="level6">
+<h6 class="anchored" data-anchor-id="geschlechtsspezifische-unterschiede">Geschlechtsspezifische Unterschiede</h6>
+<ul>
+<li>Leben grundsätzlich Frauen oder Männer gesünder? Welches Geschlecht treibt mehr Sport bzw. ernährt sich gesünder?</li>
+<li>Unterscheidet sich die Art und Weise wie Frauen und Männer Sport treiben? Gibt es geschlechtsspezifische Cluster?</li>
+</ul>
+</section>
+</section>
+<section id="text" class="level3">
+<h3 class="anchored" data-anchor-id="text">Text</h3>
+<p>Ziel des Reports ist es, die Zusammenhänge zwischen Gesundheit, Ernährung und Sport zu untersuchen. Dafür kommt der Datensatz “Life Style Data” von der Online-Plattform Kaggle zum Einsatz. In diesem Datensatz werden von 20000 Personen eine Momentaufnahme der biologischen Merkmale sowie der Ernährungs- und Trainingsgewohnheiten erfasst. Beispielsweise wird die Trainingsart, wie HIIT oder Krafttraining, oder die Kalorien pro Mahlzeit aufgezeichnet. Durch diese detaillierten Informationen lassen sich Faktoren identifizieren, die eine Antwort auf die zentrale Fragestellung des Reports liefern:</p>
+<p><strong>Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich dieser auf Sport- und Ernährungsgewohnheiten aus?</strong></p>
+</section>
+</section>
+<section id="laden-der-daten" class="level2">
+<h2 class="anchored" data-anchor-id="laden-der-daten">2. Laden der Daten</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aufgabenstellung (10 Pkt.)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Überblick * Welche Typen sind enthalten? * Ist sichergestellt, dass alle Daten den richtigen Typ haben? * Haben die Daten irgendwelche “Seltsamkeiten” mit denen Sie umgehen müssen, wie z.B. anders codierte <code>NA</code>’s, mehrere Tabellen, … etc. * Je nach Datensatz können Sie die Daten auch in eine Datenbank laden und dann auf diese in R zugreifen.</p>
+<p>Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!</p>
+</div>
+</div>
+<section id="deskriptiv-1" class="level6">
+<h6 class="anchored" data-anchor-id="deskriptiv-1">Deskriptiv</h6>
+<ul>
+<li><p>Wie ist die <strong>Verteilung des BMI</strong> in der Stichprobe?</p></li>
+<li><p>Welche <strong>Sportarten</strong> werden am häufigsten betrieben?</p></li>
+<li><p>Wie unterscheiden sich <strong>Kalorienaufnahme und -verbrauch</strong> zwischen Männern und Frauen?</p></li>
+<li><p>Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?</p></li>
+<li><p>Was ist der Anteil an Sportlern vs.&nbsp;Nicht-Sportler?</p></li>
+<li><p>Wie ist die generelle Ernährungsgewohnheit im Datensatz?</p></li>
+<li><p>Wie ist die Altersverteilung im Datensatz?</p></li>
+</ul>
+</section>
+<section id="text-1" class="level3">
+<h3 class="anchored" data-anchor-id="text-1">Text</h3>
+<p>Der Datensatz umfasst 20000 Zeilen und 54 Features. Von diesen 54 Features sind 40 numerisch, 9 kategorial und die verbleibenden 5 unstrukturiert. Alle Features lassen sich weiter in 4 Bereiche unterteilen:</p>
+<ol type="1">
+<li>Biologische Daten: Alter, Geschlecht, Gewicht, Größe</li>
+<li>Gesundheitliche Faktoren: Daten zum Herzschlag, Muskelanteil, Fettanteil, BMI,</li>
+<li>Ernährung: Trinkmenge, Anzahl der Mahlzeiten pro Tag, (Kalorien, Proteine, Kalorien pro Tag oder pro Mahlzeit?)</li>
+<li>Training: Trainingsdauer, Trainingsart, Schwierigkeitsgrad, Trainingseinheiten pro Woche, verbrannte Kalorien, Erfahrungslevel</li>
+</ol>
+<p>Die genannten Features pro Bereich bilden nur einen Ausschnitt der 54 Features dar. Dennoch hilft dieser zu verstehen, welche Art von Daten im Datensatz vorliegen. Insgesamt hat der Datensatz eine hohe Qualität, da keine fehlende Werte existieren. Beispielsweise ist für alle 20000 Zeilen der Wert für den BMI vorhanden. Folglich muss man nicht mit fehlenden Werte umgehen. Dennoch müssen manche Features aus dem Datensatz entfernt werden. Diese Features enthalten keine sinnvollen Informationen oder es ist unklar, was sie aussagen sollen. So trägt jedes Gericht den Namen “Other”, woraus keine Rückschlüsse auf Kalorien, Proteine, etc. geschlossen werden kann. Daher werden solche Features aus dem Datensatz entfernt.</p>
+</section>
+</section>
+<section id="bearbeitentransformieren-der-daten" class="level2">
+<h2 class="anchored" data-anchor-id="bearbeitentransformieren-der-daten">3. Bearbeiten/Transformieren der Daten</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aufgabenstellung (15 Pkt.)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In diesem Abschnitt sollten Sie alle notwendigen Transformationen/Bereiningungen/… etc. der Daten vornehmen (Data Muning, Data Cleansing), wie z.B.: * Umcodierung von Daten, z.B. numerisch in kategorial * Subsetting der Daten * Joining von Datentabellen - falls nötig. Welcher Join ist notwendig? Warum? * …</p>
+<p>Verschaffen Sie sich eine Übersicht der transformierten Daten. Sie können hierzu Hilfsmittel wie <code>glimpse()</code>, <code>skim()</code> und <code>head()</code> benutzen, um Ihre Erläuterungen zu veranschaulichen.</p>
+<p>Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?</p>
+</div>
+</div>
+</section>
+<section id="geeignete-visualisierung-und-aggregation-der-daten" class="level2">
+<h2 class="anchored" data-anchor-id="geeignete-visualisierung-und-aggregation-der-daten">4. Geeignete Visualisierung und Aggregation der Daten</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aufgabenstellung (15 Pkt.)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Fassen Sie die Daten in einer geeigenten Form zur Beantwortung Ihrer formulierten Fragestellung zusammen. Ziehen Sie auch geeignete Visualisierungen der transformierten und/oder aggregierten Daten heran, um Ihre Aussagen entsprechend zu untermauern oder zu veranschaulichen.</p>
+<p>Hier könne Sie auch geeignete statistische Verfahren bzw. Modellierungen nutzen, falls diese Ihnen bezüglich Ihrer Fragestellung weiterhelfen.</p>
+</div>
+</div>
+</section>
+<section id="zusammenfassung-und-schlussfolgerung" class="level2">
+<h2 class="anchored" data-anchor-id="zusammenfassung-und-schlussfolgerung">5. Zusammenfassung und Schlussfolgerung</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aufgabenstellung (10 Pkt.)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Fassen Sie hier Ihre Fragestellung und Ihre Erkenntnisse aus Ihrer Analyse zusammen.</p>
+<p>Sind Ihre Erkenntnisse das, was Sie erwartet haben? Warum oder warum nicht?</p>
+</div>
+</div>
+</section>
+<section id="quellenverzeichnis" class="level2">
+<h2 class="anchored" data-anchor-id="quellenverzeichnis">Quellenverzeichnis</h2>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

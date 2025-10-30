@@ -1,0 +1,546 @@
+---
+title: "Wie wirkt sich Ernährung und Sport auf den BMI aus?"
+author: "Nele Hauck, Oliver Lucius"
+date: today
+format: html
+---
+
+# Report von Nele Hauck und Oliver Lucius
+
+## 1. Definition/Formulierung der Fragestellung
+
+::: {.callout-note icon="false"}
+## Aufgabenstellung (10 Pkt.)
+
+Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusammenhang mit dem Datensatz:
+
+-   Was interessiert Sie an dem Datensatz?
+-   Welche spezifische Fragestellung würden Sie gern mit Hilfe des Datensatzes beantworten?
+-   Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?
+:::
+
+### Fragestellung: Was sind die treibenden Faktoren für einen gesunden BMI und wie wirken sich Sport- und Ernährungsgewohnheiten auf diesen aus?
+
+(! BITTE KRITISIEREN BZW. VERBESSERN)
+
+### Was interessiert Sie an dem Datensatz?
+
+-   Zusammenhänge zwischen Lebensstilfaktoren: Ich möchte verstehen, wie stark körperliche Aktivität und Ernährungsverhalten miteinander verbunden sind und ob sie sich gegenseitig beeinflussen.
+
+-   Gesundheitsverhalten im Alltag: Mich interessiert, welche Muster oder Typen von gesundem Verhalten (z. B. „sportlich & gesund ernährend“) sich in der Bevölkerung erkennen lassen.
+
+-   Präventive Bedeutung: Ich möchte herausfinden, welche Verhaltensweisen am stärksten zu einem gesunden BMI beitragen und somit Ansatzpunkte für Gesundheitsförderung liefern.
+
+### Welche Fragestellungen würden Sie gern mit Hilfe des Datensatzes beantworten?
+
+###### Deskriptiv
+
+-   Wie ist die **Verteilung des BMI** in der Stichprobe?
+```{r}
+library(ggplot2)
+library(dplyr)
+
+data <- read.csv("data/Final_data.csv")
+
+data <- data %>%
+  mutate(
+    BMI_group = cut(
+      BMI,
+      breaks = c(0, 18.5, 25, 30, 35, 40, max(BMI, na.rm=TRUE)+1),
+        include.lowest = TRUE,
+        right = FALSE,
+        labels = c("Untergewicht", "Normalgewicht","Übergewicht","Adipositas Grad I", "Adipositas Grad II", "Adipositas Grad III")
+    )
+  )%>%
+  ungroup()
+
+bmi_percentage <- data %>%
+  count(BMI_group) %>%
+  mutate(
+    perc = n / sum(n) * 100,
+    label_legend = paste0(BMI_group, " (", round(perc,1), "%)")
+  )
+
+ggplot(bmi_percentage, aes(x=1, y=perc, fill=label_legend)) +
+  geom_col(color="white")+
+  coord_polar(theta="y") +
+  scale_fill_brewer(palette="Blues") +
+  labs(
+    title = "Anteil der Personen pro BMI-Gruppe",
+    fill = "BMI-Gruppe"
+  ) +
+  theme_void(base_size = 14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face="bold", size=16),
+    legend.text = element_text(size=12),
+    legend.title = element_text(size=13, face="bold")
+  )
+```
+
+Im Schaubild wird der Anteil der Personen pro BMI-Gruppe aus dem Datensatz dargestellt. Die BMI-Werte wurden gemäß den Vorgaben der Weltgesundheitsorganisation (WHO) in unterschiedliche Gewichtsklassen eingeteilt, die auch der von der AOK verwendeten Einteilung zugrunde liegen: 
+```{r}
+library(dplyr)
+library(gt)
+
+data <- data.frame(
+    BMI = c("unter 18,5","18,5 bis 24,9", "25,0 bis 29,9", "30,0 bis 34,9", "35,0 bis 39,9", "über 40"),
+    Gewichtsklasse = c("Untergewicht", "Normalgewicht", "Übergewicht", "Adipositas Grad I", "Adipositas Grad II", "Adipositas Grad III")
+)
+data %>%
+    gt() %>%
+    tab_header(title="BMI-Aufteilung")
+```
+Diese Klassifikation ist für Erwachsene ab 20 Jahren geeignet und wurde auf den gegebenen Datensatz angewendet. 
+
+Das Kreisdiagramm zeigt, dass der größte Anteil der Personen (38,5%) im Normalgewicht liegt. Etwa ein Viertel der Testpersonen ist untergewichtig, während 36,7 % der Personen übergewichtig sind oder an Adipositas (Fettleibigkeit) leiden.
+
+Die Ergebnisse verdeutlichen, dass ein relevanter Anteil der untersuchten Personen außerhalb des Normalgewichts liegt, was auf eine breite Streuung der BMI-Werte im Datensatz hinweist.
+-   Welche **Sportarten** werden am häufigsten betrieben?
+```{r}
+library(treemap)
+library(dplyr)
+
+data <- read.csv("data/Final_data.csv")
+
+unique(data$Workout_Type)
+
+names(data)
+
+sport_counts <- data %>%
+  count(Workout_Type) %>%
+  mutate(
+    perc = n / sum(n) * 100,
+    Workout_Type = fct_reorder(Workout_Type, perc)
+  )
+
+ggplot(sport_counts, aes(x=Workout_Type, y=perc))+
+  geom_col(fill="#1f78b4")+
+  coord_flip()+
+  geom_text(aes(label=paste0(round(perc,1), "%")), hjust=-0.2, size=4, fontface="bold")+
+  labs(
+    title = "Anteil der Workout-Typen",
+    x = "Workout-Typ",
+    y = "Anteil in %"
+  )+
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13, face = "bold")
+  )+
+  scale_y_continuous(expand=expansion(mult = c(0, 0.2)))
+  
+bodypart_counts <- data %>%
+  count(Body.Part) %>%
+  mutate(
+    perc = n / sum(n) * 100,
+    Body.Part = fct_reorder(Body.Part, perc)
+  )
+
+ggplot(bodypart_counts, aes(x=Body.Part, y=perc))+
+  geom_col(fill="#1f78b4")+
+  coord_flip()+
+  geom_text(aes(label=paste0(round(perc,1), "%")), hjust=-0.2, size=4, fontface="bold")+
+  labs(
+    title = "Anteil der beanspruchten Körperteile beim Sport",
+    x = "Körperteil",
+    y = "Anteil in %"
+  )+
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13, face = "bold"),
+  )+
+  scale_y_continuous(expand=expansion(mult = c(0, 0.2)))
+```
+
+-   Wie unterscheiden sich **Kalorienaufnahme und -verbrauch** zwischen Männern und Frauen?
+```{r}
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+
+data$Gender <- factor(data$Gender)
+
+caloriesPerWeek <- data$Calories * 7
+burnedCaloriesPerWeekThroughSport <- data$Calories_Burned * data$Workout_Frequency..days.week.
+
+ggplot(data, aes(x = caloriesPerWeek, y = burnedCaloriesPerWeekThroughSport, color = Gender))+
+    geom_point(size=1, alpha=0.7)+
+    scale_color_manual(values= c("Male" = "#1f78b4","Female" ="#e75480"))+
+    labs(
+        title = "Kalorienaufnahme vs. Kalorienverbrauch pro Woche",
+        x = "Kalorienaufnahme pro Woche",
+        y = "Verbrannte Kalorien durch Sport pro Woche",
+        color = "Geschlecht"
+    )+
+    theme_minimal(base_size = 14)+
+    theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 13, face = "bold"),
+        legend.title = element_text(size=12, face="bold")
+    )
+```
+
+-   Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?
+```{r}
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+
+data$hoursperweek <- data$Session_Duration..hours. * data$Workout_Frequency..days.week.
+
+ggplot(data, aes(x=hoursperweek, y=BMI)) +
+  geom_rect(aes(xmin= -Inf, xmax = Inf, ymin = 19, ymax = 25),
+    fill = "#44b659ff", alpha = 0.2) +
+  geom_point(alpha=0.6, color = "#1f78b4", size=1)+
+  labs(
+    title = "Zusammenhang zwischen Trainingsstunden pro Woche und BMI",
+    x = "Trainingsstunden pro Woche",
+    y = "BMI"
+  )+
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13, face = "bold")
+  )
+```
+
+-   Was ist der Anteil an Sportlern vs. Nicht-Sportler?
+```{r}
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+
+max(data$Workout_Frequency..days.week.)
+
+data$hoursperweek <- data$Session_Duration..hours. * data$Workout_Frequency..days.week.
+head(data[, c("hoursperweek")])
+max(data$hoursperweek)
+
+data$Sporty <- cut(
+  data$Workout_Frequency..days.week.,
+  breaks = c(0, 1, 2, 3, 4, 5, max(data$Workout_Frequency..days.week., na.rm=TRUE)+1),
+  include.lowest = TRUE,
+  right = FALSE,
+  labels = c("<1", "1-2","2-3","3-4", "4-5", "5+")
+)
+
+sporty_counts <- data %>%
+  count(Sporty) %>%
+  mutate(
+    perc = n / sum(n) * 100,
+    label_legend = paste0(Sporty, " (", round(perc,1), "%)")
+  )
+
+ggplot(sporty_counts, aes(x=1, y=perc, fill=label_legend)) +
+  geom_col(color="white")+
+  coord_polar(theta="y") +
+  scale_fill_brewer(palette="Blues") +
+  labs(
+    title = "Sporthäufigkeit in %",
+    fill = "Tage/Woche"
+  ) +
+  theme_void(base_size = 14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face="bold", size=16),
+    legend.text = element_text(size=12),
+    legend.title = element_text(size=13, face="bold")
+  )
+
+ggplot(data, aes(x=hoursperweek))+
+  geom_histogram(aes(y=after_stat(count / sum(count) * 100)), binwidth=2, fill = "#1f78b4", color="white")+
+  labs(
+    title = "Verteilung der Trainingsstunden pro Woche",
+    x = "Trainingsstunden pro Woche",
+    y = "Anteil in %"
+  ) +
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13, face = "bold")
+  )
+```
+
+-   Wie ist die generelle Ernährungsgewohnheit im Datensatz?
+```{r}
+library(ggplot2)
+library(forcats)
+library(dplyr)
+data <- read.csv("data/Final_data.csv")
+
+cooking_counts <- data %>%
+  count(cooking_method) %>%
+  mutate(
+    cooking_method = fct_reorder(cooking_method, n), #Sortieren nach Werten
+    perc = n / sum(n) * 100
+  )
+
+ggplot(cooking_counts, aes(x=cooking_method, y=perc))+
+  geom_segment(aes(xend=cooking_method, y=0, yend=perc), color="#1f78b4", size=1)+
+  geom_point(size=5, color="#1f78b4")+
+  coord_flip() +
+  geom_text(aes(label=paste0(round(perc,1), "%")), hjust=-0.3, size=4, fontface = "bold")+
+  labs(
+    title = "Kochmethoden",
+    x="",
+    y="Anteil in %"
+  )+
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title= element_text(hjust=0.5, face="bold", size=16),
+    axis.text = element_text(size=12),
+    axis.title = element_text(size=13, face="bold")
+  )+
+  scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
+  
+ggplot(data, aes(x=Daily.meals.frequency))+
+  geom_histogram(aes(y=after_stat(count / sum(count) * 100)), binwidth=1, fill = "#1f78b4", color="white")+
+  labs(
+    title="Wie viele Gerichte werden pro Tag gegessen?",
+    x = "Häufigkeit der Gerichte",
+    y = "Anteil in %"
+  ) +
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13, face = "bold")
+  )
+
+any(is.na(data$diet_type))
+
+diet_counts <- data %>%
+  count(diet_type) %>%
+  mutate(
+    diet_type = fct_reorder(diet_type, n),
+    perc = n / sum(n) * 100
+  )
+
+ggplot(diet_counts, aes(x=diet_type, y=perc))+
+  geom_segment(aes(xend=diet_type, y=0, yend=perc), color="#1f78b4", size=1)+
+  geom_point(size=5, color="#1f78b4")+
+  coord_flip() +
+  geom_text(aes(label=paste0(round(perc,1), "%")), hjust=-0.3, size=4, fontface = "bold")+
+  theme_minimal(base_size=14)+
+  labs(
+    title = "Diät Typen",
+    x="",
+    y="Anteil in %"
+  )+
+  theme(
+    plot.title= element_text(hjust=0.5, face="bold", size=16),
+    axis.text = element_text(size=12),
+    axis.title = element_text(size=13, face="bold")
+  )+
+  scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
+```
+
+-   Wie ist die Altersverteilung im Datensatz?
+```{r}
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+  
+ggplot(data, aes(x=Age))+
+  geom_histogram(aes(y=after_stat(count / sum(count) * 100)), binwidth=10, fill = "#6095b3", color="white")+
+  labs(
+    title = "Verteilung der Altersgruppen",
+    x = "Altersgruppen",
+    y = "Anteil in %"
+  ) +
+  theme_minimal(base_size=14)+
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 13, face = "bold")
+  )
+```
+
+###### Analysierend
+
+-   Wie stark beeinflussen sich BMI, Essens- und Sportgewohnheiten gegenseitig?
+-   Ist der BMI ein guter Prediktor für Essens- und Sportgewohnheiten?
+-   Besteht ein wechselseitiger Zusammenhang zwischen körperlicher Aktivität und gesundem Ernährungsverhalten, und wenn ja, in welche Richtung wirkt dieser Zusammenhang stärker?
+-   Wie wirken sich die unterschiedliche Typen von Sport (Krafttraining, Ausdauer, etc.) auf die Ernährungsweise und den BMI aus?
+-   Wie viele Features sind notwendig, um den BMI mit 95% Genauigkeit zu bestimmen? (geht vllt. zu sehr Richtung Modelltraining)
+
+###### Geschlechtsspezifische Unterschiede
+
+-   Leben grundsätzlich Frauen oder Männer gesünder? Welches Geschlecht treibt mehr Sport bzw. ernährt sich gesünder?
+-   Unterscheidet sich die Art und Weise wie Frauen und Männer Sport treiben? Gibt es geschlechtsspezifische Cluster?
+
+### Text
+
+Ziel des Reports ist es, die Zusammenhänge zwischen Gesundheit, Ernährung und Sport zu untersuchen. Dafür kommt der Datensatz "Life Style Data" von der Online-Plattform Kaggle zum Einsatz. In diesem Datensatz werden von 20000 Personen eine Momentaufnahme der biologischen Merkmale sowie der Ernährungs- und Trainingsgewohnheiten erfasst. Beispielsweise wird die Trainingsart, wie HIIT oder Krafttraining, oder die Kalorien pro Mahlzeit aufgezeichnet. Durch diese detaillierten Informationen lassen sich Faktoren identifizieren, die eine Antwort auf die zentrale Fragestellung des Reports liefern:
+
+**Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich dieser auf Sport- und Ernährungsgewohnheiten aus?**
+
+## 2. Laden der Daten
+
+::: {.callout-note icon="false"}
+## Aufgabenstellung (10 Pkt.)
+
+Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Überblick \* Welche Typen sind enthalten? \* Ist sichergestellt, dass alle Daten den richtigen Typ haben? \* Haben die Daten irgendwelche "Seltsamkeiten" mit denen Sie umgehen müssen, wie z.B. anders codierte `NA`'s, mehrere Tabellen, ... etc. \* Je nach Datensatz können Sie die Daten auch in eine Datenbank laden und dann auf diese in R zugreifen.
+
+Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
+:::
+
+###### Deskriptiv
+
+-   Wie ist die **Verteilung des BMI** in der Stichprobe?
+
+-   Welche **Sportarten** werden am häufigsten betrieben?
+
+-   Wie unterscheiden sich **Kalorienaufnahme und -verbrauch** zwischen Männern und Frauen?
+
+-   Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?
+
+-   Was ist der Anteil an Sportlern vs. Nicht-Sportler?
+
+-   Wie ist die generelle Ernährungsgewohnheit im Datensatz?
+
+-   Wie ist die Altersverteilung im Datensatz?
+
+### Text
+
+Der Datensatz umfasst 20000 Zeilen und 54 Features. Von diesen 54 Features sind 40 numerisch, 9 kategorial und die verbleibenden 5 unstrukturiert. Alle Features lassen sich weiter in 4 Bereiche unterteilen:
+
+1. Biologische Daten: Alter, Geschlecht, Gewicht, Größe
+2. Gesundheitliche Faktoren: Daten zum Herzschlag, Muskelanteil, Fettanteil, BMI,
+3. Ernährung: Trinkmenge, Anzahl der Mahlzeiten pro Tag, (Kalorien, Proteine, Kalorien pro Tag oder pro Mahlzeit?)
+4. Training: Trainingsdauer, Trainingsart, Schwierigkeitsgrad, Trainingseinheiten pro Woche, verbrannte Kalorien, Erfahrungslevel
+
+Die genannten Features pro Bereich bilden nur einen Ausschnitt der 54 Features dar. Dennoch hilft dieser zu verstehen, welche Art von Daten im Datensatz vorliegen. 
+Insgesamt hat der Datensatz eine hohe Qualität, da keine fehlende Werte existieren. Beispielsweise ist für alle 20000 Zeilen der Wert für den BMI vorhanden. Folglich muss man nicht mit fehlenden Werte umgehen.
+Dennoch müssen manche Features aus dem Datensatz entfernt werden. Diese Features enthalten keine sinnvollen Informationen oder es ist unklar, was sie aussagen sollen. So trägt jedes Gericht den Namen "Other", woraus keine Rückschlüsse auf Kalorien, Proteine, etc. geschlossen werden kann. Daher werden solche Features aus dem Datensatz entfernt.
+
+
+
+## 3. Bearbeiten/Transformieren der Daten
+
+::: {.callout-note icon="false"}
+## Aufgabenstellung (15 Pkt.)
+
+In diesem Abschnitt sollten Sie alle notwendigen Transformationen/Bereiningungen/... etc. der Daten vornehmen (Data Muning, Data Cleansing), wie z.B.: \* Umcodierung von Daten, z.B. numerisch in kategorial \* Subsetting der Daten \* Joining von Datentabellen - falls nötig. Welcher Join ist notwendig? Warum? \* ...
+
+Verschaffen Sie sich eine Übersicht der transformierten Daten. Sie können hierzu Hilfsmittel wie `glimpse()`, `skim()` und `head()` benutzen, um Ihre Erläuterungen zu veranschaulichen.
+
+Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?
+:::
+
+In diesem Abschnitt werden die gegebenen Daten bereinigt und für die weitere Analyse vorbereitet. Dazu gehören die Überprüfung auf fehlende oder fehlerhafte Werte, die Umwandlung von Variabken in geeignete Datentypen, sowie gegebenenfalls das Zusammenführen und Filtern relevanter Daten.
+
+### Überblick über die Rohdaten
+Zuerst wurde sich einen Überblick über die Rohdaten verschafft, um die Struktur und die Datentypen zu prüfen:
+```{r}
+library(skimr)
+data <- read.csv("data/Final_data.csv")
+skim(data)
+unique(data$meal_name)
+
+```
+
+Der Datensatz besteht aus 20.000 Zeilen und 54 Spalten. 15 Spalten sind Zeichenketten und 39 Spalten sind numerische Daten. Innerhalb der Zeichenketten sind keine fehlenden Werte und keine leeren Texteingaben vorhanden. Die Anzahl der Textwerte pro Spalte variiert zwischen einem und 55 Werten. Die Spalte "meal_name" ist diejenige, die nur einen Wert enthält. Der Wert lautet Other und ist damit nicht aussagekräftig. 
+Auch bei den numerischen Werten sind keine fehlenden Werte vorhanden.
+
+### Umkodierungen/Datentypen anpassen
+```{r}
+under20_perc <- data %>%
+    count(under20 = Age < 20) %>%
+    filter(under20 == TRUE) %>%
+    mutate(perc = n / 20000 * 100) %>%
+    pull(perc)
+under20_perc
+```
+
+Rausschmeißen? Nur 6,27% oder neu anrichten?
+```{r}
+data$Experience_Level <- factor(
+    round(data$Experience_Level),
+    levels= c(1,2,3),
+    labels = c("Beginner", "Intermediate", "Advanced")
+)
+
+data$Physical.exercise <- cut(
+    data$Physical.exercise,
+    breaks = c(-Inf, 1, 2, 3, Inf),
+    labels = c("low", "moderate", "high", "very high")
+)
+
+data$rating <- NULL #Meal or Workout?
+
+data$BMI_calc <- NULL #BMI nur mit mehr Nachkommastellen
+```
+
+- cal_from_macros?
+```{r}
+data <- data %>%
+    mutate(
+        comparison = case_when(
+            Calories > cal_from_macros ~ "all > macros",
+            Calories < cal_from_macros ~ "all < macros",
+            TRUE ~ "all = macros"
+        )
+    )
+table <- data %>%
+    count(comparison) %>%
+    mutate(perc = n/sum(n) * 100)
+table
+```
+
+- cal_balance = Calories - burnedCalories -> passt nicht
+
+- burned calories per 30min bc -> e19 Werte -> Keine Beschreibung
+
+```{r}
+data$Gender <- factor(data$Gender)
+data$Workout_Type <- factor(data$Workout_Type)
+data$meal_type <- factor(data$meal_type)
+data$diet_type <- factor(data$diet_type)
+data$cooking_method <- factor(data$cooking_method)
+data$Body.Part <- factor(data$Body.Part)
+data$Difficulty.Level <- factor(data$Difficulty.Level)
+data$Burns_Calories_Bin <- factor(data$Burns_Calories_Bin)
+```
+
+### Bereinigung (NA, fehlerhafte Werte, negative Werte)
+### Subsetting (z.B. nur Erwachsene/vollständige Fälle)
+### Joins durchführen
+### Neue Variablen erstellen
+```{r}
+data$BMI_group <- cut(
+    data$BMI,
+    breaks = c(0, 18.5, 25, 30, 35, 40, max(data$BMI, na.rm = TRUE)+1),
+    include.lowest = TRUE,
+    right = FALSE,
+    labels = c("Untergewicht", "Normalgewicht","Übergewicht", "Adipositas Grad I", "Adipositas Grad II", "Adipositas Grad III")
+    )
+```
+
+-> keine Datumsangaben
+## 4. Geeignete Visualisierung und Aggregation der Daten
+
+::: {.callout-note icon="false"}
+## Aufgabenstellung (15 Pkt.)
+
+Fassen Sie die Daten in einer geeigenten Form zur Beantwortung Ihrer formulierten Fragestellung zusammen. Ziehen Sie auch geeignete Visualisierungen der transformierten und/oder aggregierten Daten heran, um Ihre Aussagen entsprechend zu untermauern oder zu veranschaulichen.
+
+Hier könne Sie auch geeignete statistische Verfahren bzw. Modellierungen nutzen, falls diese Ihnen bezüglich Ihrer Fragestellung weiterhelfen.
+:::
+
+## 5. Zusammenfassung und Schlussfolgerung
+
+::: {.callout-note icon="false"}
+## Aufgabenstellung (10 Pkt.)
+
+Fassen Sie hier Ihre Fragestellung und Ihre Erkenntnisse aus Ihrer Analyse zusammen.
+
+Sind Ihre Erkenntnisse das, was Sie erwartet haben? Warum oder warum nicht?
+:::
+
+## Quellenverzeichnis

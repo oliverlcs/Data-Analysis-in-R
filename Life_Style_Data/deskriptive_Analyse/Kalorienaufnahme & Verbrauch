@@ -1,0 +1,25 @@
+library(ggplot2)
+
+data <- read.csv("data/Final_data.csv")
+
+data$Gender <- factor(data$Gender)
+
+caloriesPerWeek <- data$Calories * 7
+burnedCaloriesPerWeekThroughSport <- data$Calories_Burned * data$Workout_Frequency..days.week.
+
+ggplot(data, aes(x = caloriesPerWeek, y = burnedCaloriesPerWeekThroughSport, color = Gender))+
+    geom_point(size=1, alpha=0.7)+
+    scale_color_manual(values= c("Male" = "#1f78b4","Female" ="#e75480"))+
+    labs(
+        title = "Kalorienaufnahme vs. Kalorienverbrauch pro Woche",
+        x = "Kalorienaufnahme pro Woche",
+        y = "Verbrannte Kalorien durch Sport pro Woche",
+        color = "Geschlecht"
+    )+
+    theme_minimal(base_size = 14)+
+    theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 13, face = "bold"),
+        legend.title = element_text(size=12, face="bold")
+    )
