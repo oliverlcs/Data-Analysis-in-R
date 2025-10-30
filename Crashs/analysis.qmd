@@ -1,5 +1,5 @@
 ---
-title: "Wie wirkt sich Ernährung und Sport auf den BMI aus?"
+title: ""
 author: "Nele Hauck, Oliver Lucius"
 date: today
 format: html
@@ -19,9 +19,9 @@ Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusam
 -   Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?
 :::
 
-### Fragestellung: Was sind die treibenden Faktoren für einen gesunden BMI und wie wirken sich Sport- und Ernährungsgewohnheiten auf diesen aus?
+### Fragestellung: 
 
-(! BITTE KRITISIEREN BZW. VERBESSERN)
+
 
 ### Was interessiert Sie an dem Datensatz?
 
@@ -32,8 +32,6 @@ Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusam
 
 
 ###### Analysierend
-
-###### Geschlechtsspezifische Unterschiede
 
 
 ### Text
@@ -50,13 +48,70 @@ Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Über
 Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
 :::
 
-###### Deskriptiv
 
+### Laden der Daten & erster Überblick
+Zunächst wurden alle benötigten Pakete installiert und geladen, um die Daten einlesen und untersuchen zu können:
+```{r}
+install.packages("skimr")
+library(skimr)
+```
 
-### Text
+Anschließend wurde der Datensatz geladen:
+```{r}
+data <- read.csv("Crashs/data/Crash_Reporting_-_Drivers_Data.csv")
+```
 
+Um einen ersten Überblick über den Datensatz zu erhalten, wurden die folgenden Funktionen angewendet:
+```{r}
+skim(data)  
+```
 
+Der Datensatz umfasst **39 Variablen** und **204.688 Beobachtungen**. Von den 39 Variablen sind **35 vom Typ "character"**, während die übrigen **4 numerische Werte** enthalten.
+Bereits auf den ersten Blick fällt auf, dass in mehreren Spalten **fehlende Werte** vorhanden sind. Zudem weisen einige Variablen eine sehr große Anzahl unterschiedlicher Werte auf, was auf eine hohe Individualität innerhalb der Daten deutet.
 
+Ein erster Blick auf die Inhalte des Datensatzes verdeutlicht sich durch folgende Funktion:
+```{r}
+head(data)
+```
+
+Beim Betrachten der ersten Zeilen wird deutlich, dass mehrere Spalten fehlende Werte aufweisen, die sich durch leere Felder bemerkbar machen. 
+
+Zur weiteren Übersicht über die Spalten wurde die folgende Funktion verwendet:
+```{r}
+summary(data) 
+```
+
+Hierbei fällt insbesondere die Variable "Vehicle.Year" auf, da deren Minimum bei **0** und Maximum bei **9999** liegt.
+Diese Werte sind offensichtlich **unrealistisch für ein Fahrzeugmodelljahr** und müssen daher im nächsten Schritt bereinigt werden.
+
+Zur detaillierten Analyse der Datenstruktur wurde anschließend folgende Funktion eingesetzt:
+```{r}
+str(data)
+```
+
+Die Ausgabe zeigt, welche Datentypen den einzelnen Spalten zugeordnet sind und wie gut diese zu den tatsächlichen Werten passen.
+Beispielsweise ist die Spalte "Local.Case.Number" aktuell als "character" gespeichert, obwohl sie numerische Werte enthält. Eine Umwandlung in einen numerischen Datentyp wäre hier sinnvoll.
+Die Variable "Vehicle.First.Impact.Location" enthält Textwerte wie "Twelve O Clock". Diese Angaben könnten bei Bedarf in Uhrzeitangaben überführt werden. Auch die Variable "Crash.Date.Time" ist derzeit vom Typ "character", obwohl sie Datum- und Uhrzeitinformationen enthält. Eine Konvertierung in ein passendes Datum-/Zeitformat sowie eine mögliche Trennung von Datum und Uhrzeit wäre hier angebracht.
+Darüber hinaus ist die Variable "Driver.At.Fault" ebenfalls als "character" gespeichert, enthält jedoch die Werte "Yes" und "No". Eine Umwandlung in einen logischen Datentyp wäre hier möglicherweise sinnvoll. Gleiches gilt für die Spalten "Driverless.Vehicle" und "Parked.Vehicle", die ähnliche Strukturen aufweisen.
+Die Variable "Location" enthält zwar Koordinaten im Textformat, muss jedoch nicht zwingend angepasst werden, da zwei weitere Variablen bereits den Breitengrad und den Längengrad numerisch getrennt darstellen. 
+Mehrere Variablen des Datensatzes könnten potenziell kategorische Merkmale darstellen, da sie nur eine begrenzte Anzahl möglicher Werte enthalten. Welche Spalten genau in Faktoren umgewandelt werden sollten, lässt sich jedoch erst im weiteren Verlauf bestimmen - nachdem fehlende Werte, Duplikate und fehlerhafte Einträge bereinigt wurden.
+
+###Suche nach ungewöhnlichen NA-Markern: "-", "?", "9999", "keine Angabe", "01.01.1900"
+### Beispielhäufigkeiten für potentielle NA-Strings in einer Spalte
+table(df$some_col, useNA = "always") -> global suchen (einfacher Ansatz)
+unique_vals <- map(df %>% select(where(is.character)), ~ unique(.x) %>% head(20))
+unique_vals
+
+df[df == "?" | df == "-" | df == "keine Angabe"] <- NA
+
+### ID-Spalte, Duplikate, fehlende Schlüssel
+Einzigartigkeit einer ID:
+n_distinct(df$id)
+nrow(df)
+Duplikate finden:
+df %>% janitor::get_dupes(id)
+NA-Anteil pro Spalte:
+colSums(is.na(df))
 ## 3. Bearbeiten/Transformieren der Daten
 
 ::: {.callout-note icon="false"}
@@ -71,14 +126,81 @@ Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum n
 
 In diesem Abschnitt werden die gegebenen Daten bereinigt und für die weitere Analyse vorbereitet. Dazu gehören die Überprüfung auf fehlende oder fehlerhafte Werte, die Umwandlung von Variabken in geeignete Datentypen, sowie gegebenenfalls das Zusammenführen und Filtern relevanter Daten.
 
-### Überblick über die Rohdaten
+### Kopie
+df_raw <- df                  # Original behalten
+df <- df_raw %>% as_tibble()  # Arbeitskopie
 
-### Umkodierungen/Datentypen anpassen
+### Konvertieren der Datentypen
+Numerisch:
+df <- df %>%
+  mutate(
+    Alter = as.numeric(Alter),
+    Einkommen = parse_number(Einkommen)  # entfernt Währungssymbole
+  )
+Datum/Zeit:
+Wenn Format "dd.mm.yyyy":
+df <- df %>%
+  mutate(Datum = dmy(Datum))
 
-### Bereinigung (NA, fehlerhafte Werte, negative Werte)
-### Subsetting (z.B. nur Erwachsene/vollständige Fälle)
-### Joins durchführen
-### Neue Variablen erstellen
+Falls ISO "YYYY-MM-DD":
+df <- df %>% mutate(Datum = as.Date(Datum))
+
+Faktor/kategorial:
+df <- df %>%
+  mutate(Geschlecht = factor(Geschlecht, levels = c("male","female","other")))
+
+### Trimmen/Case-Normalization
+df <- df %>%
+  mutate(across(where(is.character), ~ trimws(.))) %>%
+  mutate(across(where(is.character), ~ str_to_lower(.)))
+
+### Duplikate entfernen/prüfen
+Identische Zeilen entfernen:
+df <- df %>% distinct()
+
+Falls Duplikate nach id mit neuer Zeitstempel behalten:
+df <- df %>% arrange(id, desc(timestamp)) %>% distinct(id, .keep_all = TRUE)
+
+###Subsetting/Filter
+Entfernen von irrelevanten Zeilen:
+df <- df %>% filter(!is_test_record & !is.na(id))
+Oder nur Beobachtungen nach Datum:
+df <- df %>% filter(Datum >= as.Date("2020-01-01"))
+
+### Kein Join -> nur eine Tabelle
+
+### Feature Engineering & Ableiten von Variablen
+df <- df %>%
+  mutate(
+    year = year(Datum),
+    month = month(Datum),
+    revenue = price * quantity
+  )
+
+### Outlier-Check/Plausibilität
+einfache stats:
+df %>% summarise(across(where(is.numeric), list(min = min, p25 = ~quantile(.x, .25, na.rm=TRUE),
+                                               median = median, mean = mean, p75 = ~quantile(.x, .75, na.rm=TRUE),
+                                               max = max), .names = "{col}_{fn}"))
+
+oder visual: boxplots (einfach):
+boxplot(df$Einkommen, outline = TRUE)
+
+### Fehlende Werte behandeln
+Kleine NA-Anteile: entfernen (drop_na)
+
+Für numerische: median/mean/knn/impute model-based
+
+Für kategorial: eigener Level "missing" oder modus
+
+### Qualitätscheck
+glimpse(df)
+skim(df)
+head(df, 20)
+NA-Check:
+colSums(is.na(df))
+Unique counts für kategorische Felder:
+df %>% summarise(across(where(is.factor), ~ n_distinct(.)))
 
 ## 4. Geeignete Visualisierung und Aggregation der Daten
 
