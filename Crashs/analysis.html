@@ -172,16 +172,81 @@ Aufgabenstellung (10 Pkt.)
 <h3 class="anchored" data-anchor-id="laden-der-daten-erster-überblick">Laden der Daten &amp; erster Überblick</h3>
 <p>Zunächst wurden alle benötigten Pakete installiert und geladen, um die Daten einlesen und untersuchen zu können:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("skimr")</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"skimr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The following package(s) will be installed:
+- skimr [2.2.1]
+These packages will be installed into "~/All_My_Data/Eduction/Dual_Study_Program/5th_Semester/Dataanalysis_R/Data-Analysis-in-R/Crashs/renv/library/linux-arch-rolling/R-4.5/x86_64-pc-linux-gnu".
+
+# Installing packages --------------------------------------------------------
+- Installing skimr ...                          OK [linked from cache]
+Successfully installed 1 package in 7 milliseconds.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The following package(s) will be installed:
+- dplyr [1.1.4]
+These packages will be installed into "~/All_My_Data/Eduction/Dual_Study_Program/5th_Semester/Dataanalysis_R/Data-Analysis-in-R/Crashs/renv/library/linux-arch-rolling/R-4.5/x86_64-pc-linux-gnu".
+
+# Installing packages --------------------------------------------------------
+- Installing dplyr ...                          OK [linked from cache]
+Successfully installed 1 package in 4.5 milliseconds.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"janitor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The following package(s) will be installed:
+- janitor [2.2.1]
+These packages will be installed into "~/All_My_Data/Eduction/Dual_Study_Program/5th_Semester/Dataanalysis_R/Data-Analysis-in-R/Crashs/renv/library/linux-arch-rolling/R-4.5/x86_64-pc-linux-gnu".
+
+# Installing packages --------------------------------------------------------
+- Installing janitor ...                        OK [linked from cache]
+Successfully installed 1 package in 4.5 milliseconds.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"formattable"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The following package(s) will be installed:
+- formattable [0.2.1]
+These packages will be installed into "~/All_My_Data/Eduction/Dual_Study_Program/5th_Semester/Dataanalysis_R/Data-Analysis-in-R/Crashs/renv/library/linux-arch-rolling/R-4.5/x86_64-pc-linux-gnu".
+
+# Installing packages --------------------------------------------------------
+- Installing formattable ...                    OK [linked from cache]
+Successfully installed 1 package in 2.2 milliseconds.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'janitor'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    chisq.test, fisher.test</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(formattable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Anschließend wurde der Datensatz geladen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"./data/Crash_Reporting_Drivers_Data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"./data/Crash_Reporting_Drivers_Data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Um einen ersten Überblick über den Datensatz zu erhalten, wurden die folgenden Funktionen angewendet:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Data summary</caption>
@@ -691,7 +756,7 @@ Aufgabenstellung (10 Pkt.)
 <p>Der Datensatz umfasst <strong>39 Variablen</strong> und <strong>204.688 Beobachtungen</strong>. Von den 39 Variablen sind <strong>35 vom Typ “character”</strong>, während die übrigen <strong>4 numerische Werte</strong> enthalten. Bereits auf den ersten Blick fällt auf, dass in mehreren Spalten <strong>fehlende Werte</strong> vorhanden sind. Zudem weisen einige Variablen eine sehr große Anzahl unterschiedlicher Werte auf, was auf eine hohe Individualität innerhalb der Daten deutet.</p>
 <p>Ein erster Blick auf die Inhalte des Datensatzes verdeutlicht sich durch folgende Funktion:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Report.Number Local.Case.Number Agency.Name      ACRS.Report.Type
 1   MCP3126006X         250037402  MONTGOMERY          Injury Crash
@@ -803,7 +868,7 @@ Aufgabenstellung (10 Pkt.)
 <p>Beim Betrachten der ersten Zeilen wird deutlich, dass mehrere Spalten fehlende Werte aufweisen, die sich durch leere Felder bemerkbar machen.</p>
 <p>Zur weiteren Übersicht über die Spalten wurde die folgende Funktion verwendet:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Report.Number      Local.Case.Number  Agency.Name        ACRS.Report.Type  
  Length:204688      Length:204688      Length:204688      Length:204688     
@@ -887,7 +952,7 @@ Aufgabenstellung (10 Pkt.)
 <p>Hierbei fällt insbesondere die Variable “Vehicle.Year” auf, da deren Minimum bei <strong>0</strong> und Maximum bei <strong>9999</strong> liegt. Diese Werte sind offensichtlich <strong>unrealistisch für ein Fahrzeugmodelljahr</strong> und müssen daher im nächsten Schritt bereinigt werden.</p>
 <p>Zur detaillierten Analyse der Datenstruktur wurde anschließend folgende Funktion eingesetzt:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   204688 obs. of  39 variables:
  $ Report.Number                : chr  "MCP3126006X" "MCP2349001B" "MCP296500BC" "MCP2159003K" ...
@@ -937,7 +1002,210 @@ Aufgabenstellung (10 Pkt.)
 </section>
 <section id="id-spalte-duplikate-fehlende-schlüssel" class="level3">
 <h3 class="anchored" data-anchor-id="id-spalte-duplikate-fehlende-schlüssel">ID-Spalte, Duplikate, fehlende Schlüssel</h3>
-<p>Einzigartigkeit einer ID: n_distinct(df$id) nrow(df) Duplikate finden: df %&gt;% janitor::get_dupes(id) NA-Anteil pro Spalte: colSums(is.na(df)) ## 3. Bearbeiten/Transformieren der Daten</p>
+<p>Zuerst wird der Datensatz auf Duplikate des Primärschlüssels “Report Number” untersucht:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the number of unique reports</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Number of unique reports:"</span>, <span class="fu">n_distinct</span>(data<span class="sc">$</span>Report.Number)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Number of unique reports: 115360"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the total number of all reports</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Number of all reports:"</span>, <span class="fu">nrow</span>(data)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Number of all reports: 204688"</code></pre>
+</div>
+</div>
+<p>Von den insgesamt 204688 Dateneinträgen haben 115360 dieselbe “Report Number”. Diese Duplikate werden weiter mit der folgenden Funktion untersucht:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>duplicate_reports <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_dupes</span>(<span class="st">`</span><span class="at">Report.Number</span><span class="st">`</span>) <span class="sc">%&gt;%</span> <span class="co"># filter out all non-duplicates </span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="st">`</span><span class="at">Report.Number</span><span class="st">`</span>) <span class="co"># sort by report number</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>duplicate_reports <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Report.Number</span><span class="st">`</span>, dupe_count, <span class="st">`</span><span class="at">Person.ID</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formattable</span>(</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Define formatting for specific columns</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Report.Number</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">formatter</span>(<span class="st">"span"</span>),</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Person.ID</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">formatter</span>(<span class="st">"span"</span>, <span class="at">style =</span> <span class="st">"font-family: monospace;"</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Rename columns for the final display</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Report Number"</span>, <span class="st">"Duplicate Count"</span>, <span class="st">"Person ID"</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-condensed">
+<thead>
+<tr>
+<th style="text-align:right;">
+Report Number
+</th>
+<th style="text-align:right;">
+Duplicate Count
+</th>
+<th style="text-align:right;">
+Person ID
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+<span>DD5502000M</span>
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">21B019B7-7957-4CB5-8B16-79E037A916AB</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<span>DD5502000M</span>
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">0EF6BBAB-2144-49FD-83C8-73CA3869C172</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<span>DD5502000N</span>
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">7BF47B38-0B45-497C-A979-60F97BF572BA</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<span>DD5502000N</span>
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">9858D2CF-B453-4AF6-ADDF-3191F6511EA4</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<span>DD5502000P</span>
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">FF312DA1-1C43-43B4-B53F-E99B5B0E16F2</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Aus der Tabelle wird deutlich, dass pro Person pro “Crash Report” ein Dateneintrag vorhanden ist. Wenn mehrere Personen an einem Unfall beteiligt sind, gibt es entsprechend viele Dateneinträge für den Crash Report. Beispielsweise sind am Crash Report “DD5502000M” zwei verschiedene Personen beteiligt und damit 2 Dateneinträge für diesen Report vorhanden. Folglich kann eine Crash-Level-Analyse und eine Person-Level-Analyse durchgeführt werden.</p>
+<p>Eine Crash-Level-Analyse ermöglicht ein Vergleich zwischen Unfällen. Bei den Unfällen können verschiedene Indikatoren analysiert werden, die besonders häufig vorhanden sind. Zum Beispiel könnten verschmutzte Fahrbahnen durch schlechtes Wetter die Unfallhäufigkeit erhöhen. Dadurch können die stärksten treibenden Faktoren für Unfälle identifiziert werden.</p>
+<p>Eine Person-Level-Analyse ermöglicht ein Vergleich zwischen Fahren an beteiligten Unfällen. Es können insbesondere die Personen untersucht werden, die am Unfall Schuld sind und die häufigsten Gründe aufdecken. Durch Analysen kann herausgefunden werden, ob beispielsweise Drogen oder Ablenkung häufiger zu Unfällen führen. Folglich kann die eigene Unfallsicherheit reduziert werden, wenn Verhalten vermieden wird, das Unfälle begünstigt.</p>
+<p>Weitergehend wird untersucht, was die maximale Anzahl an beteiligten Personen an einem Unfall ist:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>duplicate_reports <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(dupe_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(<span class="st">`</span><span class="at">Report.Number</span><span class="st">`</span>, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Report.Number</span><span class="st">`</span>, dupe_count, <span class="st">`</span><span class="at">Person.ID</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formattable</span>(</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Report.Number</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">formatter</span>(<span class="st">"span"</span>),</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Person.ID</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">formatter</span>(<span class="st">"span"</span>, <span class="at">style =</span> <span class="st">"font-family: monospace;"</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Report Number"</span>, <span class="st">"Duplicate Count"</span>, <span class="st">"Person ID"</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-condensed">
+<thead>
+<tr>
+<th style="text-align:right;">
+Report Number
+</th>
+<th style="text-align:right;">
+Duplicate Count
+</th>
+<th style="text-align:right;">
+Person ID
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+<span>MCP229800RC</span>
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">2FA9A390-7EA4-48FB-80A4-0DB5E9C7FCC9</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<span>MCP12130045</span>
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">9EBB9ADA-A3DF-4F14-8EDC-30B9FC292E66</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<span>MCP2693003Q</span>
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">FC00244B-0E63-4A1A-83EA-7293E718EB54</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<span>MCP32800050</span>
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">DCA4744F-981D-49BD-B6D3-55DA9B8A63E0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<span>MCP2667000H</span>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+<span style="font-family: monospace;">9D42EDC4-1C24-4C7F-99EE-3C398BF63A8D</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Einzigartigkeit einer ID: n_distinct(df$id) nrow(df) Duplikate finden: df %&gt;% janitor::get_dupes(id) NA-Anteil pro Spalte: colSums(is.na(df))<br>
+</p>
+</section>
+</section>
+<section id="bearbeitentransformieren-der-daten" class="level2">
+<h2 class="anchored" data-anchor-id="bearbeitentransformieren-der-daten">3. Bearbeiten/Transformieren der Daten</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -954,7 +1222,6 @@ Aufgabenstellung (15 Pkt.)
 </div>
 </div>
 <p>In diesem Abschnitt werden die gegebenen Daten bereinigt und für die weitere Analyse vorbereitet. Dazu gehören die Überprüfung auf fehlende oder fehlerhafte Werte, die Umwandlung von Variabken in geeignete Datentypen, sowie gegebenenfalls das Zusammenführen und Filtern relevanter Daten.</p>
-</section>
 <section id="kopie" class="level3">
 <h3 class="anchored" data-anchor-id="kopie">Kopie</h3>
 <p>df_raw &lt;- df # Original behalten df &lt;- df_raw %&gt;% as_tibble() # Arbeitskopie</p>
