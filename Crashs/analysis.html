@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nele Hauck, Oliver Lucius">
-<meta name="dcterms.date" content="2025-10-26">
+<meta name="dcterms.date" content="2025-11-04">
 
-<title>Wie wirkt sich Ernährung und Sport auf den BMI aus?</title>
+<title>analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -35,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="analysis_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="analysis_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="analysis_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="analysis_files/libs/bootstrap/bootstrap-219da3e8dfff10d12479e13ae64a7b90.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -48,7 +83,6 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Wie wirkt sich Ernährung und Sport auf den BMI aus?</h1>
 </div>
 
 
@@ -65,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 26, 2025</p>
+      <p class="date">November 4, 2025</p>
     </div>
   </div>
   
@@ -99,54 +133,23 @@ Aufgabenstellung (10 Pkt.)
 </ul>
 </div>
 </div>
-<section id="fragestellung-was-sind-die-treibenden-faktoren-für-einen-gesunden-bmi-und-wie-wirkt-sich-dieser-auf-sport--und-ernährungsgewohnheiten-aus" class="level3">
-<h3 class="anchored" data-anchor-id="fragestellung-was-sind-die-treibenden-faktoren-für-einen-gesunden-bmi-und-wie-wirkt-sich-dieser-auf-sport--und-ernährungsgewohnheiten-aus">Fragestellung: Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich dieser auf Sport- und Ernährungsgewohnheiten aus?</h3>
-<p>(! BITTE KRITISIEREN BZW. VERBESSERN)</p>
+<section id="fragestellung" class="level3">
+<h3 class="anchored" data-anchor-id="fragestellung">Fragestellung:</h3>
 </section>
 <section id="was-interessiert-sie-an-dem-datensatz" class="level3">
 <h3 class="anchored" data-anchor-id="was-interessiert-sie-an-dem-datensatz">Was interessiert Sie an dem Datensatz?</h3>
-<ul>
-<li><p>Zusammenhänge zwischen Lebensstilfaktoren: Ich möchte verstehen, wie stark körperliche Aktivität und Ernährungsverhalten miteinander verbunden sind und ob sie sich gegenseitig beeinflussen.</p></li>
-<li><p>Gesundheitsverhalten im Alltag: Mich interessiert, welche Muster oder Typen von gesundem Verhalten (z. B. „sportlich &amp; gesund ernährend“) sich in der Bevölkerung erkennen lassen.</p></li>
-<li><p>Präventive Bedeutung: Ich möchte herausfinden, welche Verhaltensweisen am stärksten zu einem gesunden BMI beitragen und somit Ansatzpunkte für Gesundheitsförderung liefern.</p></li>
-</ul>
 </section>
 <section id="welche-fragestellungen-würden-sie-gern-mit-hilfe-des-datensatzes-beantworten" class="level3">
 <h3 class="anchored" data-anchor-id="welche-fragestellungen-würden-sie-gern-mit-hilfe-des-datensatzes-beantworten">Welche Fragestellungen würden Sie gern mit Hilfe des Datensatzes beantworten?</h3>
 <section id="deskriptiv" class="level6">
 <h6 class="anchored" data-anchor-id="deskriptiv">Deskriptiv</h6>
-<ul>
-<li><p>Wie ist die <strong>Verteilung des BMI</strong> in der Stichprobe?</p></li>
-<li><p>Welche <strong>Sportarten</strong> werden am häufigsten betrieben?</p></li>
-<li><p>Wie unterscheiden sich <strong>Kalorienaufnahme und -verbrauch</strong> zwischen Männern und Frauen?</p></li>
-<li><p>Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?</p></li>
-<li><p>Was ist der Anteil an Sportlern vs.&nbsp;Nicht-Sportler?</p></li>
-<li><p>Wie ist die generelle Ernährungsgewohnheit im Datensatz?</p></li>
-<li><p>Wie ist die Altersverteilung im Datensatz?</p></li>
-</ul>
 </section>
 <section id="analysierend" class="level6">
 <h6 class="anchored" data-anchor-id="analysierend">Analysierend</h6>
-<ul>
-<li>Wie stark beeinflussen sich BMI, Essens- und Sportgewohnheiten gegenseitig?</li>
-<li>Ist der BMI ein guter Prediktor für Essens- und Sportgewohnheiten?</li>
-<li>Besteht ein wechselseitiger Zusammenhang zwischen körperlicher Aktivität und gesundem Ernährungsverhalten, und wenn ja, in welche Richtung wirkt dieser Zusammenhang stärker?</li>
-<li>Wie wirken sich die unterschiedliche Typen von Sport (Krafttraining, Ausdauer, etc.) auf die Ernährungsweise und den BMI aus?</li>
-<li>Wie viele Features sind notwendig, um den BMI mit 95% Genauigkeit zu bestimmen? (geht vllt. zu sehr Richtung Modelltraining)</li>
-</ul>
-</section>
-<section id="geschlechtsspezifische-unterschiede" class="level6">
-<h6 class="anchored" data-anchor-id="geschlechtsspezifische-unterschiede">Geschlechtsspezifische Unterschiede</h6>
-<ul>
-<li>Leben grundsätzlich Frauen oder Männer gesünder? Welches Geschlecht treibt mehr Sport bzw. ernährt sich gesünder?</li>
-<li>Unterscheidet sich die Art und Weise wie Frauen und Männer Sport treiben? Gibt es geschlechtsspezifische Cluster?</li>
-</ul>
 </section>
 </section>
 <section id="text" class="level3">
 <h3 class="anchored" data-anchor-id="text">Text</h3>
-<p>Ziel des Reports ist es, die Zusammenhänge zwischen Gesundheit, Ernährung und Sport zu untersuchen. Dafür kommt der Datensatz “Life Style Data” von der Online-Plattform Kaggle zum Einsatz. In diesem Datensatz werden von 20000 Personen eine Momentaufnahme der biologischen Merkmale sowie der Ernährungs- und Trainingsgewohnheiten erfasst. Beispielsweise wird die Trainingsart, wie HIIT oder Krafttraining, oder die Kalorien pro Mahlzeit aufgezeichnet. Durch diese detaillierten Informationen lassen sich Faktoren identifizieren, die eine Antwort auf die zentrale Fragestellung des Reports liefern:</p>
-<p><strong>Was sind die treibenden Faktoren für einen gesunden BMI und wie wirkt sich dieser auf Sport- und Ernährungsgewohnheiten aus?</strong></p>
 </section>
 </section>
 <section id="laden-der-daten" class="level2">
@@ -165,32 +168,776 @@ Aufgabenstellung (10 Pkt.)
 <p>Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!</p>
 </div>
 </div>
-<section id="deskriptiv-1" class="level6">
-<h6 class="anchored" data-anchor-id="deskriptiv-1">Deskriptiv</h6>
-<ul>
-<li><p>Wie ist die <strong>Verteilung des BMI</strong> in der Stichprobe?</p></li>
-<li><p>Welche <strong>Sportarten</strong> werden am häufigsten betrieben?</p></li>
-<li><p>Wie unterscheiden sich <strong>Kalorienaufnahme und -verbrauch</strong> zwischen Männern und Frauen?</p></li>
-<li><p>Haben sportreibende Personen einen signifikant niedrigeren BMI als Nicht-Sportler?</p></li>
-<li><p>Was ist der Anteil an Sportlern vs.&nbsp;Nicht-Sportler?</p></li>
-<li><p>Wie ist die generelle Ernährungsgewohnheit im Datensatz?</p></li>
-<li><p>Wie ist die Altersverteilung im Datensatz?</p></li>
-</ul>
+<section id="laden-der-daten-erster-überblick" class="level3">
+<h3 class="anchored" data-anchor-id="laden-der-daten-erster-überblick">Laden der Daten &amp; erster Überblick</h3>
+<p>Zunächst wurden alle benötigten Pakete installiert und geladen, um die Daten einlesen und untersuchen zu können:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("skimr")</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Anschließend wurde der Datensatz geladen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"./data/Crash_Reporting_Drivers_Data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Um einen ersten Überblick über den Datensatz zu erhalten, wurden die folgenden Funktionen angewendet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">data</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">204688</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Report.Number</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">115360</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Local.Case.Number</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">115249</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Agency.Name</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ACRS.Report.Type</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Crash.Date.Time</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">112545</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Route.Type</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">20503</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Road.Name</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">23510</td>
+<td style="text-align: right;">4673</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cross.Street.Name</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">36744</td>
+<td style="text-align: right;">7464</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Off.Road.Description</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">198</td>
+<td style="text-align: right;">185690</td>
+<td style="text-align: right;">13545</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Municipality</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">48508</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Related.Non.Motorist</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">86</td>
+<td style="text-align: right;">198036</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Collision.Type</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Weather</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Surface.Condition</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">19149</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Traffic.Control</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">3015</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Driver.Substance.Abuse</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">51</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non.Motorist.Substance.Abuse</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">157</td>
+<td style="text-align: right;">198036</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Person.ID</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">204688</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Driver.At.Fault</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Injury.Severity</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">2164</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Circumstance</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">416</td>
+<td style="text-align: right;">24467</td>
+<td style="text-align: right;">751</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Driver.Distracted.By</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">2336</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Drivers.License.State</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">13659</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vehicle.ID</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">204688</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vehicle.Damage.Extent</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vehicle.First.Impact.Location</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">156</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vehicle.Body.Type</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">2910</td>
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vehicle.Movement</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">1095</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vehicle.Going.Dir</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">8396</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Driverless.Vehicle</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Parked.Vehicle</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1526</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vehicle.Make</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">902</td>
+<td style="text-align: right;">1961</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vehicle.Model</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">905</td>
+<td style="text-align: right;">7149</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Location</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">114502</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Speed.Limit</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">32.20</td>
+<td style="text-align: right;">11.32</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">25.00</td>
+<td style="text-align: right;">35.00</td>
+<td style="text-align: right;">40.00</td>
+<td style="text-align: right;">75.00</td>
+<td style="text-align: left;">▂▅▇▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vehicle.Year</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1965.39</td>
+<td style="text-align: right;">341.82</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2006.00</td>
+<td style="text-align: right;">2012.00</td>
+<td style="text-align: right;">2016.00</td>
+<td style="text-align: right;">9999.00</td>
+<td style="text-align: left;">▁▇▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Latitude</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">39.08</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">37.72</td>
+<td style="text-align: right;">39.02</td>
+<td style="text-align: right;">39.07</td>
+<td style="text-align: right;">39.14</td>
+<td style="text-align: right;">39.99</td>
+<td style="text-align: left;">▁▁▇▇▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Longitude</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-77.11</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">-79.49</td>
+<td style="text-align: right;">-77.19</td>
+<td style="text-align: right;">-77.11</td>
+<td style="text-align: right;">-77.04</td>
+<td style="text-align: right;">-75.53</td>
+<td style="text-align: left;">▁▁▇▇▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Der Datensatz umfasst <strong>39 Variablen</strong> und <strong>204.688 Beobachtungen</strong>. Von den 39 Variablen sind <strong>35 vom Typ “character”</strong>, während die übrigen <strong>4 numerische Werte</strong> enthalten. Bereits auf den ersten Blick fällt auf, dass in mehreren Spalten <strong>fehlende Werte</strong> vorhanden sind. Zudem weisen einige Variablen eine sehr große Anzahl unterschiedlicher Werte auf, was auf eine hohe Individualität innerhalb der Daten deutet.</p>
+<p>Ein erster Blick auf die Inhalte des Datensatzes verdeutlicht sich durch folgende Funktion:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Report.Number Local.Case.Number Agency.Name      ACRS.Report.Type
+1   MCP3126006X         250037402  MONTGOMERY          Injury Crash
+2   MCP2349001B         250037516  MONTGOMERY Property Damage Crash
+3   MCP296500BC         250033157  MONTGOMERY Property Damage Crash
+4   MCP2159003K         250037509  MONTGOMERY Property Damage Crash
+5   MCP312900D6         250034573  MONTGOMERY Property Damage Crash
+6   MCP284600BN         250037004  MONTGOMERY          Injury Crash
+         Crash.Date.Time             Route.Type               Road.Name
+1 08/21/2025 05:21:00 PM Maryland (State) Route                        
+2 08/22/2025 10:44:00 AM     Interstate (State) EISENHOWER MEMORIAL HWY
+3 07/25/2025 11:55:00 AM          Bicycle Route                        
+4 08/22/2025 10:36:00 AM Maryland (State) Route                        
+5 08/03/2025 02:10:00 PM                                               
+6 08/19/2025 09:50:00 AM           County Route            GRAND PRE RD
+                                                  Cross.Street.Name
+1                                                                  
+2                                                                  
+3 NEW HAMPSHIRE AVE (SB/L) NORBECK RD (WB/L) SPENCERVILLE RD (WB/L)
+4                                                                  
+5                                                                  
+6                                                                  
+                                                                Off.Road.Description
+1                                                                                   
+2                                                                                   
+3                                                                                   
+4                                                                                   
+5 Parking Lot Way        PARKING LOT OF 2741 UNIVERSITY BLVD W, KENSINGTON MD, 20895
+6                                                                                   
+  Municipality Related.Non.Motorist            Collision.Type Weather
+1                                               Front to Rear   Clear
+2                                              Single Vehicle   Clear
+3                                   Sideswipe, Same Direction   Clear
+4                                               Front to Rear   Clear
+5                                                Rear To Side   Clear
+6                        Pedestrian            Single Vehicle    Rain
+  Surface.Condition    Light                 Traffic.Control
+1               Dry Daylight                     No Controls
+2               Dry Daylight                     No Controls
+3               Dry Daylight          Traffic Control Signal
+4               Dry Daylight Flashing Traffic Control Signal
+5                   Daylight                                
+6               Wet Daylight                     No Controls
+                               Driver.Substance.Abuse
+1 Not Suspect of Alcohol Use, Not Suspect of Drug Use
+2                                    Unknown, Unknown
+3 Not Suspect of Alcohol Use, Not Suspect of Drug Use
+4 Not Suspect of Alcohol Use, Not Suspect of Drug Use
+5                                    Unknown, Unknown
+6 Not Suspect of Alcohol Use, Not Suspect of Drug Use
+                         Non.Motorist.Substance.Abuse
+1                                                    
+2                                                    
+3                                                    
+4                                                    
+5                                                    
+6 Not Suspect of Alcohol Use, Not Suspect of Drug Use
+                             Person.ID Driver.At.Fault    Injury.Severity
+1 BB3CB0F3-5A89-45FB-9516-48DDDB92B0A9             Yes No Apparent Injury
+2 9B84E695-215A-447E-8AA6-D3958187BBCA              No                   
+3 1D28ADF4-0DB2-4CBC-BDB0-1C1F5E7CF955              No No Apparent Injury
+4 AE9A3389-3486-4199-B8F6-015D7D2E1139             Yes No Apparent Injury
+5 3B4FB53F-9543-48EA-8C28-14AC093FBC36              No                   
+6 391A0858-066B-41A3-926D-B43D84A96A07              No No Apparent Injury
+          Circumstance                             Driver.Distracted.By
+1 Followed Too Closely      Other Action (looking away from task, etc.)
+2                                                                      
+3                                                        Not Distracted
+4 Followed Too Closely Manually Operating (dialing, playing game, etc.)
+5                                                               Unknown
+6                                                        Not Distracted
+  Drivers.License.State                           Vehicle.ID
+1                    MD 768C98FA-C137-47BC-BE44-EE3BA4B95F66
+2                       BC322ECD-006B-4919-AAF8-3F64D934B789
+3                    CO 1F4EBE18-DB94-4CA7-8D9A-88C30E90400D
+4                    MD AAEB6B5A-30B2-47D3-BF59-7F14D0A5BCAD
+5                       B683B035-8C9F-45F7-BDB5-F9141CCF160D
+6                    MD 219D547A-37CA-4C31-93C8-414479EA6A4C
+  Vehicle.Damage.Extent Vehicle.First.Impact.Location
+1           Superficial                Twelve O Clock
+2  Vehicle Not at Scene          Vehicle Not at Scene
+3           Superficial                 Seven O Clock
+4             Disabling                Twelve O Clock
+5  Vehicle Not at Scene          Vehicle Not at Scene
+6           Superficial                Twelve O Clock
+              Vehicle.Body.Type      Vehicle.Movement Vehicle.Going.Dir
+1                 Passenger Car Moving Constant Speed        Northbound
+2                               Moving Constant Speed        Northbound
+3                 Passenger Car Moving Constant Speed         Westbound
+4 Van - Passenger (&amp;lt;9 Seats)   Slowing or Stopping        Southbound
+5         Sport Utility Vehicle               Backing    Not On Roadway
+6                 Passenger Car Moving Constant Speed        Northbound
+  Speed.Limit Driverless.Vehicle Parked.Vehicle Vehicle.Year Vehicle.Make
+1          40                 No             No         2013          KIA
+2          55                 No             No            0             
+3          40                 No             No         2023        LEXUS
+4          30                 No             No         2003       TOYOTA
+5           0                 No             No         2023       SUBARU
+6          25                 No             No         2016        MAZDA
+  Vehicle.Model Latitude Longitude                    Location
+1          SOUL 39.21980 -77.25742   (39.219796, -77.25741635)
+2               39.18018 -77.25066 (39.18018079, -77.25065714)
+3            RX 39.12122 -76.98891 (39.12121898, -76.98890509)
+4        SIENNA 39.20793 -77.14148  (39.20793083, -77.1414795)
+5       IMPREZA 39.03966 -77.05724 (39.03966248, -77.05723843)
+6          CX-5 39.09273 -77.07647    (39.09273383, -77.07647)</code></pre>
+</div>
+</div>
+<p>Beim Betrachten der ersten Zeilen wird deutlich, dass mehrere Spalten fehlende Werte aufweisen, die sich durch leere Felder bemerkbar machen.</p>
+<p>Zur weiteren Übersicht über die Spalten wurde die folgende Funktion verwendet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Report.Number      Local.Case.Number  Agency.Name        ACRS.Report.Type  
+ Length:204688      Length:204688      Length:204688      Length:204688     
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ Crash.Date.Time     Route.Type         Road.Name         Cross.Street.Name 
+ Length:204688      Length:204688      Length:204688      Length:204688     
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ Off.Road.Description Municipality       Related.Non.Motorist
+ Length:204688        Length:204688      Length:204688       
+ Class :character     Class :character   Class :character    
+ Mode  :character     Mode  :character   Mode  :character    
+                                                             
+                                                             
+                                                             
+ Collision.Type       Weather          Surface.Condition     Light          
+ Length:204688      Length:204688      Length:204688      Length:204688     
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ Traffic.Control    Driver.Substance.Abuse Non.Motorist.Substance.Abuse
+ Length:204688      Length:204688          Length:204688               
+ Class :character   Class :character       Class :character            
+ Mode  :character   Mode  :character       Mode  :character            
+                                                                       
+                                                                       
+                                                                       
+  Person.ID         Driver.At.Fault    Injury.Severity    Circumstance      
+ Length:204688      Length:204688      Length:204688      Length:204688     
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ Driver.Distracted.By Drivers.License.State  Vehicle.ID       
+ Length:204688        Length:204688         Length:204688     
+ Class :character     Class :character      Class :character  
+ Mode  :character     Mode  :character      Mode  :character  
+                                                              
+                                                              
+                                                              
+ Vehicle.Damage.Extent Vehicle.First.Impact.Location Vehicle.Body.Type 
+ Length:204688         Length:204688                 Length:204688     
+ Class :character      Class :character              Class :character  
+ Mode  :character      Mode  :character              Mode  :character  
+                                                                       
+                                                                       
+                                                                       
+ Vehicle.Movement   Vehicle.Going.Dir   Speed.Limit   Driverless.Vehicle
+ Length:204688      Length:204688      Min.   : 0.0   Length:204688     
+ Class :character   Class :character   1st Qu.:25.0   Class :character  
+ Mode  :character   Mode  :character   Median :35.0   Mode  :character  
+                                       Mean   :32.2                     
+                                       3rd Qu.:40.0                     
+                                       Max.   :75.0                     
+ Parked.Vehicle      Vehicle.Year  Vehicle.Make       Vehicle.Model     
+ Length:204688      Min.   :   0   Length:204688      Length:204688     
+ Class :character   1st Qu.:2006   Class :character   Class :character  
+ Mode  :character   Median :2012   Mode  :character   Mode  :character  
+                    Mean   :1965                                        
+                    3rd Qu.:2016                                        
+                    Max.   :9999                                        
+    Latitude       Longitude        Location        
+ Min.   :37.72   Min.   :-79.49   Length:204688     
+ 1st Qu.:39.02   1st Qu.:-77.19   Class :character  
+ Median :39.07   Median :-77.11   Mode  :character  
+ Mean   :39.08   Mean   :-77.11                     
+ 3rd Qu.:39.14   3rd Qu.:-77.04                     
+ Max.   :39.99   Max.   :-75.53                     </code></pre>
+</div>
+</div>
+<p>Hierbei fällt insbesondere die Variable “Vehicle.Year” auf, da deren Minimum bei <strong>0</strong> und Maximum bei <strong>9999</strong> liegt. Diese Werte sind offensichtlich <strong>unrealistisch für ein Fahrzeugmodelljahr</strong> und müssen daher im nächsten Schritt bereinigt werden.</p>
+<p>Zur detaillierten Analyse der Datenstruktur wurde anschließend folgende Funktion eingesetzt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   204688 obs. of  39 variables:
+ $ Report.Number                : chr  "MCP3126006X" "MCP2349001B" "MCP296500BC" "MCP2159003K" ...
+ $ Local.Case.Number            : chr  "250037402" "250037516" "250033157" "250037509" ...
+ $ Agency.Name                  : chr  "MONTGOMERY" "MONTGOMERY" "MONTGOMERY" "MONTGOMERY" ...
+ $ ACRS.Report.Type             : chr  "Injury Crash" "Property Damage Crash" "Property Damage Crash" "Property Damage Crash" ...
+ $ Crash.Date.Time              : chr  "08/21/2025 05:21:00 PM" "08/22/2025 10:44:00 AM" "07/25/2025 11:55:00 AM" "08/22/2025 10:36:00 AM" ...
+ $ Route.Type                   : chr  "Maryland (State) Route" "Interstate (State)" "Bicycle Route" "Maryland (State) Route" ...
+ $ Road.Name                    : chr  "" "EISENHOWER MEMORIAL HWY" "" "" ...
+ $ Cross.Street.Name            : chr  "" "" "NEW HAMPSHIRE AVE (SB/L) NORBECK RD (WB/L) SPENCERVILLE RD (WB/L)" "" ...
+ $ Off.Road.Description         : chr  "" "" "" "" ...
+ $ Municipality                 : chr  "" "" "" "" ...
+ $ Related.Non.Motorist         : chr  "" "" "" "" ...
+ $ Collision.Type               : chr  "Front to Rear" "Single Vehicle" "Sideswipe, Same Direction" "Front to Rear" ...
+ $ Weather                      : chr  "Clear" "Clear" "Clear" "Clear" ...
+ $ Surface.Condition            : chr  "Dry" "Dry" "Dry" "Dry" ...
+ $ Light                        : chr  "Daylight" "Daylight" "Daylight" "Daylight" ...
+ $ Traffic.Control              : chr  "No Controls" "No Controls" "Traffic Control Signal" "Flashing Traffic Control Signal" ...
+ $ Driver.Substance.Abuse       : chr  "Not Suspect of Alcohol Use, Not Suspect of Drug Use" "Unknown, Unknown" "Not Suspect of Alcohol Use, Not Suspect of Drug Use" "Not Suspect of Alcohol Use, Not Suspect of Drug Use" ...
+ $ Non.Motorist.Substance.Abuse : chr  "" "" "" "" ...
+ $ Person.ID                    : chr  "BB3CB0F3-5A89-45FB-9516-48DDDB92B0A9" "9B84E695-215A-447E-8AA6-D3958187BBCA" "1D28ADF4-0DB2-4CBC-BDB0-1C1F5E7CF955" "AE9A3389-3486-4199-B8F6-015D7D2E1139" ...
+ $ Driver.At.Fault              : chr  "Yes" "No" "No" "Yes" ...
+ $ Injury.Severity              : chr  "No Apparent Injury" "" "No Apparent Injury" "No Apparent Injury" ...
+ $ Circumstance                 : chr  "Followed Too Closely" "" "" "Followed Too Closely" ...
+ $ Driver.Distracted.By         : chr  "Other Action (looking away from task, etc.)" "" "Not Distracted" "Manually Operating (dialing, playing game, etc.)" ...
+ $ Drivers.License.State        : chr  "MD" "" "CO" "MD" ...
+ $ Vehicle.ID                   : chr  "768C98FA-C137-47BC-BE44-EE3BA4B95F66" "BC322ECD-006B-4919-AAF8-3F64D934B789" "1F4EBE18-DB94-4CA7-8D9A-88C30E90400D" "AAEB6B5A-30B2-47D3-BF59-7F14D0A5BCAD" ...
+ $ Vehicle.Damage.Extent        : chr  "Superficial" "Vehicle Not at Scene" "Superficial" "Disabling" ...
+ $ Vehicle.First.Impact.Location: chr  "Twelve O Clock" "Vehicle Not at Scene" "Seven O Clock" "Twelve O Clock" ...
+ $ Vehicle.Body.Type            : chr  "Passenger Car" "" "Passenger Car" "Van - Passenger (&amp;lt;9 Seats)" ...
+ $ Vehicle.Movement             : chr  "Moving Constant Speed" "Moving Constant Speed" "Moving Constant Speed" "Slowing or Stopping" ...
+ $ Vehicle.Going.Dir            : chr  "Northbound" "Northbound" "Westbound" "Southbound" ...
+ $ Speed.Limit                  : int  40 55 40 30 0 25 0 25 10 35 ...
+ $ Driverless.Vehicle           : chr  "No" "No" "No" "No" ...
+ $ Parked.Vehicle               : chr  "No" "No" "No" "No" ...
+ $ Vehicle.Year                 : int  2013 0 2023 2003 2023 2016 2025 2021 2022 2018 ...
+ $ Vehicle.Make                 : chr  "KIA" "" "LEXUS" "TOYOTA" ...
+ $ Vehicle.Model                : chr  "SOUL" "" "RX" "SIENNA" ...
+ $ Latitude                     : num  39.2 39.2 39.1 39.2 39 ...
+ $ Longitude                    : num  -77.3 -77.3 -77 -77.1 -77.1 ...
+ $ Location                     : chr  "(39.219796, -77.25741635)" "(39.18018079, -77.25065714)" "(39.12121898, -76.98890509)" "(39.20793083, -77.1414795)" ...</code></pre>
+</div>
+</div>
+<p>Die Ausgabe zeigt, welche Datentypen den einzelnen Spalten zugeordnet sind und wie gut diese zu den tatsächlichen Werten passen. Beispielsweise ist die Spalte “Local.Case.Number” aktuell als “character” gespeichert, obwohl sie numerische Werte enthält. Eine Umwandlung in einen numerischen Datentyp wäre hier sinnvoll. Die Variable “Vehicle.First.Impact.Location” enthält Textwerte wie “Twelve O Clock”. Diese Angaben könnten bei Bedarf in Uhrzeitangaben überführt werden. Auch die Variable “Crash.Date.Time” ist derzeit vom Typ “character”, obwohl sie Datum- und Uhrzeitinformationen enthält. Eine Konvertierung in ein passendes Datum-/Zeitformat sowie eine mögliche Trennung von Datum und Uhrzeit wäre hier angebracht. Darüber hinaus ist die Variable “Driver.At.Fault” ebenfalls als “character” gespeichert, enthält jedoch die Werte “Yes” und “No”. Eine Umwandlung in einen logischen Datentyp wäre hier möglicherweise sinnvoll. Gleiches gilt für die Spalten “Driverless.Vehicle” und “Parked.Vehicle”, die ähnliche Strukturen aufweisen. Die Variable “Location” enthält zwar Koordinaten im Textformat, muss jedoch nicht zwingend angepasst werden, da zwei weitere Variablen bereits den Breitengrad und den Längengrad numerisch getrennt darstellen. Mehrere Variablen des Datensatzes könnten potenziell kategorische Merkmale darstellen, da sie nur eine begrenzte Anzahl möglicher Werte enthalten. Welche Spalten genau in Faktoren umgewandelt werden sollten, lässt sich jedoch erst im weiteren Verlauf bestimmen - nachdem fehlende Werte, Duplikate und fehlerhafte Einträge bereinigt wurden.</p>
+<p>###Suche nach ungewöhnlichen NA-Markern: “-”, “?”, “9999”, “keine Angabe”, “01.01.1900” ### Beispielhäufigkeiten für potentielle NA-Strings in einer Spalte table(df$some_col, useNA = “always”) -&gt; global suchen (einfacher Ansatz) unique_vals &lt;- map(df %&gt;% select(where(is.character)), ~ unique(.x) %&gt;% head(20)) unique_vals</p>
+<p>df[df == “?” | df == “-” | df == “keine Angabe”] &lt;- NA</p>
 </section>
-<section id="text-1" class="level3">
-<h3 class="anchored" data-anchor-id="text-1">Text</h3>
-<p>Der Datensatz umfasst 20000 Zeilen und 54 Features. Von diesen 54 Features sind 40 numerisch, 9 kategorial und die verbleibenden 5 unstrukturiert. Alle Features lassen sich weiter in 4 Bereiche unterteilen:</p>
-<ol type="1">
-<li>Biologische Daten: Alter, Geschlecht, Gewicht, Größe</li>
-<li>Gesundheitliche Faktoren: Daten zum Herzschlag, Muskelanteil, Fettanteil, BMI,</li>
-<li>Ernährung: Trinkmenge, Anzahl der Mahlzeiten pro Tag, (Kalorien, Proteine, Kalorien pro Tag oder pro Mahlzeit?)</li>
-<li>Training: Trainingsdauer, Trainingsart, Schwierigkeitsgrad, Trainingseinheiten pro Woche, verbrannte Kalorien, Erfahrungslevel</li>
-</ol>
-<p>Die genannten Features pro Bereich bilden nur einen Ausschnitt der 54 Features dar. Dennoch hilft dieser zu verstehen, welche Art von Daten im Datensatz vorliegen. Insgesamt hat der Datensatz eine hohe Qualität, da keine fehlende Werte existieren. Beispielsweise ist für alle 20000 Zeilen der Wert für den BMI vorhanden. Folglich muss man nicht mit fehlenden Werte umgehen. Dennoch müssen manche Features aus dem Datensatz entfernt werden. Diese Features enthalten keine sinnvollen Informationen oder es ist unklar, was sie aussagen sollen. So trägt jedes Gericht den Namen “Other”, woraus keine Rückschlüsse auf Kalorien, Proteine, etc. geschlossen werden kann. Daher werden solche Features aus dem Datensatz entfernt.</p>
-</section>
-</section>
-<section id="bearbeitentransformieren-der-daten" class="level2">
-<h2 class="anchored" data-anchor-id="bearbeitentransformieren-der-daten">3. Bearbeiten/Transformieren der Daten</h2>
+<section id="id-spalte-duplikate-fehlende-schlüssel" class="level3">
+<h3 class="anchored" data-anchor-id="id-spalte-duplikate-fehlende-schlüssel">ID-Spalte, Duplikate, fehlende Schlüssel</h3>
+<p>Einzigartigkeit einer ID: n_distinct(df$id) nrow(df) Duplikate finden: df %&gt;% janitor::get_dupes(id) NA-Anteil pro Spalte: colSums(is.na(df)) ## 3. Bearbeiten/Transformieren der Daten</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -206,6 +953,50 @@ Aufgabenstellung (15 Pkt.)
 <p>Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?</p>
 </div>
 </div>
+<p>In diesem Abschnitt werden die gegebenen Daten bereinigt und für die weitere Analyse vorbereitet. Dazu gehören die Überprüfung auf fehlende oder fehlerhafte Werte, die Umwandlung von Variabken in geeignete Datentypen, sowie gegebenenfalls das Zusammenführen und Filtern relevanter Daten.</p>
+</section>
+<section id="kopie" class="level3">
+<h3 class="anchored" data-anchor-id="kopie">Kopie</h3>
+<p>df_raw &lt;- df # Original behalten df &lt;- df_raw %&gt;% as_tibble() # Arbeitskopie</p>
+</section>
+<section id="konvertieren-der-datentypen" class="level3">
+<h3 class="anchored" data-anchor-id="konvertieren-der-datentypen">Konvertieren der Datentypen</h3>
+<p>Numerisch: df &lt;- df %&gt;% mutate( Alter = as.numeric(Alter), Einkommen = parse_number(Einkommen) # entfernt Währungssymbole ) Datum/Zeit: Wenn Format “dd.mm.yyyy”: df &lt;- df %&gt;% mutate(Datum = dmy(Datum))</p>
+<p>Falls ISO “YYYY-MM-DD”: df &lt;- df %&gt;% mutate(Datum = as.Date(Datum))</p>
+<p>Faktor/kategorial: df &lt;- df %&gt;% mutate(Geschlecht = factor(Geschlecht, levels = c(“male”,“female”,“other”)))</p>
+</section>
+<section id="trimmencase-normalization" class="level3">
+<h3 class="anchored" data-anchor-id="trimmencase-normalization">Trimmen/Case-Normalization</h3>
+<p>df &lt;- df %&gt;% mutate(across(where(is.character), ~ trimws(.))) %&gt;% mutate(across(where(is.character), ~ str_to_lower(.)))</p>
+</section>
+<section id="duplikate-entfernenprüfen" class="level3">
+<h3 class="anchored" data-anchor-id="duplikate-entfernenprüfen">Duplikate entfernen/prüfen</h3>
+<p>Identische Zeilen entfernen: df &lt;- df %&gt;% distinct()</p>
+<p>Falls Duplikate nach id mit neuer Zeitstempel behalten: df &lt;- df %&gt;% arrange(id, desc(timestamp)) %&gt;% distinct(id, .keep_all = TRUE)</p>
+<p>###Subsetting/Filter Entfernen von irrelevanten Zeilen: df &lt;- df %&gt;% filter(!is_test_record &amp; !is.na(id)) Oder nur Beobachtungen nach Datum: df &lt;- df %&gt;% filter(Datum &gt;= as.Date(“2020-01-01”))</p>
+</section>
+<section id="kein-join---nur-eine-tabelle" class="level3">
+<h3 class="anchored" data-anchor-id="kein-join---nur-eine-tabelle">Kein Join -&gt; nur eine Tabelle</h3>
+</section>
+<section id="feature-engineering-ableiten-von-variablen" class="level3">
+<h3 class="anchored" data-anchor-id="feature-engineering-ableiten-von-variablen">Feature Engineering &amp; Ableiten von Variablen</h3>
+<p>df &lt;- df %&gt;% mutate( year = year(Datum), month = month(Datum), revenue = price * quantity )</p>
+</section>
+<section id="outlier-checkplausibilität" class="level3">
+<h3 class="anchored" data-anchor-id="outlier-checkplausibilität">Outlier-Check/Plausibilität</h3>
+<p>einfache stats: df %&gt;% summarise(across(where(is.numeric), list(min = min, p25 = ~quantile(.x, .25, na.rm=TRUE), median = median, mean = mean, p75 = ~quantile(.x, .75, na.rm=TRUE), max = max), .names = “{col}_{fn}”))</p>
+<p>oder visual: boxplots (einfach): boxplot(df$Einkommen, outline = TRUE)</p>
+</section>
+<section id="fehlende-werte-behandeln" class="level3">
+<h3 class="anchored" data-anchor-id="fehlende-werte-behandeln">Fehlende Werte behandeln</h3>
+<p>Kleine NA-Anteile: entfernen (drop_na)</p>
+<p>Für numerische: median/mean/knn/impute model-based</p>
+<p>Für kategorial: eigener Level “missing” oder modus</p>
+</section>
+<section id="qualitätscheck" class="level3">
+<h3 class="anchored" data-anchor-id="qualitätscheck">Qualitätscheck</h3>
+<p>glimpse(df) skim(df) head(df, 20) NA-Check: colSums(is.na(df)) Unique counts für kategorische Felder: df %&gt;% summarise(across(where(is.factor), ~ n_distinct(.)))</p>
+</section>
 </section>
 <section id="geeignete-visualisierung-und-aggregation-der-daten" class="level2">
 <h2 class="anchored" data-anchor-id="geeignete-visualisierung-und-aggregation-der-daten">4. Geeignete Visualisierung und Aggregation der Daten</h2>

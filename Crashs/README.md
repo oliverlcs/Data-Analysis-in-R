@@ -1,9 +1,7 @@
 # Termine & allg. Informationen
 
 ## Deadlines
-So., 26. Okt.: Beschreibung der Datengrundgesamtheit fertig 
--------------: Korrelationen zw. Sport & Ernährung | Nele
-Fr., 32. Okt.: Geschlechtsspezifische Unterschiede Analysiert | Oliver
+Fr., 07. Nov.: Beschreibung der Datengrundgesamtheit & Datenbereinigung fertig | Oliver 
 Mo., 01. Dez.: 95% Fertig -> mit Dietzsch besprechen
 Mo., 08. Dez.: 100% Fertig -> mit Dietsch besprechen
 Mi., 31. Dez.: späteste Abgabe
