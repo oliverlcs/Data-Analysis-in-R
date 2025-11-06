@@ -169,9 +169,872 @@ In diesem Abschnitt sollten Sie alle notwendigen Transformationen/Bereiningungen
 Verschaffen Sie sich eine Übersicht der transformierten Daten. Sie können hierzu Hilfsmittel wie `glimpse()`, `skim()` und `head()` benutzen, um Ihre Erläuterungen zu veranschaulichen.
 
 Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?
-:::
 
 In diesem Abschnitt werden die gegebenen Daten bereinigt und für die weitere Analyse vorbereitet. Dazu gehören die Überprüfung auf fehlende oder fehlerhafte Werte, die Umwandlung von Variabken in geeignete Datentypen, sowie gegebenenfalls das Zusammenführen und Filtern relevanter Daten.
+:::
+
+Als erstes werden die Spaltenbezeichnungen mit der Funktion 'clean_names()' from 'janitor'-package vereinheitlicht:
+
+```{r}
+# data %>%
+#   clean_names()
+# schau dir den output von clean_col_names.r an: willst du das: ja / nein?
+```
+
+Die Datenbereinigung erfolgt in zwei Schritten: im ersten Schritt werden Daten in den richtigen Datentyp transformiert und Kategorien bereinigt. Im zweiten Schritt werden fehlende Werte und Ausreißer behandelt. 
+
+Anhand dem folgenden Code lässt sich erkennen, das die möglichen Werte für "Agency Name" stark zusammenhängen:
+
+```{r}
+print(paste("Unique categories in agency name:", (sort(unique(data$Agency.Name)))))
+```
+
+Daher wird aus den 10 möglichen Werten vom Typ "character" ein kategorialer Typ mit einheitlichen Bezeichnungen erstellt:
+
+```{r}
+data$Agency.Name <- recode(data$Agency.Name,
+                            "TAKOMA" = "Police Takoma Park",
+                            "Takoma Park Police Depart"   = "Police Takoma Park",
+                            "Police Department Takomato"  = "Police Takomato",
+                            "GAITHERSBURG"                = "Police Gaithersburg",
+                            "Gaithersburg Police Depar"   = "Police Gaithersburg",
+                            "MCPARK"                      = "Police Maryland-National Capital",
+                            "Maryland-National Capital"   = "Police Maryland-National Capital",             
+                            "MONTGOMERY"                  = "Police Montgomery County",
+                            "Montgomery County Police"    = "Police Montgomery County",
+                            "ROCKVILLE"                   = "Police Rockville",
+                            "Rockville Police Departme"   = "Police Rockville",
+                           )
+
+data$Agency.Name <- as.factor(data$Agency.Name)
+
+print(paste("Unique categories in 'Agency Name':", (sort(unique(data$Agency.Name)))))
+```
+
+Aus den drei möglichen Werten für "ACRS Report Type" wird eine kategoriale Spalte erzeugt:
+
+```{r}
+print(paste("Unique categories in 'ACRS Report Type':", (sort(unique(data$ACRS.Report.Type)))))
+
+data$ACRS.Report.Type <- as.factor(data$ACRS.Report.Type)
+```
+
+Die Werte für "Route Type" werden zuerst genauer analysiert, bevor sie in eine kategoriale Spalte überführt werden:
+
+```{r}
+print(paste("Unique categories in 'Road Type':", (sort(unique(data$Route.Type)))))
+```
+
+Im nächsten Schritt werden die Werte "Maryland (State) Route" & "Maryland (State)" zu "Maryland State Route", "County Route" & "County" zu "County Route", "Municipality Route" & "Municipality" zu "Municipality Route" und "Government Route" & "Government" zu "Government Route" zusammengefasst. Außerdem werden die Werte "nan" (Not A Number) und "Unknown" zum richtigen Typ "NA" (Not Available) konvertiert.
+
+```{r}
+data$Route.Type <- recode(data$Route.Type,
+                            "Maryland (State)"  = "Maryland (State) Route",
+                            "County"            = "County Route",
+                            "Municipality"      = "Municipality Route",
+                            "Government"        = "Government Route",
+                            "nan"               = NA_character_,
+                            "Unknown"           = NA_character_,
+                           )
+
+data$Route.Type <- as.factor(data$Route.Type)
+
+print(paste("Unique categories in 'Route Type':", (sort(unique(data$Route.Type)))))
+```
+
+Als nächstes werden die Werte der Spalte "Municipality" (dt. Gemeinde) untersucht:
+
+```{r}
+print(paste("Unique categories in 'Municipality':", (sort(unique(data$Municipality)))))
+```
+
+Hierbei wird der Capslock aus den Werten entfernt, "nan" (Not A Number) zu NA_character_ transformiert und eine kategoriale Spalte daraus erstellt:
+
+```{r}
+data$Municipality <- recode(data$Municipality,
+                            "KENSINGTON"          = "Kensington",
+                            "ROCKVILLE"           = "Rockville",
+                            "GAITHERSBURG"        = "Gaithersburg",
+                            "TAKOMA PARK"         = "Takoma Park",
+                            "FRIENDSHIP HEIGHTS"  = "Friendship Heights",
+                            "NORTH CHEVY CHASE"   = "North Chevy Chase",
+                            "CHEVY CHASE #3"      = "Chevy Chase #3",
+                            "CHEVY CHASE VIEW"    = "Chevy Chase View",
+                            "CHEVY CHASE #4"      = "Chevy Chase #4",
+                            "SOMERSET"            = "Somerset",
+                            "GARRETT PARK"        = "Garrett Park",
+                            "POOLESVILLE"         = "Poolesville",
+                            "WASHINGTON GROVE"    = "Washington Grove",
+                            "CHEVY CHASE VILLAGE" = "Chevy Chase Village",
+                            "CHEVY CHASE #5"      = "Chevy Chase #5",
+                            "GLEN ECHO"           = "Glen Echo",
+                            "DRUMMOND"            = "Drummond",
+                            "BROOKEVILLE"         = "Brookeville",
+                            "LAYTONSVILLE"        = "Laytonsville",
+                            "MATINS ADDITION"     = "Matins Addition",
+                            "nan"                 = NA_character_,
+                           )
+
+data$Municipality <- as.factor(data$Municipality)
+
+print(paste("Unique categories in 'Municipality':", (sort(unique(data$Municipality)))))
+```
+
+Als nächstes wird die Spalte "Related Non-Motorist" untersucht und bereinigt:
+
+```{r}
+data$Related.Non.Motorist <- recode(data$Related.Non.Motorist,
+    "Pedestrian"                                     = "Pedestrian",
+    "PEDESTRIAN"                                     = "Pedestrian",
+    "OTHER, PEDESTRIAN"                              = "Pedestrian",
+    "BICYCLIST, PEDESTRIAN"                          = "Pedestrian",
+    "OTHER CONVEYANCE, PEDESTRIAN"                   = "Pedestrian",
+    "Other Pedestrian (person in a building, skater, personal conveyance, etc.), Pedestrian"  = "Pedestrian",
+    "Other Pedestrian (person in a building, skater, personal conveyance, etc.)"              = "Pedestrian",
+
+    "Cyclist (Electric)"                             = "Cyclist (electric)",
+    "Cyclist (non-electric)"                         = "Cyclist (non-electric)",
+    "BICYCLIST"                                      = "Cyclist",
+    "OTHER PEDALCYCLIST"                             = "Cyclist",
+    "BICYCLIST, OTHER"                               = "Cyclist",
+
+    "Scooter (electric)"                             = "Scooter (electric)",
+    "Scooter (non-Electric)"                         = "Scooter (non-electric)",
+
+    "Pedestrian, Wheelchair (non-electric)"          = "Wheelchair (electric)",
+    "Wheelchair (electric)"                          = "Wheelchair (electric)",
+    "Wheelchair (non-electric)"                      = "Wheelchair (non-electric)",
+    "Unknown, Wheelchair (electric)"                 = "Wheelchair (electric)",
+
+    "Occupant of Motor Vehicle Not in Transport, Pedestrian" = "Occupant Not in Transport",
+    "Occupant of Motor Vehicle Not in Transport"     = "Occupant Not in Transport",
+    "Occupant Of a Non-Motor Vehicle Transportation Device" = "Occupant Non-Motor Vehicle Device",
+    
+    "Unknown"                                        = "Unknown",
+    "Unknown Type Of Non-Motorist"                   = "Unknown",
+    "nan"                                            = NA_character_, # Fehlende Werte
+    
+    "OTHER CONVEYANCE"                               = "Other Conveyance",
+    "OTHER, OTHER CONVEYANCE"                        = "Other Conveyance",
+    "OTHER"                                          = "Other",
+    "MACHINE OPERATOR/RIDER"                         = "Other",
+    "IN ANIMAL-DRAWN VEH"                            = "Animal-drawn veh" # Oder evtl. eigene Kategorie, hier bei Other Conveyance gruppiert
+)
+
+data$Related.Non.Motorist <- as.factor(data$Related.Non.Motorist)
+
+print(paste("Unique categories in 'Related.Non.Motorist':", (sort(unique(data$Related.Non.Motorist)))))
+```
+
+Die Unterscheidung zwischen elektrisch (electric) und nicht-elektrisch (non-electric) wird für künftige Analysen beibehalten. 
+
+Collison Type wird untersucht und transformiert:
+
+
+```{r}
+data$Collision.Type <- recode(data$Collision.Type,
+    # 1. Zusammenfassen von 'Unknown' und 'nan'
+    "Unknown"                                   = "Unknown",
+    "UNKNOWN"                                   = "Unknown",
+    "nan"                                       = NA_character_,
+
+    # 2. Zusammenfassen von 'Single Vehicle' (Alleineinwirkung)
+    "Single Vehicle"                            = "Single Vehicle",
+    "SINGLE VEHICLE"                            = "Single Vehicle",
+    
+    # 3. Zusammenfassen von 'Head-on' (Frontal)
+    "Front to Front"                            = "Head-on/Frontal",
+    "HEAD ON"                                   = "Head-on/Frontal",
+    "HEAD ON LEFT TURN"                         = "Head-on/Frontal", # Als primär frontal behandelt
+    
+    # 4. Zusammenfassen von 'Rear End' (Heckaufprall)
+    "Front to Rear"                             = "Rear End",
+    "Rear To Rear"                              = "Rear End",
+    "SAME DIR REAR END"                         = "Rear End",
+    "SAME DIR REND LEFT TURN"                   = "Rear End", # Als primär Heckaufprall behandelt
+    "SAME DIR REND RIGHT TURN"                  = "Rear End", # Als primär Heckaufprall behandelt
+
+    # 5. Zusammenfassen von 'Sideswipe' (Seitliches Streifen)
+    "Sideswipe, Same Direction"                 = "Sideswipe (Same Direction)",
+    "SAME DIRECTION SIDESWIPE"                  = "Sideswipe (Same Direction)",
+    "Sideswipe, Opposite Direction"             = "Sideswipe (Opposite Direction)",
+    "OPPOSITE DIRECTION SIDESWIPE"              = "Sideswipe (Opposite Direction)",
+    
+    # 6. Zusammenfassen von 'Angle' (Winkel/Kreuzung)
+    "Angle"                                     = "Angle",
+    "STRAIGHT MOVEMENT ANGLE"                   = "Angle",
+    "Rear To Side"                              = "Angle",
+    "ANGLE MEETS LEFT TURN"                     = "Angle",
+    "ANGLE MEETS RIGHT TURN"                    = "Angle",
+    "SAME DIRECTION LEFT TURN"                  = "Angle", # Ist oft ein Abbiegeunfall, kann hier oder bei Sideswipe/Turn platziert werden
+    "SAME DIRECTION RIGHT TURN"                 = "Angle", # Ist oft ein Abbiegeunfall
+    "SAME DIR BOTH LEFT TURN"                   = "Angle", # Als komplexer Winkel/Abbiegen behandelt
+    "OPPOSITE DIR BOTH LEFT TURN"               = "Angle", # Als komplexer Winkel/Abbiegen behandelt
+    
+    # 7. 'Other' beibehalten
+    "Other"                                     = "Other",
+    "OTHER"                                     = "Other"
+)
+
+data$Collision.Type <- as.factor(data$Collision.Type)
+
+print(paste("Unique categories in 'Collision.Type':", (sort(unique(data$Collision.Type)))))
+```
+
+Gleiches für Wetter:
+
+```{r}
+data$Weather <- recode(data$Weather,
+    # 1. Konsolidierung von Schreibweisen und NA-Behandlung
+    "Clear"                                   = "Clear",
+    "CLEAR"                                   = "Clear",
+    "nan"                                     = NA_character_,
+    "Unknown"                                 = "Unknown",
+    "UNKNOWN"                                 = "Unknown",
+
+    # 2. Konsolidierung von Niederschlag (Regen)
+    "Rain"                                    = "Rain",
+    "RAINING"                                 = "Rain",
+    
+    # 3. Konsolidierung von Bewölkung
+    "Cloudy"                                  = "Cloudy",
+    "CLOUDY"                                  = "Cloudy",
+
+    # 4. Konsolidierung von Winterwetter
+    "SNOW"                                    = "Snow",
+    "Snow"                                    = "Snow",
+    "BLOWING SNOW"                            = "Snow", # Als Form von Schneefall behandelt
+    "SLEET"                                   = "Wintry Mix/Ice",
+    "Sleet Or Hail"                           = "Wintry Mix/Ice",
+    "Freezing Rain Or Freezing Drizzle"       = "Wintry Mix/Ice",
+    "WINTRY MIX"                              = "Wintry Mix/Ice",
+    
+    # 5. Konsolidierung von Sichtbehinderung
+    "Fog, Smog, Smoke"                        = "Fog/Poor Visibility",
+    "FOGGY"                                   = "Fog/Poor Visibility",
+    "BLOWING SAND, SOIL, DIRT"                = "Fog/Poor Visibility", # Kann Sicht behindern
+    
+    # 6. Konsolidierung von Wind
+    "SEVERE WINDS"                            = "Severe Winds",
+    "Severe Crosswinds"                       = "Severe Winds",
+    
+    # 7. 'Other' beibehalten
+    "OTHER"                                   = "Other"
+)
+
+data$Weather <- as.factor(data$Weather)
+
+print(paste("Unique categories in 'Weather':", (sort(unique(data$Weather)))))
+```
+
+Wow, habe ich keine Lust mehr. Hier Surface Condition:
+
+```{r}
+data$Surface.Condition <- recode(data$Surface.Condition,
+    # 1. Konsolidierung von 'Dry'
+    "Dry"                       = "Dry",
+    "DRY"                       = "Dry",
+
+    # 2. Konsolidierung von 'Wet'
+    "Wet"                       = "Wet",
+    "Wet Road"                  = "Wet",
+    "Wet Pavement"              = "Wet",
+    
+    # 3. Konsolidierung von 'Snow/Ice' (Winterbedingungen)
+    "Snow"                      = "Snow",
+    "Icy"                       = "Ice",
+    "Snow Covered"              = "Snow",
+    "Ice"                       = "Ice",
+    "Packed Snow"               = "Snow",
+    "Slush"                     = "Slush",
+    
+    # 4. Konsolidierung von 'Contaminants'
+    "Oil"                       = "Oil",
+    "Mud"                       = "Mud",
+    "Sand/Gravel"               = "Sand/",
+    
+    # 5. Konsolidierung von 'Other' und 'Unknown'
+    "Other"                     = "Other",
+    "OTHER"                     = "Other",
+    "Unknown"                   = "Unknown",
+    "UNKNOWN"                   = "Unknown",
+    "nan"                       = NA_character_,
+    
+    # Falls es spezifische Zustände gibt, die Sie behalten möchten (hier als "Other" gruppiert):
+    "Standing Water"            = "Standing Water", 
+    "Potholes"                  = "Potholes"
+)
+
+data$Surface.Condition <- as.factor(data$Surface.Condition)
+```
+
+Weil es so viel Spaß macht noch Licht:
+
+```{r}
+data$Light <- recode(data$Light,
+    # 1. Konsolidierung von 'Daylight'
+    "Daylight"                  = "Daylight",
+    "DAYLIGHT"                  = "Daylight",
+
+    # 2. Konsolidierung von 'Dark - Lighted' / "DARK LIGHTS ON"
+    "Dark - Lighted"            = "Dark - Lighted",
+    "DARK LIGHTS ON"            = "Dark - Lighted",
+    
+    # 3. Konsolidierung von 'Dusk'
+    "Dusk"                      = "Dusk",
+    "DUSK"                      = "Dusk",
+
+    # 4. Konsolidierung von 'Dark - Not Lighted' / "DARK NO LIGHTS"
+    "Dark - Not Lighted"        = "Dark - Not Lighted",
+    "DARK NO LIGHTS"            = "Dark - Not Lighted",
+    
+    # 5. Konsolidierung von 'Dawn'
+    "Dawn"                      = "Dawn",
+    "DAWN"                      = "Dawn",
+
+    # 6. Konsolidierung von 'Unknown'
+    "Unknown"                   = "Unknown",
+    "UNKNOWN"                   = "Unknown",
+    
+    # 7. Konsolidierung von 'Other'
+    "Other"                     = "Other",
+    "OTHER"                     = "Other",
+
+    # 8. Spezielle oder doppelte/ähnliche dunkle Zustände
+    "Dark - Unknown Lighting"   = "Dark - Unknown Lighting",
+    "DARK -- UNKNOWN LIGHTING"  = "Dark - Unknown Lighting",
+    
+    # 9. Behandlung von fehlenden Werten
+    "nan"                       = NA_character_
+)
+
+data$Light <- as.factor(data$Light)
+```
+
+Selbst bei Ampellichtern gibt es was zu tun, yay:
+
+```{r}
+data$Traffic.Control <- recode(data$Traffic.Control,
+    # 1. Konsolidierung von 'No Controls'
+    "No Controls"                 = "No Controls",
+    "NO CONTROLS"                 = "No Controls",
+    
+    # 2. Konsolidierung von 'Traffic Control Signal'
+    "Traffic Control Signal"      = "Signal",
+    "TRAFFIC SIGNAL"              = "Signal",
+    
+    # 3. Konsolidierung von 'Flashing Traffic Control Signal'
+    "Flashing Traffic Control Signal" = "Flashing Signal",
+    "FLASHING TRAFFIC SIGNAL"     = "Flashing Signal",
+    
+    # 4. Konsolidierung von 'Stop Sign'
+    "Stop Sign"                   = "Stop Sign",
+    "STOP SIGN"                   = "Stop Sign",
+    
+    # 5. Konsolidierung von 'Yield Sign'
+    "Yield Sign"                  = "Yield Sign",
+    "YIELD SIGN"                  = "Yield Sign",
+
+    # 6. Konsolidierung von 'Pedestrian Crossing' / ähnlichen
+    "Pedestrian Crossing Sign"    = "Pedestrian Control",
+    "Pedestrian Crossing"         = "Pedestrian Control",
+
+    # 7. Konsolidierung von 'School Zone'
+    "School Zone"                 = "School Zone",
+    "School Zone Sign"            = "School Zone",
+    "SCHOOL ZONE SIGN DEVICE"     = "School Zone",
+    
+    # 8. Konsolidierung von 'Warning Sign' (Allgemein und Spezifisch)
+    "Intersection Ahead Warning Sign" = "Warning Sign",
+    "Other Warning Sign"          = "Warning Sign",
+    "Reduce Speed Ahead Warning Sign" = "Warning Sign",
+    "Curve Ahead Warning Sign"    = "Warning Sign",
+    "WARNING SIGN"                = "Warning Sign",
+
+    # 9. Konsolidierung von 'Person' (Flagger, etc.)
+    "Person (including flagger, law enforcement, crossing guard, etc." = "Person Control",
+    "PERSON"                      = "Person Control",
+    
+    # 10. Konsolidierung von 'Other Signal' / 'Ramp Meter'
+    "Other Signal"                = "Other Signal",
+    "Ramp Meter Signal"           = "Other Signal",
+    
+    # 11. Konsolidierung von 'Other Pavement Marking'
+    "Other Pavement Marking (excluding edgelines, centerlines, or lane lines)" = "Pavement Marking",
+
+    # 12. Konsolidierung von 'Other' (Allgemein)
+    "Other"                       = "Other",
+    "OTHER"                       = "Other",
+
+    # 13. Konsolidierung von 'Unknown'
+    "UNKNOWN"                     = "Unknown", # Nur Großbuchstaben vorhanden, aber für Vollständigkeit
+    
+    # 14. Spezielle Bahnschranken/Kreuzungen
+    "RAILWAY CROSSING DEVICE"     = "Railway Crossing",
+    "Flashing Railroad Crossing Signal (may include gates)" = "Railway Crossing",
+
+    # 15. Andere spezifische Kontrollen
+    "Lane Use Control Signal"     = "Lane Control Signal",
+    "Bicycle Crossing Sign"       = "Bicycle Control",
+    
+    # 16. Behandlung von fehlenden Werten
+    "nan"                         = NA_character_
+)
+
+data$Traffic.Control <- as.factor(data$Traffic.Control)
+```
+
+Gleiches Spiel für "Driver Substance Abuse":
+
+```{r}
+data$Driver.Substance.Abuse <- recode(data$Driver.Substance.Abuse,
+    # 1. Keine Hinweise (Keine Verdächtigung / NONE DETECTED)
+    "Not Suspect of Alcohol Use, Not Suspect of Drug Use" = "No Abuse Indicated",
+    "NONE DETECTED"                                      = "No Abuse Indicated",
+    
+    # 2. Nur Alkohol (Verdacht oder Beitrag)
+    "Suspect of Alcohol Use, Not Suspect of Drug Use"      = "Alcohol Suspected",
+    "Suspect of Alcohol Use, Unknown"                      = "Alcohol Suspected", # Annahme: Wenn primär Alkohol verdächtigt
+    "ALCOHOL CONTRIBUTED"                                  = "Alcohol Only",
+    "ALCOHOL PRESENT"                                    = "Alcohol Only",
+    
+    # 3. Nur Drogen (Verdächtigung oder Beitrag)
+    "Not Suspect of Alcohol Use, Suspect of Drug Use"      = "Drug Suspected",
+    "Unknown, Suspect of Drug Use"                       = "Drug Suspected",
+    "ILLEGAL DRUG CONTRIBUTED"                             = "Drug Only",
+    "ILLEGAL DRUG PRESENT"                                = "Drug Only",
+
+    # 4. Medikamente (Beitrag oder Präsenz)
+    "MEDICATION CONTRIBUTED"                               = "Medication Only",
+    "MEDICATION PRESENT"                                   = "Medication Only",
+
+    # 5. Kombinationen (Alkohol + Drogen/Medikamente)
+    "Suspect of Alcohol Use, Suspect of Drug Use"          = "Combination Suspected",
+    "COMBINATION CONTRIBUTED"                              = "Combination",
+    "COMBINED SUBSTANCE PRESENT"                           = "Combination",
+    
+    # 6. Unbekannt / Gemischt mit unbekannt
+    "Unknown, Unknown"                                   = "Unknown",
+    "Unknown, Not Suspect of Drug Use"                   = "Unknown",
+    "Not Suspect of Alcohol Use, Unknown"                = "Unknown",
+    "UNKNOWN"                                            = "Unknown",
+    
+    # 7. Sonstiges
+    "Other"                                              = "Other",
+    "OTHER"                                              = "Other",
+    
+    # 8. Fehlende Werte
+    "nan"                                                = NA_character_
+)
+
+data$Driver.Substance.Abuse <- as.factor(data$Driver.Substance.Abuse)
+```
+
+
+Weil es so viel Spaß macht hier noch für "Non-Motorist Substance Abuse":
+
+```{r}
+data$Non.Motorist.Substance.Abuse <- recode(data$Non.Motorist.Substance.Abuse,
+    # 1. Keine Hinweise (Keine Verdächtigung / NONE DETECTED)
+    "Not Suspect of Alcohol Use, Not Suspect of Drug Use" = "No Abuse Indicated",
+    "Not Suspect of Alcohol Use, Not Suspect of Drug Use, Not Suspect of Alcohol Use, Not Suspect of Drug Use, Not Suspect of Alcohol Use, Not Suspect of Drug Use" = "No Abuse Indicated", # Komplexe Wiederholung
+    "Not Suspect of Alcohol Use, Not Suspect of Drug Use, Not Suspect of Alcohol Use, Not Suspect of Drug Use" = "No Abuse Indicated", # Komplexe Wiederholung
+    "NONE DETECTED"                                      = "No Abuse Indicated",
+    "N/A, NONE DETECTED"                                 = "No Abuse Indicated",
+    
+    # 2. Nur Alkohol (Verdacht oder Beitrag/Präsenz)
+    "Suspect of Alcohol Use, Not Suspect of Drug Use"      = "Alcohol Suspected",
+    "Suspect of Alcohol Use, Unknown"                      = "Alcohol Suspected", 
+    "ALCOHOL CONTRIBUTED"                                  = "Alcohol Only",
+    "ALCOHOL PRESENT"                                    = "Alcohol Only",
+    "ALCOHOL CONTRIBUTED, ALCOHOL PRESENT"                 = "Alcohol Only", # Doppelte Angabe von Alkohol
+    "ALCOHOL PRESENT, NONE DETECTED"                       = "Alcohol Only", # Wenn Alkohol da ist, zählt das mehr als "None Detected"
+    
+    # 3. Nur Drogen (Verdächtigung oder Beitrag/Präsenz)
+    "Not Suspect of Alcohol Use, Suspect of Drug Use"      = "Drug Suspected",
+    "Unknown, Suspect of Drug Use"                       = "Drug Suspected", # Im vorherigen Satz war dies 'Drug Suspected', hier beibehalten
+    "ILLEGAL DRUG CONTRIBUTED"                             = "Drug Only",
+    "ILLEGAL DRUG PRESENT"                                = "Drug Only",
+
+    # 4. Medikamente (Beitrag oder Präsenz)
+    "MEDICATION CONTRIBUTED"                               = "Medication Only",
+    "MEDICATION PRESENT"                                   = "Medication Only",
+
+    # 5. Kombinationen (Alkohol + Drogen/Medikamente)
+    "Suspect of Alcohol Use, Suspect of Drug Use"          = "Combination Suspected",
+    "COMBINATION CONTRIBUTED"                              = "Combination",
+    "COMBINED SUBSTANCE PRESENT"                           = "Combination",
+    
+    # 6. Unbekannt / Gemischt mit unbekannt
+    "Unknown, Unknown"                                   = "Unknown",
+    "Unknown, Not Suspect of Drug Use"                   = "Unknown",
+    "Not Suspect of Alcohol Use, Unknown"                = "Unknown",
+    "UNKNOWN"                                            = "Unknown",
+    "N/A, UNKNOWN"                                       = "Unknown",
+    "NONE DETECTED, UNKNOWN"                             = "Unknown", # Gemischt: Kein Nachweis + Unbekannt
+    "Unknown, Unknown, Unknown, Not Suspect of Drug Use" = "Unknown", # Komplexe Wiederholung
+    
+    # 7. Sonstiges
+    "Other"                                              = "Other",
+    "OTHER"                                              = "Other",
+    
+    # 8. Fehlende Werte
+    "nan"                                                = NA_character_
+)
+
+data$Non.Motorist.Substance.Abuse <- as.factor(data$Non.Motorist.Substance.Abuse)
+```
+
+Es gibt bei "Driver At Fault" nur 3 Werte:
+
+```{r}
+print(paste("Unique categories in 'Driver At Fault':", (sort(unique(data$Driver.At.Fault)))))
+
+data$Driver.At.Fault <- as.factor(data$Driver.At.Fault)
+```
+
+Hier noch für "Injurity Severity":
+
+```{r}
+data$Injury.Severity <- recode(data$Injury.Severity,
+    # 1. Keine Verletzung
+    "No Apparent Injury"         = "No Injury",
+    "NO APPARENT INJURY"          = "No Injury",
+    
+    # 2. Mögliche/Vermutete leichte Verletzung
+    "Possible Injury"             = "Possible/Minor Injury",
+    "POSSIBLE INJURY"             = "Possible/Minor Injury",
+    "Suspected Minor Injury"      = "Possible/Minor Injury",
+    "SUSPECTED MINOR INJURY"      = "Possible/Minor Injury",
+    
+    # 3. Vermutete schwere Verletzung
+    "Suspected Serious Injury"    = "Serious Injury",
+    "SUSPECTED SERIOUS INJURY"    = "Serious Injury",
+    
+    # 4. Tödliche Verletzung
+    "Fatal Injury"                = "Fatal",
+    "FATAL INJURY"                = "Fatal",
+    
+    # 5. Fehlende Werte
+    "nan"                         = NA_character_
+)
+
+data$Injury.Severity <- as.factor(data$Injury.Severity)
+```
+
+"Driver Distracted By":
+
+```{r}
+data$Driver.Distracted.By <- recode(data$Driver.Distracted.By,
+    # 1. Keine Ablenkung
+    "Not Distracted"                  = "Not Distracted",
+    "NOT DISTRACTED"                  = "Not Distracted",
+    "NO DRIVER PRESENT"               = "No Driver Present",
+
+    # 2. Handy-Nutzung (Telefonieren/Texten)
+    "TALKING OR LISTENING TO CELLULAR PHONE" = "Cellular Phone Use",
+    "OTHER CELLULAR PHONE RELATED"    = "Cellular Phone Use",
+    "DIALING CELLULAR PHONE"          = "Cellular Phone Use",
+    "TEXTING FROM A CELLULAR PHONE"   = "Cellular Phone Use",
+    
+    # 3. Manuelle/Physische Bedienung (Nicht-Handy)
+    "Talking/listening"               = "Internal Distraction (People/Objects)",
+    "Manually Operating (dialing, playing game, etc.)" = "Manual Operation",
+    "ADJUSTING AUDIO AND OR CLIMATE CONTROLS" = "Manual Operation",
+    "USING OTHER DEVICE CONTROLS INTEGRAL TO VEHICLE" = "Manual Operation",
+    "USING DEVICE OBJECT BROUGHT INTO VEHICLE" = "Manual Operation",
+    "SMOKING RELATED"                 = "Smoking", # Wird oft als manuelle Tätigkeit gruppiert
+    
+    # 4. Ablenkung durch andere Personen/Objekte im/am Fahrzeug
+    "BY MOVING OBJECT IN VEHICLE"     = "Internal Distraction (People/Objects)",
+    "BY OTHER OCCUPANTS"              = "Internal Distraction (People/Objects)",
+    
+    # 5. Kognitive/Visuelle Ablenkung (Blick weg/In Gedanken)
+    "Other Action (looking away from task, etc.)" = "Cognitive/Visual Distraction",
+    "LOOKED BUT DID NOT SEE"          = "Cognitive/Visual Distraction",
+    "INATTENTIVE OR LOST IN THOUGHT"  = "Cognitive/Visual Distraction",
+    
+    # 6. Externe Ablenkung
+    "DISTRACTED BY OUTSIDE PERSON OBJECT OR EVENT" = "External Distraction",
+    
+    # 7. Essen/Trinken
+    "EATING OR DRINKING"              = "Eating/Drinking",
+
+    # 8. Andere/Spezifische Geräte
+    "OTHER DISTRACTION"               = "Other",
+    "OTHER ACTION"                    = "Other", # Falls im Array enthalten
+    "OTHER ELECTRONIC DEVICE (NAVIGATIONAL PALM PILOT)" = "Other Electronic Device",
+    
+    # 9. Unbekannt
+    "Unknown"                         = "Unknown",
+    "UNKNOWN"                         = "Unknown",
+    
+    # 10. Fehlende Werte
+    "nan"                             = NA_character_
+)
+
+data$Driver.Distracted.By <- as.factor(data$Driver.Distracted.By)
+```
+
+"Vehicle Damage Extent":
+
+```{r}
+data$Vehicle.Damage.Extent <- recode(data$Vehicle.Damage.Extent,
+    # 1. Keine/Geringfügige Schäden
+    "No Damage"                   = "No Damage",
+    "NO DAMAGE"                   = "No Damage",
+    "Superficial"                 = "Superficial",
+    "SUPERFICIAL"                 = "Superficial",
+    
+    # 2. Funktionseingeschränkt, aber fahrbereit (oft als "Functional" oder leichte Einschränkung)
+    "Functional"                  = "Functional",
+    "FUNCTIONAL"                  = "Functional",
+    
+    # 3. Schwerer Schaden (Einsatz nicht mehr möglich oder stark beeinträchtigt)
+    "Disabling"                   = "Disabling",
+    "DISABLING"                   = "Disabling",
+    "DESTROYED"                   = "Destroyed",
+    
+    # 4. Nicht relevant/Unbekannt
+    "Vehicle Not at Scene"        = "Not at Scene",
+    "UNKNOWN"                     = "Unknown",
+    "OTHER"                       = "Other",
+    
+    # 5. Fehlende Werte
+    "nan"                         = NA_character_
+)
+
+data$Vehicle.Damage.Extent <- as.factor(data$Vehicle.Damage.Extent)
+```
+
+"Vehicle First Impact Location": 
+
+```{r}
+data$Vehicle.First.Impact.Location <- recode(data$Vehicle.First.Impact.Location,
+    # 1. Konsolidierung der Uhrzeiten (1 bis 12 Uhr)
+    "Twelve O Clock"               = "Clock Position (12)",
+    "TWELVE OCLOCK"                = "Clock Position (12)",
+    "One O Clock"                  = "Clock Position (1)",
+    "ONE OCLOCK"                   = "Clock Position (1)",
+    "Two O Clock"                  = "Clock Position (2)",
+    "TWO OCLOCK"                   = "Clock Position (2)",
+    "Three O Clock"                = "Clock Position (3)",
+    "THREE OCLOCK"                 = "Clock Position (3)",
+    "Four O Clock"                 = "Clock Position (4)",
+    "FOUR OCLOCK"                  = "Clock Position (4)",
+    "Five O Clock"                 = "Clock Position (5)",
+    "FIVE OCLOCK"                  = "Clock Position (5)",
+    "Six O Clock"                  = "Clock Position (6)",
+    "SIX OCLOCK"                   = "Clock Position (6)",
+    "Seven O Clock"                = "Clock Position (7)",
+    "SEVEN OCLOCK"                 = "Clock Position (7)",
+    "Eight O Clock"                = "Clock Position (8)",
+    "EIGHT OCLOCK"                 = "Clock Position (8)",
+    "Nine O Clock"                 = "Clock Position (9)",
+    "NINE OCLOCK"                  = "Clock Position (9)",
+    "Ten O Clock"                  = "Clock Position (10)",
+    "TEN OCLOCK"                   = "Clock Position (10)",
+    "Eleven O Clock"               = "Clock Position (11)",
+    "ELEVEN OCLOCK"                = "Clock Position (11)",
+    
+    # 2. Konsolidierung von Dach-/Unterbodenbereichen
+    "Underside"                    = "Underside/Top",
+    "UNDERSIDE"                    = "Underside/Top",
+    "Top"                          = "Underside/Top",
+    "ROOF TOP"                     = "Underside/Top",
+    
+    # 3. Nicht-Kollisionsbezogene Ereignisse / Sonstiges
+    "Non-Collision"                = "Non-Collision",
+    "NON-COLLISION"                = "Non-Collision",
+    "Vehicle Not at Scene"         = "Not at Scene",
+    "Cargo Loss"                   = "Cargo Loss",
+    
+    # 4. Unbekannt
+    "UNKNOWN"                      = "Unknown",
+    
+    # 5. Fehlende Werte
+    "nan"                          = NA_character_
+)
+
+data$Vehicle.First.Impact.Location <- as.factor(data$Vehicle.First.Impact.Location)
+```
+
+"Vehicle Body Type":
+
+```{r}
+data$Vehicle.Body.Type <- recode(data$Vehicle.Body.Type,
+    # 1. PKW / Limousinen-Typen
+    "Passenger Car"                = "Car",
+    "PASSENGER CAR"                = "Car",
+    "Station Wagon"                = "Car",
+    "STATION WAGON"                = "Car",
+    "LIMOUSINE"                    = "Car",
+    
+    # 2. Vans
+    "Van - Passenger (<9 Seats)"   = "Van/Minivan",
+    "Van - Passenger (9 or 12 Seats)" = "Van/Minivan",
+    "Van - Passenger (15 Seats)"   = "Van/Minivan",
+    "Van - Cargo"                  = "Van/Minivan",
+    "VAN"                          = "Van/Minivan",
+    
+    # 3. SUVs / Light Trucks (unter 10.000 lbs)
+    "Sport Utility Vehicle"        = "SUV/Light Truck",
+    "(SPORT) UTILITY VEHICLE"      = "SUV/Light Truck",
+    "Pickup"                       = "SUV/Light Truck",
+    "PICKUP TRUCK"                 = "SUV/Light Truck",
+    "OTHER LIGHT TRUCKS (10,000LBS (4,536KG) OR LESS)" = "SUV/Light Truck",
+    "CARGO VAN/LIGHT TRUCK 2 AXLES (OVER 10,000LBS (4,536 KG))" = "Heavy Truck", # Dies ist > 10k lbs, verschiebe es zu schwerer
+    
+    # 4. Schwere LKW / Sattelzugmaschinen
+    "Other Trucks"                 = "Heavy Truck",
+    "Truck Tractor"                = "Heavy Truck",
+    "TRUCK TRACTOR"                = "Heavy Truck",
+    "MEDIUM/HEAVY TRUCKS 3 AXLES (OVER 10,000LBS (4,536KG))" = "Heavy Truck",
+    
+    # 5. Busse
+    "Bus - Transit"                = "Bus",
+    "TRANSIT BUS"                  = "Bus",
+    "Bus - School"                 = "Bus",
+    "SCHOOL BUS"                   = "Bus",
+    "Bus - Other Type"             = "Bus",
+    "OTHER BUS"                    = "Bus",
+    "Bus - Mini"                   = "Bus",
+    "CROSS COUNTRY BUS"            = "Bus",
+    
+    # 6. Motorräder / Zweiräder
+    "Motorcycle - 2 Wheeled"       = "Motorcycle/2-Wheeler",
+    "MOTORCYCLE"                   = "Motorcycle/2-Wheeler",
+    "Motorcycle - 3 Wheeled"       = "Motorcycle/3-Wheeler",
+    "Moped Or motorized bicycle"   = "Motorcycle/2-Wheeler",
+    "MOPED"                        = "Motorcycle/2-Wheeler",
+    
+    # 7. Spezial-/Off-Road-Fahrzeuge
+    "All-Terrain Vehicle/All-Terrain Cycle (ATV/ATC)" = "Off-Road/Special",
+    "ALL TERRAIN VEHICLE (ATV)"    = "Off-Road/Special",
+    "SNOWMOBILE"                   = "Off-Road/Special",
+    "Snowmobile"                   = "Off-Road/Special",
+    "Recreational Off-Highway Vehicles (ROV)" = "Off-Road/Special",
+    "RECREATIONAL VEHICLE"         = "Off-Road/Special",
+    "Golf Cart"                    = "Off-Road/Special",
+    
+    # 8. Notfall-/Behördenfahrzeuge
+    "POLICE VEHICLE/EMERGENCY"     = "Emergency/Service",
+    "AMBULANCE/EMERGENCY"          = "Emergency/Service",
+    "FIRE VEHICLE/EMERGENCY"       = "Emergency/Service",
+    "POLICE VEHICLE/NON EMERGENCY" = "Emergency/Service",
+    "AMBULANCE/NON EMERGENCY"      = "Emergency/Service",
+    "FIRE VEHICLE/NON EMERGENCY"   = "Emergency/Service",
+
+    # 9. Land-/Baumaschinen
+    "Construction Equipment (backhoe, bulldozer, etc.)" = "Construction/Farm",
+    "FARM VEHICLE"                 = "Construction/Farm",
+    "Farm Equipment (Tractor, combine harvester, etc.)" = "Construction/Farm",
+
+    # 10. Sonstige
+    "Low Speed Vehicle"            = "Other/Low Speed",
+    "LOW SPEED VEHICLE"            = "Other/Low Speed",
+    "Autocycle"                    = "Other/Low Speed",
+    "AUTOCYCLE"                    = "Other/Low Speed",
+    "Other"                        = "Other",
+    "OTHER"                        = "Other",
+    
+    # 11. Unbekannt
+    "Unknown"                      = "Unknown",
+    "UNKNOWN"                      = "Unknown",
+    
+    # 12. Fehlende Werte
+    "nan"                          = NA_character_
+)
+
+data$Vehicle.Body.Type <- as.factor(data$Vehicle.Body.Type)
+```
+
+"Vehicle Movement":
+
+```{r}
+data$Vehicle.Movement <- recode(data$Vehicle.Movement,
+    # 1. Geradeausfahrt / Konstante Geschwindigkeit
+    "Moving Constant Speed"           = "Moving - Constant Speed",
+    "MOVING CONSTANT SPEED"           = "Moving - Constant Speed",
+    
+    # 2. Geschwindigkeitsänderung / Anhalten
+    "Slowing or Stopping"             = "Slowing/Stopping",
+    "SLOWING OR STOPPING"             = "Slowing/Stopping",
+    "Stopped in Traffic"              = "Stopped/Parked",
+    "STOPPED IN TRAFFIC LANE"         = "Stopped/Parked",
+    "Parked"                          = "Stopped/Parked",
+    "PARKED"                          = "Stopped/Parked",
+    "PARKING"                         = "Stopped/Parked", # Wird zu Parken gezählt
+    "STARTING FROM LANE"              = "Starting/Accelerating",
+    "STARTING FROM PARKED"            = "Starting/Accelerating",
+
+    # 3. Beschleunigung
+    "Accelerating"                    = "Starting/Accelerating",
+    "ACCELERATING"                    = "Starting/Accelerating",
+
+    # 4. Abbiegen/Wenden
+    "Turning Right"                   = "Turning",
+    "MAKING RIGHT TURN"               = "Turning",
+    "RIGHT TURN ON RED"               = "Turning",
+    "Turning Left"                    = "Turning",
+    "MAKING LEFT TURN"                = "Turning",
+    "Making U-Turn"                   = "Turning",
+    "MAKING U TURN"                   = "Turning",
+    
+    # 5. Spurwechsel/Verlassen der Spur
+    "Changing Lanes"                  = "Lane Change/Merge",
+    "CHANGING LANES"                  = "Lane Change/Merge",
+    "Leaving Traffic Lane"            = "Lane Change/Merge",
+    "LEAVING TRAFFIC LANE"            = "Lane Change/Merge",
+    "Entering Traffic Lane"           = "Lane Change/Merge",
+    "ENTERING TRAFFIC LANE"           = "Lane Change/Merge",
+    
+    # 6. Manöver/Besondere Zustände
+    "Backing"                         = "Backing/Skidding",
+    "BACKING"                         = "Backing/Skidding",
+    "Negotiating a Curve"             = "Negotiating Curve",
+    "NEGOTIATING A CURVE"             = "Negotiating Curve",
+    "Overtaking/Passing"              = "Passing",
+    "PASSING"                         = "Passing",
+    "SKIDDING"                        = "Backing/Skidding", # Skidding ist ein besonderer Zustand
+    
+    # 7. Unbekannt/Sonstiges
+    "Unknown"                         = "Unknown",
+    "UNKNOWN"                         = "Unknown",
+    "OTHER"                           = "Other",
+    "DRIVERLESS MOVING VEH."          = "Other", # Ein nicht standardmäßiges Ereignis
+    
+    # 8. Fehlende Werte
+    "nan"                             = NA_character_
+)
+
+data$Vehicle.Movement <- as.factor(data$Vehicle.Movement)
+```
+
+"Vehicle.Going.Dir" (wow, es passt sogar mal zur Abwechslung):
+
+```{r}
+print(paste("Unique categories in 'Vehicle.Going.Dir':", (sort(unique(data$Vehicle.Going.Dir)))))
+```
+
+Ey, jetzt geht's richtig ab, was ist da los. "Driverless Vehicle":
+
+```{r}
+data$Driverless.Vehicle <- as.factor(data$Driverless.Vehicle)
+print(paste("Unique categories in 'Driverless.Vehicle':", (sort(unique(data$Driverless.Vehicle)))))
+```
+
+"Parked Vehicle":
+
+```{r}
+data$Parked.Vehicle <- recode(data$Parked.Vehicle,
+    "nan" = NA_character_
+)
+
+data$Parked.Vehicle <- as.factor(data$Parked.Vehicle)
+
+print(paste("Unique categories in 'Parked.Vehicle':", (sort(unique(data$Parked.Vehicle)))))
+```
 
 ### Kopie
 

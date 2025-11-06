@@ -180,7 +180,7 @@ These packages will be installed into "~/All_My_Data/Eduction/Dual_Study_Program
 
 # Installing packages --------------------------------------------------------
 - Installing skimr ...                          OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.3 milliseconds.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -190,7 +190,7 @@ These packages will be installed into "~/All_My_Data/Eduction/Dual_Study_Program
 
 # Installing packages --------------------------------------------------------
 - Installing dplyr ...                          OK [linked from cache]
-Successfully installed 1 package in 4.5 milliseconds.</code></pre>
+Successfully installed 1 package in 1.8 milliseconds.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"janitor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -200,7 +200,7 @@ These packages will be installed into "~/All_My_Data/Eduction/Dual_Study_Program
 
 # Installing packages --------------------------------------------------------
 - Installing janitor ...                        OK [linked from cache]
-Successfully installed 1 package in 4.5 milliseconds.</code></pre>
+Successfully installed 1 package in 4.2 milliseconds.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"formattable"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -210,7 +210,7 @@ These packages will be installed into "~/All_My_Data/Eduction/Dual_Study_Program
 
 # Installing packages --------------------------------------------------------
 - Installing formattable ...                    OK [linked from cache]
-Successfully installed 1 package in 2.2 milliseconds.</code></pre>
+Successfully installed 1 package in 13 milliseconds.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1200,6 +1200,7 @@ Person ID
 </table>
 </div>
 </div>
+<p>Ausgehend von der Tabelle ist eine Analyse der Faktoren für Massenunfälle möglich. In den Daten gibt es einen Unfall mit 10 und drei Unfälle mit 9 beteiligten Personen. Hierbei kann untersucht werden, ob Straßenabschnitte die Wahrscheinlichkeit für größere Unfälle erhöhen. Folglich kann bestimmt werden, wann welche Straßen zu meiden sind.</p>
 <p>Einzigartigkeit einer ID: n_distinct(df$id) nrow(df) Duplikate finden: df %&gt;% janitor::get_dupes(id) NA-Anteil pro Spalte: colSums(is.na(df))<br>
 </p>
 </section>
@@ -1216,12 +1217,997 @@ Aufgabenstellung (15 Pkt.)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In diesem Abschnitt sollten Sie alle notwendigen Transformationen/Bereiningungen/… etc. der Daten vornehmen (Data Muning, Data Cleansing), wie z.B.: * Umcodierung von Daten, z.B. numerisch in kategorial * Subsetting der Daten * Joining von Datentabellen - falls nötig. Welcher Join ist notwendig? Warum? * …</p>
+<p>In diesem Abschnitt sollten Sie alle notwendigen Transformationen/Bereiningungen/… etc. der Daten vornehmen (Data Muning ? was ist Muning, meinst du Mining, Data Cleansing), wie z.B.: * Umcodierung von Daten, z.B. numerisch in kategorial * Subsetting der Daten * Joining von Datentabellen - falls nötig. Welcher Join ist notwendig? Warum? * …</p>
 <p>Verschaffen Sie sich eine Übersicht der transformierten Daten. Sie können hierzu Hilfsmittel wie <code>glimpse()</code>, <code>skim()</code> und <code>head()</code> benutzen, um Ihre Erläuterungen zu veranschaulichen.</p>
 <p>Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?</p>
-</div>
-</div>
 <p>In diesem Abschnitt werden die gegebenen Daten bereinigt und für die weitere Analyse vorbereitet. Dazu gehören die Überprüfung auf fehlende oder fehlerhafte Werte, die Umwandlung von Variabken in geeignete Datentypen, sowie gegebenenfalls das Zusammenführen und Filtern relevanter Daten.</p>
+</div>
+</div>
+<p>Als erstes werden die Spaltenbezeichnungen mit der Funktion ‘clean_names()’ from ‘janitor’-package vereinheitlicht:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data %&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   clean_names()</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># schau dir den output von clean_col_names.r an: willst du das: ja / nein?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Die Datenbereinigung erfolgt in zwei Schritten: im ersten Schritt werden Daten in den richtigen Datentyp transformiert und Kategorien bereinigt. Im zweiten Schritt werden fehlende Werte und Ausreißer behandelt.</p>
+<p>Anhand dem folgenden Code lässt sich erkennen, das die möglichen Werte für “Agency Name” stark zusammenhängen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in agency name:"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Agency.Name)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in agency name: GAITHERSBURG"             
+ [2] "Unique categories in agency name: Gaithersburg Police Depar"
+ [3] "Unique categories in agency name: Maryland-National Capital"
+ [4] "Unique categories in agency name: MCPARK"                   
+ [5] "Unique categories in agency name: MONTGOMERY"               
+ [6] "Unique categories in agency name: Montgomery County Police" 
+ [7] "Unique categories in agency name: ROCKVILLE"                
+ [8] "Unique categories in agency name: Rockville Police Departme"
+ [9] "Unique categories in agency name: TAKOMA"                   
+[10] "Unique categories in agency name: Takoma Park Police Depart"</code></pre>
+</div>
+</div>
+<p>Daher wird aus den 10 möglichen Werten vom Typ “character” ein kategorialer Typ mit einheitlichen Bezeichnungen erstellt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Agency.Name <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Agency.Name,</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"TAKOMA"</span> <span class="ot">=</span> <span class="st">"Police Takoma Park"</span>,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Takoma Park Police Depart"</span>   <span class="ot">=</span> <span class="st">"Police Takoma Park"</span>,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Police Department Takomato"</span>  <span class="ot">=</span> <span class="st">"Police Takomato"</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"GAITHERSBURG"</span>                <span class="ot">=</span> <span class="st">"Police Gaithersburg"</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Gaithersburg Police Depar"</span>   <span class="ot">=</span> <span class="st">"Police Gaithersburg"</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"MCPARK"</span>                      <span class="ot">=</span> <span class="st">"Police Maryland-National Capital"</span>,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Maryland-National Capital"</span>   <span class="ot">=</span> <span class="st">"Police Maryland-National Capital"</span>,             </span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"MONTGOMERY"</span>                  <span class="ot">=</span> <span class="st">"Police Montgomery County"</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Montgomery County Police"</span>    <span class="ot">=</span> <span class="st">"Police Montgomery County"</span>,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"ROCKVILLE"</span>                   <span class="ot">=</span> <span class="st">"Police Rockville"</span>,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Rockville Police Departme"</span>   <span class="ot">=</span> <span class="st">"Police Rockville"</span>,</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Agency.Name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Agency.Name)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Agency Name':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Agency.Name)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Unique categories in 'Agency Name': Police Gaithersburg"             
+[2] "Unique categories in 'Agency Name': Police Maryland-National Capital"
+[3] "Unique categories in 'Agency Name': Police Montgomery County"        
+[4] "Unique categories in 'Agency Name': Police Rockville"                
+[5] "Unique categories in 'Agency Name': Police Takoma Park"              </code></pre>
+</div>
+</div>
+<p>Aus den drei möglichen Werten für “ACRS Report Type” wird eine kategoriale Spalte erzeugt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'ACRS Report Type':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>ACRS.Report.Type)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Unique categories in 'ACRS Report Type': Fatal Crash"          
+[2] "Unique categories in 'ACRS Report Type': Injury Crash"         
+[3] "Unique categories in 'ACRS Report Type': Property Damage Crash"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>ACRS.Report.Type <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>ACRS.Report.Type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Die Werte für “Route Type” werden zuerst genauer analysiert, bevor sie in eine kategoriale Spalte überführt werden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Road Type':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Route.Type)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in 'Road Type': "                      
+ [2] "Unique categories in 'Road Type': Bicycle Route"         
+ [3] "Unique categories in 'Road Type': County"                
+ [4] "Unique categories in 'Road Type': County Route"          
+ [5] "Unique categories in 'Road Type': Crossover"             
+ [6] "Unique categories in 'Road Type': Government"            
+ [7] "Unique categories in 'Road Type': Government Route"      
+ [8] "Unique categories in 'Road Type': Interstate (State)"    
+ [9] "Unique categories in 'Road Type': Local Route"           
+[10] "Unique categories in 'Road Type': Maryland (State)"      
+[11] "Unique categories in 'Road Type': Maryland (State) Route"
+[12] "Unique categories in 'Road Type': Municipality"          
+[13] "Unique categories in 'Road Type': Municipality Route"    
+[14] "Unique categories in 'Road Type': Other Public Roadway"  
+[15] "Unique categories in 'Road Type': Private Route"         
+[16] "Unique categories in 'Road Type': Ramp"                  
+[17] "Unique categories in 'Road Type': Service Road"          
+[18] "Unique categories in 'Road Type': Spur"                  
+[19] "Unique categories in 'Road Type': Unknown"               
+[20] "Unique categories in 'Road Type': US (State)"            </code></pre>
+</div>
+</div>
+<p>Im nächsten Schritt werden die Werte “Maryland (State) Route” &amp; “Maryland (State)” zu “Maryland State Route”, “County Route” &amp; “County” zu “County Route”, “Municipality Route” &amp; “Municipality” zu “Municipality Route” und “Government Route” &amp; “Government” zu “Government Route” zusammengefasst. Außerdem werden die Werte “nan” (Not A Number) und “Unknown” zum richtigen Typ “NA” (Not Available) konvertiert.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Route.Type <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Route.Type,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Maryland (State)"</span>  <span class="ot">=</span> <span class="st">"Maryland (State) Route"</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"County"</span>            <span class="ot">=</span> <span class="st">"County Route"</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Municipality"</span>      <span class="ot">=</span> <span class="st">"Municipality Route"</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Government"</span>        <span class="ot">=</span> <span class="st">"Government Route"</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"nan"</span>               <span class="ot">=</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Unknown"</span>           <span class="ot">=</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Route.Type <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Route.Type)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Route Type':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Route.Type)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in 'Route Type': "                      
+ [2] "Unique categories in 'Route Type': Bicycle Route"         
+ [3] "Unique categories in 'Route Type': County Route"          
+ [4] "Unique categories in 'Route Type': Crossover"             
+ [5] "Unique categories in 'Route Type': Government Route"      
+ [6] "Unique categories in 'Route Type': Interstate (State)"    
+ [7] "Unique categories in 'Route Type': Local Route"           
+ [8] "Unique categories in 'Route Type': Maryland (State) Route"
+ [9] "Unique categories in 'Route Type': Municipality Route"    
+[10] "Unique categories in 'Route Type': Other Public Roadway"  
+[11] "Unique categories in 'Route Type': Private Route"         
+[12] "Unique categories in 'Route Type': Ramp"                  
+[13] "Unique categories in 'Route Type': Service Road"          
+[14] "Unique categories in 'Route Type': Spur"                  
+[15] "Unique categories in 'Route Type': US (State)"            </code></pre>
+</div>
+</div>
+<p>Als nächstes werden die Werte der Spalte “Municipality” (dt. Gemeinde) untersucht:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Municipality':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Municipality)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in 'Municipality': "                   
+ [2] "Unique categories in 'Municipality': BROOKEVILLE"        
+ [3] "Unique categories in 'Municipality': CHEVY CHASE #3"     
+ [4] "Unique categories in 'Municipality': CHEVY CHASE #4"     
+ [5] "Unique categories in 'Municipality': CHEVY CHASE #5"     
+ [6] "Unique categories in 'Municipality': CHEVY CHASE VIEW"   
+ [7] "Unique categories in 'Municipality': CHEVY CHASE VILLAGE"
+ [8] "Unique categories in 'Municipality': DRUMMOND"           
+ [9] "Unique categories in 'Municipality': FRIENDSHIP HEIGHTS" 
+[10] "Unique categories in 'Municipality': GAITHERSBURG"       
+[11] "Unique categories in 'Municipality': GARRETT PARK"       
+[12] "Unique categories in 'Municipality': GLEN ECHO"          
+[13] "Unique categories in 'Municipality': KENSINGTON"         
+[14] "Unique categories in 'Municipality': LAYTONSVILLE"       
+[15] "Unique categories in 'Municipality': MATINS ADDITION"    
+[16] "Unique categories in 'Municipality': N/A"                
+[17] "Unique categories in 'Municipality': NORTH CHEVY CHASE"  
+[18] "Unique categories in 'Municipality': POOLESVILLE"        
+[19] "Unique categories in 'Municipality': ROCKVILLE"          
+[20] "Unique categories in 'Municipality': SOMERSET"           
+[21] "Unique categories in 'Municipality': TAKOMA PARK"        
+[22] "Unique categories in 'Municipality': WASHINGTON GROVE"   </code></pre>
+</div>
+</div>
+<p>Hierbei wird der Capslock aus den Werten entfernt, “nan” (Not A Number) zu NA_character_ transformiert und eine kategoriale Spalte daraus erstellt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Municipality <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Municipality,</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"KENSINGTON"</span>          <span class="ot">=</span> <span class="st">"Kensington"</span>,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"ROCKVILLE"</span>           <span class="ot">=</span> <span class="st">"Rockville"</span>,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"GAITHERSBURG"</span>        <span class="ot">=</span> <span class="st">"Gaithersburg"</span>,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"TAKOMA PARK"</span>         <span class="ot">=</span> <span class="st">"Takoma Park"</span>,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"FRIENDSHIP HEIGHTS"</span>  <span class="ot">=</span> <span class="st">"Friendship Heights"</span>,</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NORTH CHEVY CHASE"</span>   <span class="ot">=</span> <span class="st">"North Chevy Chase"</span>,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"CHEVY CHASE #3"</span>      <span class="ot">=</span> <span class="st">"Chevy Chase #3"</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"CHEVY CHASE VIEW"</span>    <span class="ot">=</span> <span class="st">"Chevy Chase View"</span>,</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"CHEVY CHASE #4"</span>      <span class="ot">=</span> <span class="st">"Chevy Chase #4"</span>,</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"SOMERSET"</span>            <span class="ot">=</span> <span class="st">"Somerset"</span>,</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"GARRETT PARK"</span>        <span class="ot">=</span> <span class="st">"Garrett Park"</span>,</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"POOLESVILLE"</span>         <span class="ot">=</span> <span class="st">"Poolesville"</span>,</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"WASHINGTON GROVE"</span>    <span class="ot">=</span> <span class="st">"Washington Grove"</span>,</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"CHEVY CHASE VILLAGE"</span> <span class="ot">=</span> <span class="st">"Chevy Chase Village"</span>,</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"CHEVY CHASE #5"</span>      <span class="ot">=</span> <span class="st">"Chevy Chase #5"</span>,</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"GLEN ECHO"</span>           <span class="ot">=</span> <span class="st">"Glen Echo"</span>,</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"DRUMMOND"</span>            <span class="ot">=</span> <span class="st">"Drummond"</span>,</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BROOKEVILLE"</span>         <span class="ot">=</span> <span class="st">"Brookeville"</span>,</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"LAYTONSVILLE"</span>        <span class="ot">=</span> <span class="st">"Laytonsville"</span>,</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"MATINS ADDITION"</span>     <span class="ot">=</span> <span class="st">"Matins Addition"</span>,</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"nan"</span>                 <span class="ot">=</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Municipality <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Municipality)</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Municipality':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Municipality)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in 'Municipality': "                   
+ [2] "Unique categories in 'Municipality': Brookeville"        
+ [3] "Unique categories in 'Municipality': Chevy Chase #3"     
+ [4] "Unique categories in 'Municipality': Chevy Chase #4"     
+ [5] "Unique categories in 'Municipality': Chevy Chase #5"     
+ [6] "Unique categories in 'Municipality': Chevy Chase View"   
+ [7] "Unique categories in 'Municipality': Chevy Chase Village"
+ [8] "Unique categories in 'Municipality': Drummond"           
+ [9] "Unique categories in 'Municipality': Friendship Heights" 
+[10] "Unique categories in 'Municipality': Gaithersburg"       
+[11] "Unique categories in 'Municipality': Garrett Park"       
+[12] "Unique categories in 'Municipality': Glen Echo"          
+[13] "Unique categories in 'Municipality': Kensington"         
+[14] "Unique categories in 'Municipality': Laytonsville"       
+[15] "Unique categories in 'Municipality': Matins Addition"    
+[16] "Unique categories in 'Municipality': N/A"                
+[17] "Unique categories in 'Municipality': North Chevy Chase"  
+[18] "Unique categories in 'Municipality': Poolesville"        
+[19] "Unique categories in 'Municipality': Rockville"          
+[20] "Unique categories in 'Municipality': Somerset"           
+[21] "Unique categories in 'Municipality': Takoma Park"        
+[22] "Unique categories in 'Municipality': Washington Grove"   </code></pre>
+</div>
+</div>
+<p>Als nächstes wird die Spalte “Related Non-Motorist” untersucht und bereinigt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Related.Non.Motorist <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Related.Non.Motorist,</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pedestrian"</span>                                     <span class="ot">=</span> <span class="st">"Pedestrian"</span>,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PEDESTRIAN"</span>                                     <span class="ot">=</span> <span class="st">"Pedestrian"</span>,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER, PEDESTRIAN"</span>                              <span class="ot">=</span> <span class="st">"Pedestrian"</span>,</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BICYCLIST, PEDESTRIAN"</span>                          <span class="ot">=</span> <span class="st">"Pedestrian"</span>,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER CONVEYANCE, PEDESTRIAN"</span>                   <span class="ot">=</span> <span class="st">"Pedestrian"</span>,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other Pedestrian (person in a building, skater, personal conveyance, etc.), Pedestrian"</span>  <span class="ot">=</span> <span class="st">"Pedestrian"</span>,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other Pedestrian (person in a building, skater, personal conveyance, etc.)"</span>              <span class="ot">=</span> <span class="st">"Pedestrian"</span>,</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cyclist (Electric)"</span>                             <span class="ot">=</span> <span class="st">"Cyclist (electric)"</span>,</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cyclist (non-electric)"</span>                         <span class="ot">=</span> <span class="st">"Cyclist (non-electric)"</span>,</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BICYCLIST"</span>                                      <span class="ot">=</span> <span class="st">"Cyclist"</span>,</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER PEDALCYCLIST"</span>                             <span class="ot">=</span> <span class="st">"Cyclist"</span>,</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BICYCLIST, OTHER"</span>                               <span class="ot">=</span> <span class="st">"Cyclist"</span>,</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Scooter (electric)"</span>                             <span class="ot">=</span> <span class="st">"Scooter (electric)"</span>,</span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Scooter (non-Electric)"</span>                         <span class="ot">=</span> <span class="st">"Scooter (non-electric)"</span>,</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pedestrian, Wheelchair (non-electric)"</span>          <span class="ot">=</span> <span class="st">"Wheelchair (electric)"</span>,</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Wheelchair (electric)"</span>                          <span class="ot">=</span> <span class="st">"Wheelchair (electric)"</span>,</span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Wheelchair (non-electric)"</span>                      <span class="ot">=</span> <span class="st">"Wheelchair (non-electric)"</span>,</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown, Wheelchair (electric)"</span>                 <span class="ot">=</span> <span class="st">"Wheelchair (electric)"</span>,</span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Occupant of Motor Vehicle Not in Transport, Pedestrian"</span> <span class="ot">=</span> <span class="st">"Occupant Not in Transport"</span>,</span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Occupant of Motor Vehicle Not in Transport"</span>     <span class="ot">=</span> <span class="st">"Occupant Not in Transport"</span>,</span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Occupant Of a Non-Motor Vehicle Transportation Device"</span> <span class="ot">=</span> <span class="st">"Occupant Non-Motor Vehicle Device"</span>,</span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown"</span>                                        <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown Type Of Non-Motorist"</span>                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                                            <span class="ot">=</span> <span class="cn">NA_character_</span>, <span class="co"># Fehlende Werte</span></span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER CONVEYANCE"</span>                               <span class="ot">=</span> <span class="st">"Other Conveyance"</span>,</span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER, OTHER CONVEYANCE"</span>                        <span class="ot">=</span> <span class="st">"Other Conveyance"</span>,</span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                                          <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MACHINE OPERATOR/RIDER"</span>                         <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"IN ANIMAL-DRAWN VEH"</span>                            <span class="ot">=</span> <span class="st">"Animal-drawn veh"</span> <span class="co"># Oder evtl. eigene Kategorie, hier bei Other Conveyance gruppiert</span></span>
+<span id="cb47-37"><a href="#cb47-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb47-38"><a href="#cb47-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-39"><a href="#cb47-39" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Related.Non.Motorist <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Related.Non.Motorist)</span>
+<span id="cb47-40"><a href="#cb47-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-41"><a href="#cb47-41" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Related.Non.Motorist':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Related.Non.Motorist)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in 'Related.Non.Motorist': "                                 
+ [2] "Unique categories in 'Related.Non.Motorist': Animal-drawn veh"                 
+ [3] "Unique categories in 'Related.Non.Motorist': Cyclist"                          
+ [4] "Unique categories in 'Related.Non.Motorist': Cyclist (electric)"               
+ [5] "Unique categories in 'Related.Non.Motorist': Cyclist (non-electric)"           
+ [6] "Unique categories in 'Related.Non.Motorist': Occupant Non-Motor Vehicle Device"
+ [7] "Unique categories in 'Related.Non.Motorist': Occupant Not in Transport"        
+ [8] "Unique categories in 'Related.Non.Motorist': Other"                            
+ [9] "Unique categories in 'Related.Non.Motorist': Other Conveyance"                 
+[10] "Unique categories in 'Related.Non.Motorist': Pedestrian"                       
+[11] "Unique categories in 'Related.Non.Motorist': Scooter (electric)"               
+[12] "Unique categories in 'Related.Non.Motorist': Scooter (non-electric)"           
+[13] "Unique categories in 'Related.Non.Motorist': Unknown"                          
+[14] "Unique categories in 'Related.Non.Motorist': Wheelchair (electric)"            
+[15] "Unique categories in 'Related.Non.Motorist': Wheelchair (non-electric)"        </code></pre>
+</div>
+</div>
+<p>Die Unterscheidung zwischen elektrisch (electric) und nicht-elektrisch (non-electric) wird für künftige Analysen beibehalten.</p>
+<p>Collison Type wird untersucht und transformiert:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Collision.Type <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Collision.Type,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Zusammenfassen von 'Unknown' und 'nan'</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown"</span>                                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                                       <span class="ot">=</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Zusammenfassen von 'Single Vehicle' (Alleineinwirkung)</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Single Vehicle"</span>                            <span class="ot">=</span> <span class="st">"Single Vehicle"</span>,</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SINGLE VEHICLE"</span>                            <span class="ot">=</span> <span class="st">"Single Vehicle"</span>,</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Zusammenfassen von 'Head-on' (Frontal)</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Front to Front"</span>                            <span class="ot">=</span> <span class="st">"Head-on/Frontal"</span>,</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"HEAD ON"</span>                                   <span class="ot">=</span> <span class="st">"Head-on/Frontal"</span>,</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"HEAD ON LEFT TURN"</span>                         <span class="ot">=</span> <span class="st">"Head-on/Frontal"</span>, <span class="co"># Als primär frontal behandelt</span></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Zusammenfassen von 'Rear End' (Heckaufprall)</span></span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Front to Rear"</span>                             <span class="ot">=</span> <span class="st">"Rear End"</span>,</span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rear To Rear"</span>                              <span class="ot">=</span> <span class="st">"Rear End"</span>,</span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SAME DIR REAR END"</span>                         <span class="ot">=</span> <span class="st">"Rear End"</span>,</span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SAME DIR REND LEFT TURN"</span>                   <span class="ot">=</span> <span class="st">"Rear End"</span>, <span class="co"># Als primär Heckaufprall behandelt</span></span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SAME DIR REND RIGHT TURN"</span>                  <span class="ot">=</span> <span class="st">"Rear End"</span>, <span class="co"># Als primär Heckaufprall behandelt</span></span>
+<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Zusammenfassen von 'Sideswipe' (Seitliches Streifen)</span></span>
+<span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sideswipe, Same Direction"</span>                 <span class="ot">=</span> <span class="st">"Sideswipe (Same Direction)"</span>,</span>
+<span id="cb49-25"><a href="#cb49-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SAME DIRECTION SIDESWIPE"</span>                  <span class="ot">=</span> <span class="st">"Sideswipe (Same Direction)"</span>,</span>
+<span id="cb49-26"><a href="#cb49-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sideswipe, Opposite Direction"</span>             <span class="ot">=</span> <span class="st">"Sideswipe (Opposite Direction)"</span>,</span>
+<span id="cb49-27"><a href="#cb49-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OPPOSITE DIRECTION SIDESWIPE"</span>              <span class="ot">=</span> <span class="st">"Sideswipe (Opposite Direction)"</span>,</span>
+<span id="cb49-28"><a href="#cb49-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb49-29"><a href="#cb49-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Zusammenfassen von 'Angle' (Winkel/Kreuzung)</span></span>
+<span id="cb49-30"><a href="#cb49-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Angle"</span>                                     <span class="ot">=</span> <span class="st">"Angle"</span>,</span>
+<span id="cb49-31"><a href="#cb49-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"STRAIGHT MOVEMENT ANGLE"</span>                   <span class="ot">=</span> <span class="st">"Angle"</span>,</span>
+<span id="cb49-32"><a href="#cb49-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rear To Side"</span>                              <span class="ot">=</span> <span class="st">"Angle"</span>,</span>
+<span id="cb49-33"><a href="#cb49-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ANGLE MEETS LEFT TURN"</span>                     <span class="ot">=</span> <span class="st">"Angle"</span>,</span>
+<span id="cb49-34"><a href="#cb49-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ANGLE MEETS RIGHT TURN"</span>                    <span class="ot">=</span> <span class="st">"Angle"</span>,</span>
+<span id="cb49-35"><a href="#cb49-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SAME DIRECTION LEFT TURN"</span>                  <span class="ot">=</span> <span class="st">"Angle"</span>, <span class="co"># Ist oft ein Abbiegeunfall, kann hier oder bei Sideswipe/Turn platziert werden</span></span>
+<span id="cb49-36"><a href="#cb49-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SAME DIRECTION RIGHT TURN"</span>                 <span class="ot">=</span> <span class="st">"Angle"</span>, <span class="co"># Ist oft ein Abbiegeunfall</span></span>
+<span id="cb49-37"><a href="#cb49-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SAME DIR BOTH LEFT TURN"</span>                   <span class="ot">=</span> <span class="st">"Angle"</span>, <span class="co"># Als komplexer Winkel/Abbiegen behandelt</span></span>
+<span id="cb49-38"><a href="#cb49-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OPPOSITE DIR BOTH LEFT TURN"</span>               <span class="ot">=</span> <span class="st">"Angle"</span>, <span class="co"># Als komplexer Winkel/Abbiegen behandelt</span></span>
+<span id="cb49-39"><a href="#cb49-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb49-40"><a href="#cb49-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. 'Other' beibehalten</span></span>
+<span id="cb49-41"><a href="#cb49-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>                                     <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb49-42"><a href="#cb49-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                                     <span class="ot">=</span> <span class="st">"Other"</span></span>
+<span id="cb49-43"><a href="#cb49-43" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-44"><a href="#cb49-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-45"><a href="#cb49-45" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Collision.Type <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Collision.Type)</span>
+<span id="cb49-46"><a href="#cb49-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-47"><a href="#cb49-47" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Collision.Type':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Collision.Type)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in 'Collision.Type': Angle"                         
+ [2] "Unique categories in 'Collision.Type': ANGLE MEETS LEFT HEAD ON"      
+ [3] "Unique categories in 'Collision.Type': Head-on/Frontal"               
+ [4] "Unique categories in 'Collision.Type': N/A"                           
+ [5] "Unique categories in 'Collision.Type': Other"                         
+ [6] "Unique categories in 'Collision.Type': Rear End"                      
+ [7] "Unique categories in 'Collision.Type': Sideswipe (Opposite Direction)"
+ [8] "Unique categories in 'Collision.Type': Sideswipe (Same Direction)"    
+ [9] "Unique categories in 'Collision.Type': Single Vehicle"                
+[10] "Unique categories in 'Collision.Type': Unknown"                       </code></pre>
+</div>
+</div>
+<p>Gleiches für Wetter:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Weather <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Weather,</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Konsolidierung von Schreibweisen und NA-Behandlung</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Clear"</span>                                   <span class="ot">=</span> <span class="st">"Clear"</span>,</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CLEAR"</span>                                   <span class="ot">=</span> <span class="st">"Clear"</span>,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                                     <span class="ot">=</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown"</span>                                 <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                                 <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Konsolidierung von Niederschlag (Regen)</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rain"</span>                                    <span class="ot">=</span> <span class="st">"Rain"</span>,</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RAINING"</span>                                 <span class="ot">=</span> <span class="st">"Rain"</span>,</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Konsolidierung von Bewölkung</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cloudy"</span>                                  <span class="ot">=</span> <span class="st">"Cloudy"</span>,</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CLOUDY"</span>                                  <span class="ot">=</span> <span class="st">"Cloudy"</span>,</span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Konsolidierung von Winterwetter</span></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SNOW"</span>                                    <span class="ot">=</span> <span class="st">"Snow"</span>,</span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Snow"</span>                                    <span class="ot">=</span> <span class="st">"Snow"</span>,</span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BLOWING SNOW"</span>                            <span class="ot">=</span> <span class="st">"Snow"</span>, <span class="co"># Als Form von Schneefall behandelt</span></span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SLEET"</span>                                   <span class="ot">=</span> <span class="st">"Wintry Mix/Ice"</span>,</span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sleet Or Hail"</span>                           <span class="ot">=</span> <span class="st">"Wintry Mix/Ice"</span>,</span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Freezing Rain Or Freezing Drizzle"</span>       <span class="ot">=</span> <span class="st">"Wintry Mix/Ice"</span>,</span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"WINTRY MIX"</span>                              <span class="ot">=</span> <span class="st">"Wintry Mix/Ice"</span>,</span>
+<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Konsolidierung von Sichtbehinderung</span></span>
+<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fog, Smog, Smoke"</span>                        <span class="ot">=</span> <span class="st">"Fog/Poor Visibility"</span>,</span>
+<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FOGGY"</span>                                   <span class="ot">=</span> <span class="st">"Fog/Poor Visibility"</span>,</span>
+<span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BLOWING SAND, SOIL, DIRT"</span>                <span class="ot">=</span> <span class="st">"Fog/Poor Visibility"</span>, <span class="co"># Kann Sicht behindern</span></span>
+<span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Konsolidierung von Wind</span></span>
+<span id="cb51-32"><a href="#cb51-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SEVERE WINDS"</span>                            <span class="ot">=</span> <span class="st">"Severe Winds"</span>,</span>
+<span id="cb51-33"><a href="#cb51-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Severe Crosswinds"</span>                       <span class="ot">=</span> <span class="st">"Severe Winds"</span>,</span>
+<span id="cb51-34"><a href="#cb51-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-35"><a href="#cb51-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. 'Other' beibehalten</span></span>
+<span id="cb51-36"><a href="#cb51-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                                   <span class="ot">=</span> <span class="st">"Other"</span></span>
+<span id="cb51-37"><a href="#cb51-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-38"><a href="#cb51-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-39"><a href="#cb51-39" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Weather <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Weather)</span>
+<span id="cb51-40"><a href="#cb51-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-41"><a href="#cb51-41" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Weather':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Weather)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in 'Weather': Blowing Snow"       
+ [2] "Unique categories in 'Weather': Clear"              
+ [3] "Unique categories in 'Weather': Cloudy"             
+ [4] "Unique categories in 'Weather': Fog/Poor Visibility"
+ [5] "Unique categories in 'Weather': N/A"                
+ [6] "Unique categories in 'Weather': Other"              
+ [7] "Unique categories in 'Weather': Rain"               
+ [8] "Unique categories in 'Weather': Severe Winds"       
+ [9] "Unique categories in 'Weather': Snow"               
+[10] "Unique categories in 'Weather': Unknown"            
+[11] "Unique categories in 'Weather': Wintry Mix/Ice"     </code></pre>
+</div>
+</div>
+<p>Wow, habe ich keine Lust mehr. Hier Surface Condition:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Surface.Condition <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Surface.Condition,</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Konsolidierung von 'Dry'</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dry"</span>                       <span class="ot">=</span> <span class="st">"Dry"</span>,</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DRY"</span>                       <span class="ot">=</span> <span class="st">"Dry"</span>,</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Konsolidierung von 'Wet'</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Wet"</span>                       <span class="ot">=</span> <span class="st">"Wet"</span>,</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Wet Road"</span>                  <span class="ot">=</span> <span class="st">"Wet"</span>,</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Wet Pavement"</span>              <span class="ot">=</span> <span class="st">"Wet"</span>,</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Konsolidierung von 'Snow/Ice' (Winterbedingungen)</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Snow"</span>                      <span class="ot">=</span> <span class="st">"Snow"</span>,</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Icy"</span>                       <span class="ot">=</span> <span class="st">"Ice"</span>,</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Snow Covered"</span>              <span class="ot">=</span> <span class="st">"Snow"</span>,</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ice"</span>                       <span class="ot">=</span> <span class="st">"Ice"</span>,</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Packed Snow"</span>               <span class="ot">=</span> <span class="st">"Snow"</span>,</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Slush"</span>                     <span class="ot">=</span> <span class="st">"Slush"</span>,</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Konsolidierung von 'Contaminants'</span></span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Oil"</span>                       <span class="ot">=</span> <span class="st">"Oil"</span>,</span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mud"</span>                       <span class="ot">=</span> <span class="st">"Mud"</span>,</span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sand/Gravel"</span>               <span class="ot">=</span> <span class="st">"Sand/"</span>,</span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Konsolidierung von 'Other' und 'Unknown'</span></span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>                     <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                     <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb53-27"><a href="#cb53-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown"</span>                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb53-28"><a href="#cb53-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb53-29"><a href="#cb53-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                       <span class="ot">=</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb53-30"><a href="#cb53-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-31"><a href="#cb53-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Falls es spezifische Zustände gibt, die Sie behalten möchten (hier als "Other" gruppiert):</span></span>
+<span id="cb53-32"><a href="#cb53-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Standing Water"</span>            <span class="ot">=</span> <span class="st">"Standing Water"</span>, </span>
+<span id="cb53-33"><a href="#cb53-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Potholes"</span>                  <span class="ot">=</span> <span class="st">"Potholes"</span></span>
+<span id="cb53-34"><a href="#cb53-34" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb53-35"><a href="#cb53-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-36"><a href="#cb53-36" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Surface.Condition <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Surface.Condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Weil es so viel Spaß macht noch Licht:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Light <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Light,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Konsolidierung von 'Daylight'</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Daylight"</span>                  <span class="ot">=</span> <span class="st">"Daylight"</span>,</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DAYLIGHT"</span>                  <span class="ot">=</span> <span class="st">"Daylight"</span>,</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Konsolidierung von 'Dark - Lighted' / "DARK LIGHTS ON"</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dark - Lighted"</span>            <span class="ot">=</span> <span class="st">"Dark - Lighted"</span>,</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DARK LIGHTS ON"</span>            <span class="ot">=</span> <span class="st">"Dark - Lighted"</span>,</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Konsolidierung von 'Dusk'</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dusk"</span>                      <span class="ot">=</span> <span class="st">"Dusk"</span>,</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DUSK"</span>                      <span class="ot">=</span> <span class="st">"Dusk"</span>,</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Konsolidierung von 'Dark - Not Lighted' / "DARK NO LIGHTS"</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dark - Not Lighted"</span>        <span class="ot">=</span> <span class="st">"Dark - Not Lighted"</span>,</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DARK NO LIGHTS"</span>            <span class="ot">=</span> <span class="st">"Dark - Not Lighted"</span>,</span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Konsolidierung von 'Dawn'</span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dawn"</span>                      <span class="ot">=</span> <span class="st">"Dawn"</span>,</span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DAWN"</span>                      <span class="ot">=</span> <span class="st">"Dawn"</span>,</span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Konsolidierung von 'Unknown'</span></span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown"</span>                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Konsolidierung von 'Other'</span></span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>                     <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                     <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Spezielle oder doppelte/ähnliche dunkle Zustände</span></span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dark - Unknown Lighting"</span>   <span class="ot">=</span> <span class="st">"Dark - Unknown Lighting"</span>,</span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DARK -- UNKNOWN LIGHTING"</span>  <span class="ot">=</span> <span class="st">"Dark - Unknown Lighting"</span>,</span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 9. Behandlung von fehlenden Werten</span></span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                       <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-37"><a href="#cb54-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-38"><a href="#cb54-38" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Light <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Light)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Selbst bei Ampellichtern gibt es was zu tun, yay:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Traffic.Control <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Traffic.Control,</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Konsolidierung von 'No Controls'</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"No Controls"</span>                 <span class="ot">=</span> <span class="st">"No Controls"</span>,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NO CONTROLS"</span>                 <span class="ot">=</span> <span class="st">"No Controls"</span>,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Konsolidierung von 'Traffic Control Signal'</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Traffic Control Signal"</span>      <span class="ot">=</span> <span class="st">"Signal"</span>,</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TRAFFIC SIGNAL"</span>              <span class="ot">=</span> <span class="st">"Signal"</span>,</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Konsolidierung von 'Flashing Traffic Control Signal'</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Flashing Traffic Control Signal"</span> <span class="ot">=</span> <span class="st">"Flashing Signal"</span>,</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FLASHING TRAFFIC SIGNAL"</span>     <span class="ot">=</span> <span class="st">"Flashing Signal"</span>,</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Konsolidierung von 'Stop Sign'</span></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Stop Sign"</span>                   <span class="ot">=</span> <span class="st">"Stop Sign"</span>,</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"STOP SIGN"</span>                   <span class="ot">=</span> <span class="st">"Stop Sign"</span>,</span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Konsolidierung von 'Yield Sign'</span></span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Yield Sign"</span>                  <span class="ot">=</span> <span class="st">"Yield Sign"</span>,</span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"YIELD SIGN"</span>                  <span class="ot">=</span> <span class="st">"Yield Sign"</span>,</span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Konsolidierung von 'Pedestrian Crossing' / ähnlichen</span></span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pedestrian Crossing Sign"</span>    <span class="ot">=</span> <span class="st">"Pedestrian Control"</span>,</span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pedestrian Crossing"</span>         <span class="ot">=</span> <span class="st">"Pedestrian Control"</span>,</span>
+<span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Konsolidierung von 'School Zone'</span></span>
+<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"School Zone"</span>                 <span class="ot">=</span> <span class="st">"School Zone"</span>,</span>
+<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"School Zone Sign"</span>            <span class="ot">=</span> <span class="st">"School Zone"</span>,</span>
+<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SCHOOL ZONE SIGN DEVICE"</span>     <span class="ot">=</span> <span class="st">"School Zone"</span>,</span>
+<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Konsolidierung von 'Warning Sign' (Allgemein und Spezifisch)</span></span>
+<span id="cb55-32"><a href="#cb55-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Intersection Ahead Warning Sign"</span> <span class="ot">=</span> <span class="st">"Warning Sign"</span>,</span>
+<span id="cb55-33"><a href="#cb55-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other Warning Sign"</span>          <span class="ot">=</span> <span class="st">"Warning Sign"</span>,</span>
+<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Reduce Speed Ahead Warning Sign"</span> <span class="ot">=</span> <span class="st">"Warning Sign"</span>,</span>
+<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Curve Ahead Warning Sign"</span>    <span class="ot">=</span> <span class="st">"Warning Sign"</span>,</span>
+<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"WARNING SIGN"</span>                <span class="ot">=</span> <span class="st">"Warning Sign"</span>,</span>
+<span id="cb55-37"><a href="#cb55-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-38"><a href="#cb55-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 9. Konsolidierung von 'Person' (Flagger, etc.)</span></span>
+<span id="cb55-39"><a href="#cb55-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Person (including flagger, law enforcement, crossing guard, etc."</span> <span class="ot">=</span> <span class="st">"Person Control"</span>,</span>
+<span id="cb55-40"><a href="#cb55-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PERSON"</span>                      <span class="ot">=</span> <span class="st">"Person Control"</span>,</span>
+<span id="cb55-41"><a href="#cb55-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-42"><a href="#cb55-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 10. Konsolidierung von 'Other Signal' / 'Ramp Meter'</span></span>
+<span id="cb55-43"><a href="#cb55-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other Signal"</span>                <span class="ot">=</span> <span class="st">"Other Signal"</span>,</span>
+<span id="cb55-44"><a href="#cb55-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ramp Meter Signal"</span>           <span class="ot">=</span> <span class="st">"Other Signal"</span>,</span>
+<span id="cb55-45"><a href="#cb55-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-46"><a href="#cb55-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 11. Konsolidierung von 'Other Pavement Marking'</span></span>
+<span id="cb55-47"><a href="#cb55-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other Pavement Marking (excluding edgelines, centerlines, or lane lines)"</span> <span class="ot">=</span> <span class="st">"Pavement Marking"</span>,</span>
+<span id="cb55-48"><a href="#cb55-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-49"><a href="#cb55-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 12. Konsolidierung von 'Other' (Allgemein)</span></span>
+<span id="cb55-50"><a href="#cb55-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>                       <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb55-51"><a href="#cb55-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                       <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb55-52"><a href="#cb55-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-53"><a href="#cb55-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 13. Konsolidierung von 'Unknown'</span></span>
+<span id="cb55-54"><a href="#cb55-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                     <span class="ot">=</span> <span class="st">"Unknown"</span>, <span class="co"># Nur Großbuchstaben vorhanden, aber für Vollständigkeit</span></span>
+<span id="cb55-55"><a href="#cb55-55" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-56"><a href="#cb55-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 14. Spezielle Bahnschranken/Kreuzungen</span></span>
+<span id="cb55-57"><a href="#cb55-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RAILWAY CROSSING DEVICE"</span>     <span class="ot">=</span> <span class="st">"Railway Crossing"</span>,</span>
+<span id="cb55-58"><a href="#cb55-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Flashing Railroad Crossing Signal (may include gates)"</span> <span class="ot">=</span> <span class="st">"Railway Crossing"</span>,</span>
+<span id="cb55-59"><a href="#cb55-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-60"><a href="#cb55-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 15. Andere spezifische Kontrollen</span></span>
+<span id="cb55-61"><a href="#cb55-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lane Use Control Signal"</span>     <span class="ot">=</span> <span class="st">"Lane Control Signal"</span>,</span>
+<span id="cb55-62"><a href="#cb55-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bicycle Crossing Sign"</span>       <span class="ot">=</span> <span class="st">"Bicycle Control"</span>,</span>
+<span id="cb55-63"><a href="#cb55-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb55-64"><a href="#cb55-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 16. Behandlung von fehlenden Werten</span></span>
+<span id="cb55-65"><a href="#cb55-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                         <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb55-66"><a href="#cb55-66" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb55-67"><a href="#cb55-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-68"><a href="#cb55-68" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Traffic.Control <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Traffic.Control)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Gleiches Spiel für “Driver Substance Abuse”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Driver.Substance.Abuse <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Driver.Substance.Abuse,</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Keine Hinweise (Keine Verdächtigung / NONE DETECTED)</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Suspect of Alcohol Use, Not Suspect of Drug Use"</span> <span class="ot">=</span> <span class="st">"No Abuse Indicated"</span>,</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NONE DETECTED"</span>                                      <span class="ot">=</span> <span class="st">"No Abuse Indicated"</span>,</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Nur Alkohol (Verdacht oder Beitrag)</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Suspect of Alcohol Use, Not Suspect of Drug Use"</span>      <span class="ot">=</span> <span class="st">"Alcohol Suspected"</span>,</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Suspect of Alcohol Use, Unknown"</span>                      <span class="ot">=</span> <span class="st">"Alcohol Suspected"</span>, <span class="co"># Annahme: Wenn primär Alkohol verdächtigt</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ALCOHOL CONTRIBUTED"</span>                                  <span class="ot">=</span> <span class="st">"Alcohol Only"</span>,</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ALCOHOL PRESENT"</span>                                    <span class="ot">=</span> <span class="st">"Alcohol Only"</span>,</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Nur Drogen (Verdächtigung oder Beitrag)</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Suspect of Alcohol Use, Suspect of Drug Use"</span>      <span class="ot">=</span> <span class="st">"Drug Suspected"</span>,</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown, Suspect of Drug Use"</span>                       <span class="ot">=</span> <span class="st">"Drug Suspected"</span>,</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ILLEGAL DRUG CONTRIBUTED"</span>                             <span class="ot">=</span> <span class="st">"Drug Only"</span>,</span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ILLEGAL DRUG PRESENT"</span>                                <span class="ot">=</span> <span class="st">"Drug Only"</span>,</span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Medikamente (Beitrag oder Präsenz)</span></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MEDICATION CONTRIBUTED"</span>                               <span class="ot">=</span> <span class="st">"Medication Only"</span>,</span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MEDICATION PRESENT"</span>                                   <span class="ot">=</span> <span class="st">"Medication Only"</span>,</span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Kombinationen (Alkohol + Drogen/Medikamente)</span></span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Suspect of Alcohol Use, Suspect of Drug Use"</span>          <span class="ot">=</span> <span class="st">"Combination Suspected"</span>,</span>
+<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"COMBINATION CONTRIBUTED"</span>                              <span class="ot">=</span> <span class="st">"Combination"</span>,</span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"COMBINED SUBSTANCE PRESENT"</span>                           <span class="ot">=</span> <span class="st">"Combination"</span>,</span>
+<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Unbekannt / Gemischt mit unbekannt</span></span>
+<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown, Unknown"</span>                                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown, Not Suspect of Drug Use"</span>                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Suspect of Alcohol Use, Unknown"</span>                <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                                            <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb56-32"><a href="#cb56-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb56-33"><a href="#cb56-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Sonstiges</span></span>
+<span id="cb56-34"><a href="#cb56-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>                                              <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb56-35"><a href="#cb56-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                                              <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb56-36"><a href="#cb56-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb56-37"><a href="#cb56-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Fehlende Werte</span></span>
+<span id="cb56-38"><a href="#cb56-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                                                <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb56-39"><a href="#cb56-39" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb56-40"><a href="#cb56-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-41"><a href="#cb56-41" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Driver.Substance.Abuse <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Driver.Substance.Abuse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Weil es so viel Spaß macht hier noch für “Non-Motorist Substance Abuse”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Non.Motorist.Substance.Abuse <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Non.Motorist.Substance.Abuse,</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Keine Hinweise (Keine Verdächtigung / NONE DETECTED)</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Suspect of Alcohol Use, Not Suspect of Drug Use"</span> <span class="ot">=</span> <span class="st">"No Abuse Indicated"</span>,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Suspect of Alcohol Use, Not Suspect of Drug Use, Not Suspect of Alcohol Use, Not Suspect of Drug Use, Not Suspect of Alcohol Use, Not Suspect of Drug Use"</span> <span class="ot">=</span> <span class="st">"No Abuse Indicated"</span>, <span class="co"># Komplexe Wiederholung</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Suspect of Alcohol Use, Not Suspect of Drug Use, Not Suspect of Alcohol Use, Not Suspect of Drug Use"</span> <span class="ot">=</span> <span class="st">"No Abuse Indicated"</span>, <span class="co"># Komplexe Wiederholung</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NONE DETECTED"</span>                                      <span class="ot">=</span> <span class="st">"No Abuse Indicated"</span>,</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"N/A, NONE DETECTED"</span>                                 <span class="ot">=</span> <span class="st">"No Abuse Indicated"</span>,</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Nur Alkohol (Verdacht oder Beitrag/Präsenz)</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Suspect of Alcohol Use, Not Suspect of Drug Use"</span>      <span class="ot">=</span> <span class="st">"Alcohol Suspected"</span>,</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Suspect of Alcohol Use, Unknown"</span>                      <span class="ot">=</span> <span class="st">"Alcohol Suspected"</span>, </span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ALCOHOL CONTRIBUTED"</span>                                  <span class="ot">=</span> <span class="st">"Alcohol Only"</span>,</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ALCOHOL PRESENT"</span>                                    <span class="ot">=</span> <span class="st">"Alcohol Only"</span>,</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ALCOHOL CONTRIBUTED, ALCOHOL PRESENT"</span>                 <span class="ot">=</span> <span class="st">"Alcohol Only"</span>, <span class="co"># Doppelte Angabe von Alkohol</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ALCOHOL PRESENT, NONE DETECTED"</span>                       <span class="ot">=</span> <span class="st">"Alcohol Only"</span>, <span class="co"># Wenn Alkohol da ist, zählt das mehr als "None Detected"</span></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Nur Drogen (Verdächtigung oder Beitrag/Präsenz)</span></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Suspect of Alcohol Use, Suspect of Drug Use"</span>      <span class="ot">=</span> <span class="st">"Drug Suspected"</span>,</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown, Suspect of Drug Use"</span>                       <span class="ot">=</span> <span class="st">"Drug Suspected"</span>, <span class="co"># Im vorherigen Satz war dies 'Drug Suspected', hier beibehalten</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ILLEGAL DRUG CONTRIBUTED"</span>                             <span class="ot">=</span> <span class="st">"Drug Only"</span>,</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ILLEGAL DRUG PRESENT"</span>                                <span class="ot">=</span> <span class="st">"Drug Only"</span>,</span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Medikamente (Beitrag oder Präsenz)</span></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MEDICATION CONTRIBUTED"</span>                               <span class="ot">=</span> <span class="st">"Medication Only"</span>,</span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MEDICATION PRESENT"</span>                                   <span class="ot">=</span> <span class="st">"Medication Only"</span>,</span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Kombinationen (Alkohol + Drogen/Medikamente)</span></span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Suspect of Alcohol Use, Suspect of Drug Use"</span>          <span class="ot">=</span> <span class="st">"Combination Suspected"</span>,</span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"COMBINATION CONTRIBUTED"</span>                              <span class="ot">=</span> <span class="st">"Combination"</span>,</span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"COMBINED SUBSTANCE PRESENT"</span>                           <span class="ot">=</span> <span class="st">"Combination"</span>,</span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Unbekannt / Gemischt mit unbekannt</span></span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown, Unknown"</span>                                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown, Not Suspect of Drug Use"</span>                   <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Suspect of Alcohol Use, Unknown"</span>                <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                                            <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"N/A, UNKNOWN"</span>                                       <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NONE DETECTED, UNKNOWN"</span>                             <span class="ot">=</span> <span class="st">"Unknown"</span>, <span class="co"># Gemischt: Kein Nachweis + Unbekannt</span></span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown, Unknown, Unknown, Not Suspect of Drug Use"</span> <span class="ot">=</span> <span class="st">"Unknown"</span>, <span class="co"># Komplexe Wiederholung</span></span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Sonstiges</span></span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>                                              <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                                              <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Fehlende Werte</span></span>
+<span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                                                <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-48"><a href="#cb57-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-49"><a href="#cb57-49" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Non.Motorist.Substance.Abuse <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Non.Motorist.Substance.Abuse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Es gibt bei “Driver At Fault” nur 3 Werte:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Driver At Fault':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Driver.At.Fault)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Unique categories in 'Driver At Fault': No"     
+[2] "Unique categories in 'Driver At Fault': Unknown"
+[3] "Unique categories in 'Driver At Fault': Yes"    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Driver.At.Fault <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Driver.At.Fault)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hier noch für “Injurity Severity”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Injury.Severity <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Injury.Severity,</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Keine Verletzung</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"No Apparent Injury"</span>         <span class="ot">=</span> <span class="st">"No Injury"</span>,</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NO APPARENT INJURY"</span>          <span class="ot">=</span> <span class="st">"No Injury"</span>,</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Mögliche/Vermutete leichte Verletzung</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Possible Injury"</span>             <span class="ot">=</span> <span class="st">"Possible/Minor Injury"</span>,</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"POSSIBLE INJURY"</span>             <span class="ot">=</span> <span class="st">"Possible/Minor Injury"</span>,</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Suspected Minor Injury"</span>      <span class="ot">=</span> <span class="st">"Possible/Minor Injury"</span>,</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SUSPECTED MINOR INJURY"</span>      <span class="ot">=</span> <span class="st">"Possible/Minor Injury"</span>,</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Vermutete schwere Verletzung</span></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Suspected Serious Injury"</span>    <span class="ot">=</span> <span class="st">"Serious Injury"</span>,</span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SUSPECTED SERIOUS INJURY"</span>    <span class="ot">=</span> <span class="st">"Serious Injury"</span>,</span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Tödliche Verletzung</span></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fatal Injury"</span>                <span class="ot">=</span> <span class="st">"Fatal"</span>,</span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FATAL INJURY"</span>                <span class="ot">=</span> <span class="st">"Fatal"</span>,</span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Fehlende Werte</span></span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                         <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Injury.Severity <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Injury.Severity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>“Driver Distracted By”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Driver.Distracted.By <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Driver.Distracted.By,</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Keine Ablenkung</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not Distracted"</span>                  <span class="ot">=</span> <span class="st">"Not Distracted"</span>,</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NOT DISTRACTED"</span>                  <span class="ot">=</span> <span class="st">"Not Distracted"</span>,</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NO DRIVER PRESENT"</span>               <span class="ot">=</span> <span class="st">"No Driver Present"</span>,</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Handy-Nutzung (Telefonieren/Texten)</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TALKING OR LISTENING TO CELLULAR PHONE"</span> <span class="ot">=</span> <span class="st">"Cellular Phone Use"</span>,</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER CELLULAR PHONE RELATED"</span>    <span class="ot">=</span> <span class="st">"Cellular Phone Use"</span>,</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DIALING CELLULAR PHONE"</span>          <span class="ot">=</span> <span class="st">"Cellular Phone Use"</span>,</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TEXTING FROM A CELLULAR PHONE"</span>   <span class="ot">=</span> <span class="st">"Cellular Phone Use"</span>,</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Manuelle/Physische Bedienung (Nicht-Handy)</span></span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Talking/listening"</span>               <span class="ot">=</span> <span class="st">"Internal Distraction (People/Objects)"</span>,</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Manually Operating (dialing, playing game, etc.)"</span> <span class="ot">=</span> <span class="st">"Manual Operation"</span>,</span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ADJUSTING AUDIO AND OR CLIMATE CONTROLS"</span> <span class="ot">=</span> <span class="st">"Manual Operation"</span>,</span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"USING OTHER DEVICE CONTROLS INTEGRAL TO VEHICLE"</span> <span class="ot">=</span> <span class="st">"Manual Operation"</span>,</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"USING DEVICE OBJECT BROUGHT INTO VEHICLE"</span> <span class="ot">=</span> <span class="st">"Manual Operation"</span>,</span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SMOKING RELATED"</span>                 <span class="ot">=</span> <span class="st">"Smoking"</span>, <span class="co"># Wird oft als manuelle Tätigkeit gruppiert</span></span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Ablenkung durch andere Personen/Objekte im/am Fahrzeug</span></span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BY MOVING OBJECT IN VEHICLE"</span>     <span class="ot">=</span> <span class="st">"Internal Distraction (People/Objects)"</span>,</span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BY OTHER OCCUPANTS"</span>              <span class="ot">=</span> <span class="st">"Internal Distraction (People/Objects)"</span>,</span>
+<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Kognitive/Visuelle Ablenkung (Blick weg/In Gedanken)</span></span>
+<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other Action (looking away from task, etc.)"</span> <span class="ot">=</span> <span class="st">"Cognitive/Visual Distraction"</span>,</span>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LOOKED BUT DID NOT SEE"</span>          <span class="ot">=</span> <span class="st">"Cognitive/Visual Distraction"</span>,</span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INATTENTIVE OR LOST IN THOUGHT"</span>  <span class="ot">=</span> <span class="st">"Cognitive/Visual Distraction"</span>,</span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Externe Ablenkung</span></span>
+<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DISTRACTED BY OUTSIDE PERSON OBJECT OR EVENT"</span> <span class="ot">=</span> <span class="st">"External Distraction"</span>,</span>
+<span id="cb62-32"><a href="#cb62-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-33"><a href="#cb62-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Essen/Trinken</span></span>
+<span id="cb62-34"><a href="#cb62-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EATING OR DRINKING"</span>              <span class="ot">=</span> <span class="st">"Eating/Drinking"</span>,</span>
+<span id="cb62-35"><a href="#cb62-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-36"><a href="#cb62-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Andere/Spezifische Geräte</span></span>
+<span id="cb62-37"><a href="#cb62-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER DISTRACTION"</span>               <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb62-38"><a href="#cb62-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER ACTION"</span>                    <span class="ot">=</span> <span class="st">"Other"</span>, <span class="co"># Falls im Array enthalten</span></span>
+<span id="cb62-39"><a href="#cb62-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER ELECTRONIC DEVICE (NAVIGATIONAL PALM PILOT)"</span> <span class="ot">=</span> <span class="st">"Other Electronic Device"</span>,</span>
+<span id="cb62-40"><a href="#cb62-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-41"><a href="#cb62-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 9. Unbekannt</span></span>
+<span id="cb62-42"><a href="#cb62-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown"</span>                         <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb62-43"><a href="#cb62-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                         <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb62-44"><a href="#cb62-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-45"><a href="#cb62-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 10. Fehlende Werte</span></span>
+<span id="cb62-46"><a href="#cb62-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                             <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb62-47"><a href="#cb62-47" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-48"><a href="#cb62-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-49"><a href="#cb62-49" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Driver.Distracted.By <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Driver.Distracted.By)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>“Vehicle Damage Extent”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Vehicle.Damage.Extent,</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Keine/Geringfügige Schäden</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"No Damage"</span>                   <span class="ot">=</span> <span class="st">"No Damage"</span>,</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NO DAMAGE"</span>                   <span class="ot">=</span> <span class="st">"No Damage"</span>,</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Superficial"</span>                 <span class="ot">=</span> <span class="st">"Superficial"</span>,</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SUPERFICIAL"</span>                 <span class="ot">=</span> <span class="st">"Superficial"</span>,</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Funktionseingeschränkt, aber fahrbereit (oft als "Functional" oder leichte Einschränkung)</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Functional"</span>                  <span class="ot">=</span> <span class="st">"Functional"</span>,</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FUNCTIONAL"</span>                  <span class="ot">=</span> <span class="st">"Functional"</span>,</span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Schwerer Schaden (Einsatz nicht mehr möglich oder stark beeinträchtigt)</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Disabling"</span>                   <span class="ot">=</span> <span class="st">"Disabling"</span>,</span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DISABLING"</span>                   <span class="ot">=</span> <span class="st">"Disabling"</span>,</span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DESTROYED"</span>                   <span class="ot">=</span> <span class="st">"Destroyed"</span>,</span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Nicht relevant/Unbekannt</span></span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Vehicle Not at Scene"</span>        <span class="ot">=</span> <span class="st">"Not at Scene"</span>,</span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                     <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                       <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Fehlende Werte</span></span>
+<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                         <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Vehicle.Damage.Extent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>“Vehicle First Impact Location”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vehicle.First.Impact.Location <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Vehicle.First.Impact.Location,</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Konsolidierung der Uhrzeiten (1 bis 12 Uhr)</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Twelve O Clock"</span>               <span class="ot">=</span> <span class="st">"Clock Position (12)"</span>,</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TWELVE OCLOCK"</span>                <span class="ot">=</span> <span class="st">"Clock Position (12)"</span>,</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"One O Clock"</span>                  <span class="ot">=</span> <span class="st">"Clock Position (1)"</span>,</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ONE OCLOCK"</span>                   <span class="ot">=</span> <span class="st">"Clock Position (1)"</span>,</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Two O Clock"</span>                  <span class="ot">=</span> <span class="st">"Clock Position (2)"</span>,</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TWO OCLOCK"</span>                   <span class="ot">=</span> <span class="st">"Clock Position (2)"</span>,</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Three O Clock"</span>                <span class="ot">=</span> <span class="st">"Clock Position (3)"</span>,</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"THREE OCLOCK"</span>                 <span class="ot">=</span> <span class="st">"Clock Position (3)"</span>,</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Four O Clock"</span>                 <span class="ot">=</span> <span class="st">"Clock Position (4)"</span>,</span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FOUR OCLOCK"</span>                  <span class="ot">=</span> <span class="st">"Clock Position (4)"</span>,</span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Five O Clock"</span>                 <span class="ot">=</span> <span class="st">"Clock Position (5)"</span>,</span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FIVE OCLOCK"</span>                  <span class="ot">=</span> <span class="st">"Clock Position (5)"</span>,</span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Six O Clock"</span>                  <span class="ot">=</span> <span class="st">"Clock Position (6)"</span>,</span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SIX OCLOCK"</span>                   <span class="ot">=</span> <span class="st">"Clock Position (6)"</span>,</span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Seven O Clock"</span>                <span class="ot">=</span> <span class="st">"Clock Position (7)"</span>,</span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SEVEN OCLOCK"</span>                 <span class="ot">=</span> <span class="st">"Clock Position (7)"</span>,</span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eight O Clock"</span>                <span class="ot">=</span> <span class="st">"Clock Position (8)"</span>,</span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EIGHT OCLOCK"</span>                 <span class="ot">=</span> <span class="st">"Clock Position (8)"</span>,</span>
+<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Nine O Clock"</span>                 <span class="ot">=</span> <span class="st">"Clock Position (9)"</span>,</span>
+<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NINE OCLOCK"</span>                  <span class="ot">=</span> <span class="st">"Clock Position (9)"</span>,</span>
+<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ten O Clock"</span>                  <span class="ot">=</span> <span class="st">"Clock Position (10)"</span>,</span>
+<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TEN OCLOCK"</span>                   <span class="ot">=</span> <span class="st">"Clock Position (10)"</span>,</span>
+<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eleven O Clock"</span>               <span class="ot">=</span> <span class="st">"Clock Position (11)"</span>,</span>
+<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ELEVEN OCLOCK"</span>                <span class="ot">=</span> <span class="st">"Clock Position (11)"</span>,</span>
+<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Konsolidierung von Dach-/Unterbodenbereichen</span></span>
+<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Underside"</span>                    <span class="ot">=</span> <span class="st">"Underside/Top"</span>,</span>
+<span id="cb64-30"><a href="#cb64-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNDERSIDE"</span>                    <span class="ot">=</span> <span class="st">"Underside/Top"</span>,</span>
+<span id="cb64-31"><a href="#cb64-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Top"</span>                          <span class="ot">=</span> <span class="st">"Underside/Top"</span>,</span>
+<span id="cb64-32"><a href="#cb64-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ROOF TOP"</span>                     <span class="ot">=</span> <span class="st">"Underside/Top"</span>,</span>
+<span id="cb64-33"><a href="#cb64-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-34"><a href="#cb64-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Nicht-Kollisionsbezogene Ereignisse / Sonstiges</span></span>
+<span id="cb64-35"><a href="#cb64-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Non-Collision"</span>                <span class="ot">=</span> <span class="st">"Non-Collision"</span>,</span>
+<span id="cb64-36"><a href="#cb64-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NON-COLLISION"</span>                <span class="ot">=</span> <span class="st">"Non-Collision"</span>,</span>
+<span id="cb64-37"><a href="#cb64-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Vehicle Not at Scene"</span>         <span class="ot">=</span> <span class="st">"Not at Scene"</span>,</span>
+<span id="cb64-38"><a href="#cb64-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cargo Loss"</span>                   <span class="ot">=</span> <span class="st">"Cargo Loss"</span>,</span>
+<span id="cb64-39"><a href="#cb64-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-40"><a href="#cb64-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Unbekannt</span></span>
+<span id="cb64-41"><a href="#cb64-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                      <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb64-42"><a href="#cb64-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-43"><a href="#cb64-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Fehlende Werte</span></span>
+<span id="cb64-44"><a href="#cb64-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                          <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb64-45"><a href="#cb64-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb64-46"><a href="#cb64-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-47"><a href="#cb64-47" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vehicle.First.Impact.Location <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Vehicle.First.Impact.Location)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>“Vehicle Body Type”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vehicle.Body.Type <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Vehicle.Body.Type,</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. PKW / Limousinen-Typen</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Passenger Car"</span>                <span class="ot">=</span> <span class="st">"Car"</span>,</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PASSENGER CAR"</span>                <span class="ot">=</span> <span class="st">"Car"</span>,</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Station Wagon"</span>                <span class="ot">=</span> <span class="st">"Car"</span>,</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"STATION WAGON"</span>                <span class="ot">=</span> <span class="st">"Car"</span>,</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LIMOUSINE"</span>                    <span class="ot">=</span> <span class="st">"Car"</span>,</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Vans</span></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Van - Passenger (&lt;9 Seats)"</span>   <span class="ot">=</span> <span class="st">"Van/Minivan"</span>,</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Van - Passenger (9 or 12 Seats)"</span> <span class="ot">=</span> <span class="st">"Van/Minivan"</span>,</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Van - Passenger (15 Seats)"</span>   <span class="ot">=</span> <span class="st">"Van/Minivan"</span>,</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Van - Cargo"</span>                  <span class="ot">=</span> <span class="st">"Van/Minivan"</span>,</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"VAN"</span>                          <span class="ot">=</span> <span class="st">"Van/Minivan"</span>,</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. SUVs / Light Trucks (unter 10.000 lbs)</span></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sport Utility Vehicle"</span>        <span class="ot">=</span> <span class="st">"SUV/Light Truck"</span>,</span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(SPORT) UTILITY VEHICLE"</span>      <span class="ot">=</span> <span class="st">"SUV/Light Truck"</span>,</span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pickup"</span>                       <span class="ot">=</span> <span class="st">"SUV/Light Truck"</span>,</span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PICKUP TRUCK"</span>                 <span class="ot">=</span> <span class="st">"SUV/Light Truck"</span>,</span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER LIGHT TRUCKS (10,000LBS (4,536KG) OR LESS)"</span> <span class="ot">=</span> <span class="st">"SUV/Light Truck"</span>,</span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CARGO VAN/LIGHT TRUCK 2 AXLES (OVER 10,000LBS (4,536 KG))"</span> <span class="ot">=</span> <span class="st">"Heavy Truck"</span>, <span class="co"># Dies ist &gt; 10k lbs, verschiebe es zu schwerer</span></span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Schwere LKW / Sattelzugmaschinen</span></span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other Trucks"</span>                 <span class="ot">=</span> <span class="st">"Heavy Truck"</span>,</span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Truck Tractor"</span>                <span class="ot">=</span> <span class="st">"Heavy Truck"</span>,</span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TRUCK TRACTOR"</span>                <span class="ot">=</span> <span class="st">"Heavy Truck"</span>,</span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MEDIUM/HEAVY TRUCKS 3 AXLES (OVER 10,000LBS (4,536KG))"</span> <span class="ot">=</span> <span class="st">"Heavy Truck"</span>,</span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Busse</span></span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bus - Transit"</span>                <span class="ot">=</span> <span class="st">"Bus"</span>,</span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TRANSIT BUS"</span>                  <span class="ot">=</span> <span class="st">"Bus"</span>,</span>
+<span id="cb65-33"><a href="#cb65-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bus - School"</span>                 <span class="ot">=</span> <span class="st">"Bus"</span>,</span>
+<span id="cb65-34"><a href="#cb65-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SCHOOL BUS"</span>                   <span class="ot">=</span> <span class="st">"Bus"</span>,</span>
+<span id="cb65-35"><a href="#cb65-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bus - Other Type"</span>             <span class="ot">=</span> <span class="st">"Bus"</span>,</span>
+<span id="cb65-36"><a href="#cb65-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER BUS"</span>                    <span class="ot">=</span> <span class="st">"Bus"</span>,</span>
+<span id="cb65-37"><a href="#cb65-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bus - Mini"</span>                   <span class="ot">=</span> <span class="st">"Bus"</span>,</span>
+<span id="cb65-38"><a href="#cb65-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CROSS COUNTRY BUS"</span>            <span class="ot">=</span> <span class="st">"Bus"</span>,</span>
+<span id="cb65-39"><a href="#cb65-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-40"><a href="#cb65-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Motorräder / Zweiräder</span></span>
+<span id="cb65-41"><a href="#cb65-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Motorcycle - 2 Wheeled"</span>       <span class="ot">=</span> <span class="st">"Motorcycle/2-Wheeler"</span>,</span>
+<span id="cb65-42"><a href="#cb65-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MOTORCYCLE"</span>                   <span class="ot">=</span> <span class="st">"Motorcycle/2-Wheeler"</span>,</span>
+<span id="cb65-43"><a href="#cb65-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Motorcycle - 3 Wheeled"</span>       <span class="ot">=</span> <span class="st">"Motorcycle/3-Wheeler"</span>,</span>
+<span id="cb65-44"><a href="#cb65-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Moped Or motorized bicycle"</span>   <span class="ot">=</span> <span class="st">"Motorcycle/2-Wheeler"</span>,</span>
+<span id="cb65-45"><a href="#cb65-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MOPED"</span>                        <span class="ot">=</span> <span class="st">"Motorcycle/2-Wheeler"</span>,</span>
+<span id="cb65-46"><a href="#cb65-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-47"><a href="#cb65-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Spezial-/Off-Road-Fahrzeuge</span></span>
+<span id="cb65-48"><a href="#cb65-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">"All-Terrain Vehicle/All-Terrain Cycle (ATV/ATC)"</span> <span class="ot">=</span> <span class="st">"Off-Road/Special"</span>,</span>
+<span id="cb65-49"><a href="#cb65-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ALL TERRAIN VEHICLE (ATV)"</span>    <span class="ot">=</span> <span class="st">"Off-Road/Special"</span>,</span>
+<span id="cb65-50"><a href="#cb65-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SNOWMOBILE"</span>                   <span class="ot">=</span> <span class="st">"Off-Road/Special"</span>,</span>
+<span id="cb65-51"><a href="#cb65-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Snowmobile"</span>                   <span class="ot">=</span> <span class="st">"Off-Road/Special"</span>,</span>
+<span id="cb65-52"><a href="#cb65-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Recreational Off-Highway Vehicles (ROV)"</span> <span class="ot">=</span> <span class="st">"Off-Road/Special"</span>,</span>
+<span id="cb65-53"><a href="#cb65-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RECREATIONAL VEHICLE"</span>         <span class="ot">=</span> <span class="st">"Off-Road/Special"</span>,</span>
+<span id="cb65-54"><a href="#cb65-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Golf Cart"</span>                    <span class="ot">=</span> <span class="st">"Off-Road/Special"</span>,</span>
+<span id="cb65-55"><a href="#cb65-55" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-56"><a href="#cb65-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Notfall-/Behördenfahrzeuge</span></span>
+<span id="cb65-57"><a href="#cb65-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">"POLICE VEHICLE/EMERGENCY"</span>     <span class="ot">=</span> <span class="st">"Emergency/Service"</span>,</span>
+<span id="cb65-58"><a href="#cb65-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AMBULANCE/EMERGENCY"</span>          <span class="ot">=</span> <span class="st">"Emergency/Service"</span>,</span>
+<span id="cb65-59"><a href="#cb65-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FIRE VEHICLE/EMERGENCY"</span>       <span class="ot">=</span> <span class="st">"Emergency/Service"</span>,</span>
+<span id="cb65-60"><a href="#cb65-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"POLICE VEHICLE/NON EMERGENCY"</span> <span class="ot">=</span> <span class="st">"Emergency/Service"</span>,</span>
+<span id="cb65-61"><a href="#cb65-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AMBULANCE/NON EMERGENCY"</span>      <span class="ot">=</span> <span class="st">"Emergency/Service"</span>,</span>
+<span id="cb65-62"><a href="#cb65-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FIRE VEHICLE/NON EMERGENCY"</span>   <span class="ot">=</span> <span class="st">"Emergency/Service"</span>,</span>
+<span id="cb65-63"><a href="#cb65-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-64"><a href="#cb65-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 9. Land-/Baumaschinen</span></span>
+<span id="cb65-65"><a href="#cb65-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Construction Equipment (backhoe, bulldozer, etc.)"</span> <span class="ot">=</span> <span class="st">"Construction/Farm"</span>,</span>
+<span id="cb65-66"><a href="#cb65-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FARM VEHICLE"</span>                 <span class="ot">=</span> <span class="st">"Construction/Farm"</span>,</span>
+<span id="cb65-67"><a href="#cb65-67" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Farm Equipment (Tractor, combine harvester, etc.)"</span> <span class="ot">=</span> <span class="st">"Construction/Farm"</span>,</span>
+<span id="cb65-68"><a href="#cb65-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-69"><a href="#cb65-69" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 10. Sonstige</span></span>
+<span id="cb65-70"><a href="#cb65-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Low Speed Vehicle"</span>            <span class="ot">=</span> <span class="st">"Other/Low Speed"</span>,</span>
+<span id="cb65-71"><a href="#cb65-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LOW SPEED VEHICLE"</span>            <span class="ot">=</span> <span class="st">"Other/Low Speed"</span>,</span>
+<span id="cb65-72"><a href="#cb65-72" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Autocycle"</span>                    <span class="ot">=</span> <span class="st">"Other/Low Speed"</span>,</span>
+<span id="cb65-73"><a href="#cb65-73" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AUTOCYCLE"</span>                    <span class="ot">=</span> <span class="st">"Other/Low Speed"</span>,</span>
+<span id="cb65-74"><a href="#cb65-74" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>                        <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb65-75"><a href="#cb65-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                        <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb65-76"><a href="#cb65-76" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-77"><a href="#cb65-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 11. Unbekannt</span></span>
+<span id="cb65-78"><a href="#cb65-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown"</span>                      <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb65-79"><a href="#cb65-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                      <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb65-80"><a href="#cb65-80" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-81"><a href="#cb65-81" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 12. Fehlende Werte</span></span>
+<span id="cb65-82"><a href="#cb65-82" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                          <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb65-83"><a href="#cb65-83" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb65-84"><a href="#cb65-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-85"><a href="#cb65-85" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vehicle.Body.Type <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Vehicle.Body.Type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>“Vehicle Movement”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vehicle.Movement <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Vehicle.Movement,</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Geradeausfahrt / Konstante Geschwindigkeit</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Moving Constant Speed"</span>           <span class="ot">=</span> <span class="st">"Moving - Constant Speed"</span>,</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MOVING CONSTANT SPEED"</span>           <span class="ot">=</span> <span class="st">"Moving - Constant Speed"</span>,</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Geschwindigkeitsänderung / Anhalten</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Slowing or Stopping"</span>             <span class="ot">=</span> <span class="st">"Slowing/Stopping"</span>,</span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SLOWING OR STOPPING"</span>             <span class="ot">=</span> <span class="st">"Slowing/Stopping"</span>,</span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Stopped in Traffic"</span>              <span class="ot">=</span> <span class="st">"Stopped/Parked"</span>,</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"STOPPED IN TRAFFIC LANE"</span>         <span class="ot">=</span> <span class="st">"Stopped/Parked"</span>,</span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Parked"</span>                          <span class="ot">=</span> <span class="st">"Stopped/Parked"</span>,</span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PARKED"</span>                          <span class="ot">=</span> <span class="st">"Stopped/Parked"</span>,</span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PARKING"</span>                         <span class="ot">=</span> <span class="st">"Stopped/Parked"</span>, <span class="co"># Wird zu Parken gezählt</span></span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"STARTING FROM LANE"</span>              <span class="ot">=</span> <span class="st">"Starting/Accelerating"</span>,</span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"STARTING FROM PARKED"</span>            <span class="ot">=</span> <span class="st">"Starting/Accelerating"</span>,</span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Beschleunigung</span></span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Accelerating"</span>                    <span class="ot">=</span> <span class="st">"Starting/Accelerating"</span>,</span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ACCELERATING"</span>                    <span class="ot">=</span> <span class="st">"Starting/Accelerating"</span>,</span>
+<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Abbiegen/Wenden</span></span>
+<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Turning Right"</span>                   <span class="ot">=</span> <span class="st">"Turning"</span>,</span>
+<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAKING RIGHT TURN"</span>               <span class="ot">=</span> <span class="st">"Turning"</span>,</span>
+<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RIGHT TURN ON RED"</span>               <span class="ot">=</span> <span class="st">"Turning"</span>,</span>
+<span id="cb66-25"><a href="#cb66-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Turning Left"</span>                    <span class="ot">=</span> <span class="st">"Turning"</span>,</span>
+<span id="cb66-26"><a href="#cb66-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAKING LEFT TURN"</span>                <span class="ot">=</span> <span class="st">"Turning"</span>,</span>
+<span id="cb66-27"><a href="#cb66-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Making U-Turn"</span>                   <span class="ot">=</span> <span class="st">"Turning"</span>,</span>
+<span id="cb66-28"><a href="#cb66-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAKING U TURN"</span>                   <span class="ot">=</span> <span class="st">"Turning"</span>,</span>
+<span id="cb66-29"><a href="#cb66-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-30"><a href="#cb66-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Spurwechsel/Verlassen der Spur</span></span>
+<span id="cb66-31"><a href="#cb66-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Changing Lanes"</span>                  <span class="ot">=</span> <span class="st">"Lane Change/Merge"</span>,</span>
+<span id="cb66-32"><a href="#cb66-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CHANGING LANES"</span>                  <span class="ot">=</span> <span class="st">"Lane Change/Merge"</span>,</span>
+<span id="cb66-33"><a href="#cb66-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Leaving Traffic Lane"</span>            <span class="ot">=</span> <span class="st">"Lane Change/Merge"</span>,</span>
+<span id="cb66-34"><a href="#cb66-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LEAVING TRAFFIC LANE"</span>            <span class="ot">=</span> <span class="st">"Lane Change/Merge"</span>,</span>
+<span id="cb66-35"><a href="#cb66-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Entering Traffic Lane"</span>           <span class="ot">=</span> <span class="st">"Lane Change/Merge"</span>,</span>
+<span id="cb66-36"><a href="#cb66-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ENTERING TRAFFIC LANE"</span>           <span class="ot">=</span> <span class="st">"Lane Change/Merge"</span>,</span>
+<span id="cb66-37"><a href="#cb66-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-38"><a href="#cb66-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Manöver/Besondere Zustände</span></span>
+<span id="cb66-39"><a href="#cb66-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Backing"</span>                         <span class="ot">=</span> <span class="st">"Backing/Skidding"</span>,</span>
+<span id="cb66-40"><a href="#cb66-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BACKING"</span>                         <span class="ot">=</span> <span class="st">"Backing/Skidding"</span>,</span>
+<span id="cb66-41"><a href="#cb66-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Negotiating a Curve"</span>             <span class="ot">=</span> <span class="st">"Negotiating Curve"</span>,</span>
+<span id="cb66-42"><a href="#cb66-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NEGOTIATING A CURVE"</span>             <span class="ot">=</span> <span class="st">"Negotiating Curve"</span>,</span>
+<span id="cb66-43"><a href="#cb66-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Overtaking/Passing"</span>              <span class="ot">=</span> <span class="st">"Passing"</span>,</span>
+<span id="cb66-44"><a href="#cb66-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PASSING"</span>                         <span class="ot">=</span> <span class="st">"Passing"</span>,</span>
+<span id="cb66-45"><a href="#cb66-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SKIDDING"</span>                        <span class="ot">=</span> <span class="st">"Backing/Skidding"</span>, <span class="co"># Skidding ist ein besonderer Zustand</span></span>
+<span id="cb66-46"><a href="#cb66-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-47"><a href="#cb66-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Unbekannt/Sonstiges</span></span>
+<span id="cb66-48"><a href="#cb66-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unknown"</span>                         <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb66-49"><a href="#cb66-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"UNKNOWN"</span>                         <span class="ot">=</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb66-50"><a href="#cb66-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"OTHER"</span>                           <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb66-51"><a href="#cb66-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DRIVERLESS MOVING VEH."</span>          <span class="ot">=</span> <span class="st">"Other"</span>, <span class="co"># Ein nicht standardmäßiges Ereignis</span></span>
+<span id="cb66-52"><a href="#cb66-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-53"><a href="#cb66-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Fehlende Werte</span></span>
+<span id="cb66-54"><a href="#cb66-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span>                             <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb66-55"><a href="#cb66-55" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb66-56"><a href="#cb66-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-57"><a href="#cb66-57" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vehicle.Movement <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Vehicle.Movement)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>“Vehicle.Going.Dir” (wow, es passt sogar mal zur Abwechslung):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Vehicle.Going.Dir':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Vehicle.Going.Dir)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Unique categories in 'Vehicle.Going.Dir': "              
+ [2] "Unique categories in 'Vehicle.Going.Dir': East"          
+ [3] "Unique categories in 'Vehicle.Going.Dir': Eastbound"     
+ [4] "Unique categories in 'Vehicle.Going.Dir': North"         
+ [5] "Unique categories in 'Vehicle.Going.Dir': Northbound"    
+ [6] "Unique categories in 'Vehicle.Going.Dir': Not On Roadway"
+ [7] "Unique categories in 'Vehicle.Going.Dir': South"         
+ [8] "Unique categories in 'Vehicle.Going.Dir': Southbound"    
+ [9] "Unique categories in 'Vehicle.Going.Dir': Unknown"       
+[10] "Unique categories in 'Vehicle.Going.Dir': West"          
+[11] "Unique categories in 'Vehicle.Going.Dir': Westbound"     </code></pre>
+</div>
+</div>
+<p>Ey, jetzt geht’s richtig ab, was ist da los. “Driverless Vehicle”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Driverless.Vehicle <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Driverless.Vehicle)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Driverless.Vehicle':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Driverless.Vehicle)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Unique categories in 'Driverless.Vehicle': No"     
+[2] "Unique categories in 'Driverless.Vehicle': Unknown"</code></pre>
+</div>
+</div>
+<p>“Parked Vehicle”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Parked.Vehicle <span class="ot">&lt;-</span> <span class="fu">recode</span>(data<span class="sc">$</span>Parked.Vehicle,</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nan"</span> <span class="ot">=</span> <span class="cn">NA_character_</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Parked.Vehicle <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>Parked.Vehicle)</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Unique categories in 'Parked.Vehicle':"</span>, (<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Parked.Vehicle)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Unique categories in 'Parked.Vehicle': "   
+[2] "Unique categories in 'Parked.Vehicle': No" 
+[3] "Unique categories in 'Parked.Vehicle': Yes"</code></pre>
+</div>
+</div>
 <section id="kopie" class="level3">
 <h3 class="anchored" data-anchor-id="kopie">Kopie</h3>
 <p>df_raw &lt;- df # Original behalten df &lt;- df_raw %&gt;% as_tibble() # Arbeitskopie</p>
