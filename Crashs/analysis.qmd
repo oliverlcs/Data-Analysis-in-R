@@ -59,7 +59,7 @@ library(formattable)
 Anschließend wurde der Datensatz geladen:
 
 ```{r}
-data <- read.csv("./data/Crash_Reporting_Drivers_Data.csv")
+data <- read.csv("Crashs/data/Crash_Reporting_Drivers_Data.csv")
 ```
 
 Um einen ersten Überblick über den Datensatz zu erhalten, wurden die folgenden Funktionen angewendet:

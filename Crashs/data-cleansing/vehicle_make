@@ -1,0 +1,45 @@
+library(dplyr)
+library(stringr)
+library(stringdist)
+data <- read.csv("Crashs/data/Crash_Reporting_Drivers_Data.csv")
+
+threshold <- 0.2 
+
+data %>%
+  count(Vehicle.Make, sort = T) %>%
+  head(200)
+
+data <- data %>%
+  mutate(make_clean = Vehicle.Make %>%
+  str_to_lower() %>%
+  str_trim()
+)
+
+brands <- c("Toyota", "Honda", "Ford", "Nissan", "Chevrolet", "Hyundai", "Dodge", "Jeep", 
+"BMW", "Lexus", "Acura", "Kia", "Subaru", "Mazda", "GMC", "Mercedes-Benz", 
+"Audi", "Thomas Built", "Volkswagen", "Chrysler", "Gillig", "Volvo", 
+"New Flyer", "Freightliner", "Infiniti", "Buick", "Tesla", "RAM", 
+"Cadillac", "Mitsubishi", "Mack", "Lincoln","International", "Mini", "Scion", 
+"Saturn", "Pontiac", "Mercury", "Land Rover", "Suzuki", "Isuzu", 
+"Porsche", "Jaguar", "Harley-Davidson", "Yamaha", "Kenworth", 
+"Orion", "Peterbilt", "Hino", "Spartan", "Fiat", 
+"Kawasaki", "Saab", "Sterling", "NABI", "Hummer", "Grumman", 
+"Range Rover", "Oldsmobile", "Thompson", "Genesis", "Maserati", 
+"IC Bus", "Metro", "Pierce Manufacturing", "Gillig", 
+"Bus", "Unknown", "Ducati", "Smart", "Alfa Romeo", "Triumph", "Novabus")
+
+data <- data %>%
+  rowwise() %>%
+  mutate(
+    jw_dist = list(stringdist(make_clean, brands, method = "jw")),
+    min_dist = min(unlist(jw_dist), na.rm = TRUE),
+    brands_matched = if (!is.na(make_clean) && nchar(make_clean) > 0 && min_dist <= threshold) {
+      brands[which.min(unlist(jw_dist))]
+    } else {
+      NA
+    }
+  ) %>%
+  ungroup()
+
+table(data$brands_matched)
+

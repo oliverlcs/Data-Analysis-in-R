@@ -1,0 +1,115 @@
+install.packages("stringr")
+library(dplyr)
+library(stringr)
+
+data <- read.csv("Crashs/data/Crash_Reporting_Drivers_Data.csv")
+
+data <- data %>%
+  mutate(vehicle_make_clean = Vehicle.Make %>%
+    str_to_lower() %>%
+    str_squish() #delete double spaces 
+  )
+
+data %>%
+  count(vehicle_make_clean, sort = TRUE)
+
+#install.packages("stringdist")
+library(stringdist)
+
+brands <- unique(data$vehicle_make_clean)
+brands <- brands[brands != "" & !is.na(brands)]
+dist_mat <- stringdistmatrix(brands, brands, method ="jw")
+hc <- hclust(as.dist(dist_mat))
+clusters <- cutree(hc, h = 0.15)
+result <- data.frame(brand = brands, cluster = clusters) %>%
+  arrange(cluster)
+print(result)
+
+library(dplyr)
+
+clean_brands <- data %>%
+  group_by(vehicle_make_clean) %>%
+  summarise(n = n()) %>%
+  left_join(result, by = c("vehicle_make_clean" = "brand")) %>%
+  group_by(cluster) %>%
+  slice_max(n, n=1, with_ties=F) %>%
+  select(cluster, canonical = vehicle_make_clean)
+
+data <- data %>%
+  left_join(result, by = c("vehicle_make_clean" = "brand")) %>%
+  left_join(clean_brands, by="cluster") %>%
+  mutate(make_final = canonical)
+
+data$make_final <- str_to_title(data$make_final)
+unique(data$make_final)
+table(data$make_final)
+
+data$make_final[str_detect(data$make_final, "^(0|1d|1g|1h|1j|1n|20|2d|3|4|5|8|9|N/A)")] <- NA
+data$make_final[str_detect(data$make_final, "^(Toy|Too|T0|Toto|Tpy|Tiy|Yo|Ty|Oy|Toty)")] <- "Toyota"
+data$make_final[str_detect(data$make_final, "^(Suz|Sz|Zu)")] <- "Suzuki"
+data$make_final[str_detect(data$make_final, "^(Smar|Sz)")] <- "Smart"
+data$make_final[str_detect(data$make_final, "^(Hind|Hn|Hod|Homd|Hon|Jond)")] <- "Honda"
+data$make_final[str_detect(data$make_final, "^(Bmw|Bmv|Bme|Bwm)")] <- "Bmw"
+data$make_final[str_detect(data$make_final, "^(Benz|Bens|Dai|Mer-|Mercd|Merce|Mercr|Merd|Mere|Merz)")] <- "Mercedes"
+data$make_final[str_detect(data$make_final, "^(Miss|Nis)")] <- "Nissan"
+data$make_final[str_detect(data$make_final, "^(Ny|Hun|Huu|Huy|Hya|Hynd|Hyun|Hdai)")] <- "Hyundai"
+data$make_final[str_detect(data$make_final, "^(Aud|Auf|Aui)")] <- "Audi"
+data$make_final[str_detect(data$make_final, "^(Foe|Ford|Foo|Fq)")] <- "Ford"
+data$make_final[str_detect(data$make_final, "^(Cer|Cev|Chev|Chv)")] <- "Chevrolet"
+data$make_final[str_detect(data$make_final, "^(Land|Lndr)")] <- "Land Rover"
+data$make_final[str_detect(data$make_final, "^(Maxd|Maza|Mazd|Naz|Moz|Naz)")] <- "Mazda"
+data$make_final[str_detect(data$make_final, "^Har")] <- "Harley-Davidson"
+data$make_final[str_detect(data$make_final, "^(Colk|Vol.|Volk|Vols|Vw|Wagon|Wolk|Jett|Golf)")] <- "Volkswagen"
+data$make_final[str_detect(data$make_final, "^(Colv|Volc|Volv|Vov)")] <- "Volvo"
+data$make_final[str_detect(data$make_final, "^(Tel|Tes)")] <- "Tesla"
+data$make_final[str_detect(data$make_final, "^(Mith|Mis|Mitb|Mitis|Mitsh|Mits|Mitsu|Mitzu|Mts|Mitt|Mitz)")] <- "Mitsubishi"
+data$make_final[str_detect(data$make_final, "^(Jag|Jaj)")] <- "Jaguar"
+data$make_final[str_detect(data$make_final, "^(Jee|Jep)")] <- "Jeep"
+data$make_final[str_detect(data$make_final, "^(Dod|Dog|Dad|Did|Odg)")] <- "Dodge"
+data$make_final[str_detect(data$make_final, "^(Lec|Les|Lex)")] <- "Lexus"
+data$make_final[str_detect(data$make_final, "^(Aca|Acr|Acu)")] <- "Acura"
+data$make_final[str_detect(data$make_final, "^(Sub|Suna)")] <- "Subaru"
+data$make_final[str_detect(data$make_final, "^(Tha|Thi|Thms|Tho|Tom)")] <- "Thomas"
+data$make_final[str_detect(data$make_final, "^(Giilig|Gilg|Giliq|Gill|Gll)")] <- "Gillig"
+data$make_final[str_detect(data$make_final, "^(Grum|Grun)")] <- "Grumman"
+data$make_final[str_detect(data$make_final, "^(Chr|Chy|Crys)")] <- "Chrysler"
+data$make_final[str_detect(data$make_final, "^(Inf|Ini)")] <- "Infiniti"
+data$make_final[str_detect(data$make_final, "^(New F|Ney|Nf|Nwf|Flyer)")] <- "New Flyer"
+data$make_final[str_detect(data$make_final, "^(Frei|Fret|Frght|Frh|Frieg)")] <- "Freightliner"
+data$make_final[str_detect(data$make_final, "^Bui")] <- "Buick"
+data$make_final[str_detect(data$make_final, "^Cad")] <- "Cadillac"
+data$make_final[str_detect(data$make_final, "^Mac")] <- "Mack"
+data$make_final[str_detect(data$make_final, "^(Linc|Lic)")] <- "Lincoln"
+data$make_final[str_detect(data$make_final, "^(Internat|Intl|Nav)")] <- "International"
+data$make_final[str_detect(data$make_final, "^(Mini|Mn)")] <- "Mini"
+data$make_final[str_detect(data$make_final, "^Por")] <- "Porsche"
+data$make_final[str_detect(data$make_final, "^(Rang|Rng|Rov)")] <- "Range Rover"
+data$make_final[str_detect(data$make_final, "^Scio")] <- "Scion"
+data$make_final[str_detect(data$make_final, "^Sat")] <- "Saturn"
+data$make_final[str_detect(data$make_final, "^Pont")] <- "Pontiac"
+data$make_final[str_detect(data$make_final, "^(Mecu|Mercu)")] <- "Mercury"
+data$make_final[str_detect(data$make_final, "^(Isu|Iz)")] <- "Isuzu"
+data$make_final[str_detect(data$make_final, "^(Unk|Uk|U/K|ZZ)")] <- "Unknown"
+data$make_final[str_detect(data$make_final, "^Orio")] <- "Orion"
+data$make_final[str_detect(data$make_final, "^(Kemw|Kentw|Kenw|Kw\\b)")] <- "Kenworth"
+data$make_final[str_detect(data$make_final, "^(Pete|Ptb|Ptrb)")] <- "Peterbilt"
+data$make_final[str_detect(data$make_final, "^Spar")] <- "Spartan"
+data$make_final[str_detect(data$make_final, "^Yama")] <- "Yamaha"
+data$make_final[str_detect(data$make_final, "^(Hen|Hin)")] <- "Hino"
+data$make_final[str_detect(data$make_final, "^(Pier|Pirc)")] <- "Pierce"
+data$make_final[str_detect(data$make_final, "^Kaw")] <- "Kawasaki"
+data$make_final[str_detect(data$make_final, "^(Ster|Stir|Stlg)")] <- "Sterling"
+data$make_final[str_detect(data$make_final, "^Nabi")] <- "NABI"
+data$make_final[str_detect(data$make_final, "^Olds")] <- "Oldsmobile"
+data$make_final[str_detect(data$make_final, "^(Genes|Geni|Gens)")] <- "Genesis"
+data$make_final[str_detect(data$make_final, "^(Mase|Mazze)")] <- "Maserati"
+data$make_final[str_detect(data$make_final, "^(Novb|Novab)")] <- "Novabus"
+data$make_final[str_detect(data$make_final, "^Triu")] <- "Triumph"
+data$make_final[str_detect(data$make_final, "^Plym")] <- "Plymouth"
+data$make_final[str_detect(data$make_final, "^(Alfa|Alpha)")] <- "Alfa Romeo"
+data$make_final[str_detect(data$make_final, "^Mci")] <- "Mci"
+
+data %>%
+  count(make_final, sort = TRUE)
+
+table(data$make_final)
