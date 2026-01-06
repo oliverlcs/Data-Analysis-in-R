@@ -268,27 +268,47 @@ Die Spalte "Road.Name" enthält 4673 verschiedene Straßennamen, sodass eine vol
 
 Dasselbe Vorgehen wurde für die Spalten "Cross.Street.Name", "Off.Road.Description", "Circumstance" und "Drivers.License.State" angewendet, die ebenfalls eine große Anzahl eindeutiger Werte sowie zahlreiche leere Werte enthalten.
 ```{r}
-sort(unique(data$Road.Name))
+# sort(unique(data$Road.Name))
+road_names <- sort(unique(data$Road.Name))
+cat("Anzahl einzigartiger Straßennamen:", length(road_names), "\n\n")
+cat("Beispiele (erste 10):\n")
+head(road_names, 10)
 
 data$Road.Name[data$Road.Name==""] <- NA
 
 
-sort(unique(data$Cross.Street.Name))
+# sort(unique(data$Cross.Street.Name))
+cross_street_names <- sort(unique(data$Cross.Street.Name))
+cat("Anzahl einzigartiger Querstraßennamen:", length(cross_street_names), "\n\n")
+cat("Beispiele (erste 10):\n")
+head(cross_street_names, 10)
 
 data$Cross.Street.Name[data$Cross.Street.Name==""] <- NA
 
 
-sort(unique(data$Off.Road.Description))
+# sort(unique(data$Off.Road.Description))
+off_road_desc <- sort(unique(data$Off.Road.Description))
+cat("Anzahl einzigartiger Off-Road-Beschreibungen:", length(off_road_desc), "\n\n")
+cat("Beispiele (erste 10):\n")
+head(off_road_desc, 10)
 
 data$Off.Road.Description[data$Off.Road.Description==""] <- NA
 
 
-sort(unique(data$Circumstance))
+# sort(unique(data$Circumstance))
+circumstances <- sort(unique(data$Circumstance))
+cat("Anzahl einzigartiger Umstände:", length(circumstances), "\n\n")
+cat("Beispiele (erste 10):\n")
+head(circumstances, 10)
 
 data$Circumstance[data$Circumstance==""] <- NA
 
 
-sort(unique(data$Drivers.License.State))
+# sort(unique(data$Drivers.License.State))
+license_states <- sort(unique(data$Drivers.License.State))
+cat("Anzahl einzigartiger Führerschein-Staaten:", length(license_states), "\n\n")
+cat("Beispiele (erste 10):\n")
+head(license_states, 10)
 
 data$Drivers.License.State[data$Drivers.License.State==""] <- NA
 ```
@@ -630,7 +650,11 @@ Nicht jeder Eintrag lässt sich sinnvoll zuordnen. Deshalb wird nicht automatisc
 
 Da es Bezeichnungen gibt, die nichtz durch den Namen direkt zugeordnet werden können, wurde die Liste der 200 Bezeichnungen manuell um bekannte Bezeichnungen ergänzt. Beispielweise DAIMLER wurde hinzugefügt, um es später mit den Begriffen von MErcedes Benz zu vereinen. 
 ```{r}
-sort(unique(data$Vehicle.Make)) 
+# sort(unique(data$Vehicle.Make))
+vehicle_makes <- sort(unique(data$Vehicle.Make))
+cat("Anzahl einzigartiger Fahrzeughersteller:", length(vehicle_makes), "\n\n")
+cat("Beispiele (erste 10):\n")
+head(vehicle_makes, 10)
 
 data %>%
   count(Vehicle.Make, sort = T) %>%
@@ -679,7 +703,11 @@ data <- data %>%
 table(data$brands_final)
 
 
-sort(unique(data$Vehicle.Model))
+# sort(unique(data$Vehicle.Model))
+vehicle_models <- sort(unique(data$Vehicle.Model))
+cat("Anzahl einzigartiger Fahrzeugmodelle:", length(vehicle_models), "\n\n")
+cat("Beispiele (erste 10):\n")
+head(vehicle_models, 10)
 
 data %>%
   count(Vehicle.Model, sort = T) %>%
