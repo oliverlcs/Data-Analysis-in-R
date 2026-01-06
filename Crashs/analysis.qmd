@@ -3,51 +3,24 @@ title: ""
 author: "Nele Hauck, Oliver Lucius"
 date: today
 format: html
+execute:
+  warning: false
+  message: false
 ---
 
 # Report von Nele Hauck und Oliver Lucius
 
 ## 1. Definition/Formulierung der Fragestellung
 
-::: {.callout-note icon="false"}
-## Aufgabenstellung (10 Pkt.)
-
-Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusammenhang mit dem Datensatz:
-
--   Was interessiert Sie an dem Datensatz?
--   Welche spezifische Fragestellung würden Sie gern mit Hilfe des Datensatzes beantworten?
--   Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?
-:::
-
 ### Was interessiert uns an dem Datensatz?
 
-Der Datensatz dokumentiert Verkehrsunfälle in Montgomery County, Maryland, über einen Zeitraum von etwa 10 Jahren (2015–2025). Besonders interessant ist die Möglichkeit, menschliche Verhaltensfaktoren — wie Alkohol- und Drogeneinfluss, Ablenkung am Steuer sowie die Interaktion mit vulnerablen Verkehrsteilnehmern — systematisch zu untersuchen.
+Der Datensatz dokumentiert Verkehrsunfälle in Montgomery County, Maryland, über einen Zeitraum von etwa 10 Jahren (2015–2025). Besonders interessant ist die Möglichkeit, menschliche Verhaltensfaktoren wie Alkohol- und Drogeneinfluss, Ablenkung am Steuer sowie die Interaktion mit vulnerablen Verkehrsteilnehmern systematisch zu untersuchen.
 
 Verkehrsunfälle sind keine rein zufälligen Ereignisse: Sie entstehen durch das Zusammenspiel von menschlichem Verhalten, Umweltbedingungen und infrastrukturellen Faktoren. Unser Ziel ist es, Muster und Zusammenhänge zu identifizieren, die zur Unfallprävention beitragen könnten.
 
 ### Fragestellungen
 
-Im Rahmen dieser Analyse werden fünf zusammenhängende Fragestellungen untersucht, die verschiedene Aspekte des Unfallgeschehens beleuchten:
-
-#### Analysierende Fragestellungen
-
-**Fragestellung C: Substanzeinfluss und Schuldfrage**
-
-> *Sind Fahrer mit nachgewiesenem oder vermutetem Alkohol-/Drogeneinfluss häufiger schuld am Unfall, und führen Unfälle unter Substanzeinfluss zu schwereren Verletzungen?*
-
-Diese Fragestellung untersucht den Zusammenhang zwischen Substanzkonsum und der Unfallverantwortung. Verwendet werden die Variablen `Driver.Alcohol`, `Driver.Drugs`, `Driver.At.Fault` und `Injury.Severity`.
-
-**Fragestellung D: Ablenkung am Steuer — Typen und Auswirkungen**
-
-> *Welche Ablenkungsarten sind am häufigsten und wie hängen sie mit dem Kollisionstyp zusammen?*
-
-Ablenkung ist eine der Hauptursachen für Verkehrsunfälle. Diese Analyse untersucht, welche Ablenkungsformen (Handynutzung, manuelle Tätigkeiten, visuelle Ablenkung) besonders häufig auftreten und ob bestimmte Ablenkungsarten zu spezifischen Unfalltypen führen. Verwendet werden `Driver.Distracted.By`, `Collision.Type` und `Driver.At.Fault`.
-
-**Fragestellung E: Fußgänger- und Radfahrerunfälle — Risikofaktoren**
-
-> *Unter welchen Bedingungen ereignen sich Unfälle mit nicht-motorisierten Verkehrsteilnehmern, und wie schwer sind diese im Vergleich zu reinen Fahrzeugunfällen?*
-
-Fußgänger und Radfahrer sind im Straßenverkehr besonders gefährdet. Diese Fragestellung analysiert, unter welchen Lichtverhältnissen und zu welchen Tageszeiten solche Unfälle auftreten und wie schwer die resultierenden Verletzungen sind. Verwendet werden `Related.Non.Motorist`, `Light`, `Injury.Severity` und `Crash.Date.Time`.
+Im Rahmen dieser Analyse werden fünf zusammenhängende Fragestellungen untersucht, die verschiedene Aspekte des Unfallgeschehens beleuchten.
 
 #### Deskriptive Fragestellungen
 
@@ -57,40 +30,43 @@ Fußgänger und Radfahrer sind im Straßenverkehr besonders gefährdet. Diese Fr
 
 Eine grundlegende Analyse der zeitlichen Verteilung von Unfällen kann Aufschluss darüber geben, wann besondere Vorsicht geboten ist. Aus `Crash.Date.Time` werden Stunde, Wochentag und Monat extrahiert und mit `Injury.Severity` in Beziehung gesetzt.
 
+**Hypothese:** Wir erwarten, dass Unfälle während der Rush Hour (7–9 Uhr und 16–18 Uhr) gehäuft auftreten, da dann das Verkehrsaufkommen am höchsten ist. Gleichzeitig vermuten wir, dass nächtliche Unfälle (22–5 Uhr) trotz geringerer Häufigkeit schwerere Verletzungen verursachen, bedingt durch höhere Geschwindigkeiten, schlechtere Sicht und möglicherweise Alkoholeinfluss.
+
 **Fragestellung B: Einfluss von Wetter und Straßenbedingungen**
 
 > *Führen ungünstige Wetterbedingungen und Straßenverhältnisse zu schwereren Unfällen?*
 
 Diese Fragestellung untersucht den oft vermuteten Zusammenhang zwischen Wetterbedingungen und Unfallschwere. Verwendet werden `Weather`, `Surface.Condition`, `Injury.Severity` und `Vehicle.Damage.Extent`.
 
-### Erwartungen und Hypothesen
+**Hypothese:** Entgegen der intuitiven Annahme erwarten wir, dass Unfälle bei schlechtem Wetter (Regen, Schnee, Eis) nicht zwingend schwerer sind als bei guten Bedingungen. Unsere Vermutung: Fahrer passen ihr Verhalten an und fahren bei widrigen Bedingungen vorsichtiger und langsamer, was die Unfallschwere reduziert.
 
-Vor der Analyse formulieren wir unsere Erwartungen, um diese später mit den tatsächlichen Ergebnissen vergleichen zu können:
+#### Analysierende Fragestellungen
 
-**Zu Fragestellung C (Substanzeinfluss):**
-Wir erwarten, dass Fahrer mit Alkohol- oder Drogeneinfluss (Kategorien CONTRIBUTED, PRESENT, SUSPECT) signifikant häufiger als schuldig eingestuft werden als nüchterne Fahrer. Zudem vermuten wir, dass Unfälle unter Substanzeinfluss schwerere Verletzungen nach sich ziehen, da die Reaktionsfähigkeit und das Urteilsvermögen beeinträchtigt sind.
+**Fragestellung C: Substanzeinfluss und Schuldfrage**
 
-**Zu Fragestellung D (Ablenkung):**
-Wir erwarten, dass Handynutzung (PHONE USE) die häufigste dokumentierte Ablenkungsform ist und überproportional zu Auffahrunfällen (REAR-END) führt. Der Grund: Bei Handynutzung wird der Blick von der Straße abgewendet, wodurch das vorausfahrende Fahrzeug zu spät wahrgenommen wird.
+> *Sind Fahrer mit nachgewiesenem oder vermutetem Alkohol-/Drogeneinfluss häufiger schuld am Unfall, und führen Unfälle unter Substanzeinfluss zu schwereren Verletzungen?*
 
-**Zu Fragestellung E (Fußgänger/Radfahrer):**
-Wir erwarten, dass Unfälle mit Fußgängern und Radfahrern häufiger bei schlechten Lichtverhältnissen (DARK) auftreten und deutlich schwerere Verletzungen verursachen als Unfälle zwischen Fahrzeugen. Der fehlende Schutz durch eine Karosserie macht diese Verkehrsteilnehmer besonders verwundbar.
+Diese Fragestellung untersucht den Zusammenhang zwischen Substanzkonsum und der Unfallverantwortung. Verwendet werden die Variablen `Driver.Alcohol`, `Driver.Drugs`, `Driver.At.Fault` und `Injury.Severity`.
 
-**Zu Fragestellung A (Zeitliche Muster):**
-Wir erwarten, dass Unfälle während der Rush Hour (7–9 Uhr und 16–18 Uhr) gehäuft auftreten, da dann das Verkehrsaufkommen am höchsten ist. Gleichzeitig vermuten wir, dass nächtliche Unfälle (22–5 Uhr) trotz geringerer Häufigkeit schwerere Verletzungen verursachen — bedingt durch höhere Geschwindigkeiten, schlechtere Sicht und möglicherweise Alkoholeinfluss.
+**Hypothese:** Wir erwarten, dass Fahrer mit Alkohol- oder Drogeneinfluss (Kategorien CONTRIBUTED, PRESENT, SUSPECT) signifikant häufiger als schuldig eingestuft werden als nüchterne Fahrer. Zudem vermuten wir, dass Unfälle unter Substanzeinfluss schwerere Verletzungen nach sich ziehen, da die Reaktionsfähigkeit und das Urteilsvermögen beeinträchtigt sind.
 
-**Zu Fragestellung B (Wetter):**
-Entgegen der intuitiven Annahme erwarten wir, dass Unfälle bei schlechtem Wetter (Regen, Schnee, Eis) nicht zwingend schwerer sind als bei guten Bedingungen. Unsere Hypothese: Fahrer passen ihr Verhalten an und fahren bei widrigen Bedingungen vorsichtiger und langsamer, was die Unfallschwere reduziert.
+**Fragestellung D: Ablenkung am Steuer**
+
+> *Welche Ablenkungsarten sind am häufigsten und wie hängen sie mit dem Kollisionstyp zusammen?*
+
+Ablenkung ist eine der Hauptursachen für Verkehrsunfälle. Diese Analyse untersucht, welche Ablenkungsformen (Handynutzung, manuelle Tätigkeiten, visuelle Ablenkung) besonders häufig auftreten und ob bestimmte Ablenkungsarten zu spezifischen Unfalltypen führen. Verwendet werden `Driver.Distracted.By`, `Collision.Type` und `Driver.At.Fault`.
+
+**Hypothese:** Wir erwarten, dass Handynutzung (PHONE USE) die häufigste dokumentierte Ablenkungsform ist und überproportional zu Auffahrunfällen (REAR-END) führt. Der Grund: Bei Handynutzung wird der Blick von der Straße abgewendet, wodurch das vorausfahrende Fahrzeug zu spät wahrgenommen wird.
+
+**Fragestellung E: Fußgänger- und Radfahrerunfälle**
+
+> *Unter welchen Bedingungen ereignen sich Unfälle mit nicht-motorisierten Verkehrsteilnehmern, und wie schwer sind diese im Vergleich zu reinen Fahrzeugunfällen?*
+
+Fußgänger und Radfahrer sind im Straßenverkehr besonders gefährdet. Diese Fragestellung analysiert, unter welchen Lichtverhältnissen und zu welchen Tageszeiten solche Unfälle auftreten und wie schwer die resultierenden Verletzungen sind. Verwendet werden `Related.Non.Motorist`, `Light`, `Injury.Severity` und `Crash.Date.Time`.
+
+**Hypothese:** Wir erwarten, dass Unfälle mit Fußgängern und Radfahrern häufiger bei schlechten Lichtverhältnissen (DARK) auftreten und deutlich schwerere Verletzungen verursachen als Unfälle zwischen Fahrzeugen. Der fehlende Schutz durch eine Karosserie macht diese Verkehrsteilnehmer besonders verwundbar.
 
 ## 2. Laden der Daten
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (10 Pkt.)
-
-Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Überblick \* Welche Typen sind enthalten? \* Ist sichergestellt, dass alle Daten den richtigen Typ haben? \* Haben die Daten irgendwelche "Seltsamkeiten" mit denen Sie umgehen müssen, wie z.B. anders codierte `NA`'s, mehrere Tabellen, ... etc. \* Je nach Datensatz können Sie die Daten auch in eine Datenbank laden und dann auf diese in R zugreifen.
-
-Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
-:::
 
 ### Laden der Daten & erster Überblick
 
@@ -108,6 +84,8 @@ library(formattable)
 library(stringr)
 library(lubridate)
 library(stringdist)
+library(knitr)
+library(kableExtra)
 ```
 
 Anschließend wurde der Datensatz geladen:
@@ -116,7 +94,7 @@ Anschließend wurde der Datensatz geladen:
 data <- read.csv("data/Crash_Reporting_Drivers_Data.csv")
 ```
 
-Um einen ersten Überblick über den Datensatz zu erhalten, wurden die folgenden Funktionen angewendet:
+Um einen ersten Überblick über den Datensatz zu erhalten, wurde die folgende Funktion angewendet:
 
 ```{r}
 skim(data)  
@@ -124,10 +102,14 @@ skim(data)
 
 Der Datensatz umfasst **39 Variablen** und **204.688 Beobachtungen**. Von den 39 Variablen sind **35 vom Typ "character"**, während die übrigen **4 numerische Werte** enthalten. Bereits auf den ersten Blick fällt auf, dass in mehreren Spalten **fehlende Werte** vorhanden sind. Zudem weisen einige Variablen eine sehr große Anzahl unterschiedlicher Werte auf, was auf eine hohe Individualität innerhalb der Daten deutet.
 
-Ein erster Blick auf die Inhalte des Datensatzes verdeutlicht sich durch folgende Funktion:
+Einen ersten Blick auf die Inhalte des Datensatzes ermöglicht die folgende Funktion:
 
 ```{r}
-head(data)
+data %>%
+  head(5) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F) %>%
+  scroll_box(width = "100%")
 ```
 
 Beim Betrachten der ersten Zeilen wird deutlich, dass mehrere Spalten fehlende Werte aufweisen, die sich durch leere Felder bemerkbar machen.
@@ -135,7 +117,11 @@ Beim Betrachten der ersten Zeilen wird deutlich, dass mehrere Spalten fehlende W
 Zur weiteren Übersicht über die Spalten wurde die folgende Funktion verwendet:
 
 ```{r}
-summary(data) 
+summary(data) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "condensed"), font_size = 12) %>%
+  row_spec(1:nrow(summary(data)), extra_css = "white-space: nowrap;") %>%
+  scroll_box(width = "100%")
 ```
 
 Hierbei fällt insbesondere die Variable "Vehicle.Year" auf, da deren Minimum bei **0** und Maximum bei **9999** liegt. Diese Werte sind offensichtlich **unrealistisch für ein Fahrzeugmodelljahr** und müssen daher im nächsten Schritt bereinigt werden.
@@ -219,18 +205,6 @@ unique(data$Agency.Name)
 Die Auswertung zeigt, dass die Daten aus **Montgomery County, Maryland, USA** stammen. Bei den Einträgen treten jedoch mehrfach Schreibvarianten derselben Polizeibehörde auf, weshalb die Spalte vor der weiteren Analyse noch bereinigt werden muss, um konsistente Kategorien zu gewährleisten.
 
 ## 3. Bearbeiten/Transformieren der Daten
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (15 Pkt.)
-
-In diesem Abschnitt sollten Sie alle notwendigen Transformationen/Bereiningungen/... etc. der Daten vornehmen (Data Muning ? was ist Muning, meinst du Mining, Data Cleansing), wie z.B.: \* Umcodierung von Daten, z.B. numerisch in kategorial \* Subsetting der Daten \* Joining von Datentabellen - falls nötig. Welcher Join ist notwendig? Warum? \* ...
-
-Verschaffen Sie sich eine Übersicht der transformierten Daten. Sie können hierzu Hilfsmittel wie `glimpse()`, `skim()` und `head()` benutzen, um Ihre Erläuterungen zu veranschaulichen.
-
-Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?
-
-In diesem Abschnitt werden die gegebenen Daten bereinigt und für die weitere Analyse vorbereitet. Dazu gehören die Überprüfung auf fehlende oder fehlerhafte Werte, die Umwandlung von Variablen in geeignete Datentypen, sowie gegebenenfalls das Zusammenführen und Filtern relevanter Daten.
-:::
 
 Für die Datenbereinigung wurde jede Spalte systematisch auf fehlende Werte, fehlerhafte Einträge, Inkonsistenzen und Redundanten geprüft. Bei Bedarf wurden die Varibalen anschließend in die passenden Datentypen konvertiert. 
 
