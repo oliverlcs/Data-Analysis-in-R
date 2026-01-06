@@ -1736,6 +1736,13 @@ formattable: Create 'Formattable' Data Structures.
 R package version 0.2.1, https://CRAN.R-project.org/package=formattable
 ```
 
+**scales** — Zahlenformatierung für Visualisierungen
+```
+Wickham H, Pedersen TL, Seidel D (2023).
+scales: Scale Functions for Visualization.
+R package version 1.3.0, https://CRAN.R-project.org/package=scales
+```
+
 ### Datenquelle
 
 **Montgomery County Crash Reporting - Drivers Data**
