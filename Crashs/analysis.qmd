@@ -893,7 +893,7 @@ data %>%
 
 Für die Erstellung der Heatmap wurden zunächst Datensätze entfernt, die fehlende Werte in den Variablen crash_hour oder crash_wday aufwiesen. Die verbleibenden Daten wurden aggregiert, um die Unfallhäufigkeit in Abhängigkeit von Uhrzeit und Wochentag zu visualisieren. Die Farbintensität dient dabei als Indikator für die Fallzahl, wobei dunklere Rottöne eine höhere Unfallkonzentration signalisieren.
 
-Die Grafik verdeutlicht signifikante strukturelle Unterschiede zwischen Werktagen und Wochenenden. An den Tagen Montag bis Freitag ist das klassische Pendler-Muster ("Rush Hour") klar erkennbar: Es zeigen sich zwei ausgeprägte Spitzen am Morgen (ca. 7–9 Uhr) und, noch intensiver, am späten Nachmittag (ca. 15–18 Uhr). Im Gegensatz dazu entfällt am Samstag und Sonntag der morgendliche Peak vollständig. Stattdessen ist am Wochenende ein sanfterer, gleichmäßigerer Anstieg der Unfallzahlen zur Tagesmitte hin zu beobachten, wobei die absoluten Höchstwerte der Woche (dunkelste Rotfärbung) eindeutig in den Feierabendstunden der Werktage liegen.
+Die Grafik verdeutlicht signifikante strukturelle Unterschiede zwischen Werktagen und Wochenenden. An den Tagen Montag bis Freitag ist das klassische Pendler-Muster (“Rush Hour”) klar erkennbar: Es zeigen sich zwei ausgeprägte Spitzen am Morgen (ca. 7–9 Uhr) und, noch intensiver, am späten Nachmittag (ca. 15–18 Uhr). Im Gegensatz dazu entfällt am Samstag und Sonntag der morgendliche Peak vollständig. Stattdessen ist am Wochenende ein sanfterer, gleichmäßigerer Anstieg der Unfallzahlen zur Tagesmitte hin zu beobachten, wobei die absoluten Höchstwerte der Woche (dunkelste Rotfärbung) eindeutig in den Feierabendstunden der Werktage liegen.
 
 #### Verletzungsschwere nach Tageszeit
 
@@ -1015,7 +1015,13 @@ Der darauf folgende Pearson’s Chi-Squared Test lieferte ebenfalls einen extrem
 
 #### Zwischenfazit Fragestellung A
 
-Die zeitliche Analyse bestätigt die erwarteten Rush-Hour-Peaks. Der Chi-Quadrat-Test zeigt, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind. Der Zusammenhang zwischen Tageszeit und Verletzungsschwere ist ebenfalls statistisch signifikant. Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, kann anhand der Daten überprüft werden.
+Die zeitliche Analyse bestätigt die aufgestellten Hypothesen weitgehend:
+
+**Rush-Hour-Peaks:** Die Daten zeigen eindeutig das erwartete zweigipflige Muster mit Spitzen am Morgen (7–9 Uhr) und einem noch ausgeprägteren Maximum am Nachmittag (16–18 Uhr). Der abendliche Peak ist signifikant höher als der morgendliche, was mit dem höheren Verkehrsaufkommen während der Feierabendzeit korreliert.
+
+**Wochentag-Unterschiede:** Die Heatmap offenbart klare Unterschiede zwischen Werktagen (klassisches Pendler-Muster) und Wochenenden (kein morgendlicher Peak, gleichmäßigerer Anstieg zur Tagesmitte). Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt statistisch, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.
+
+**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,38% gegenüber 0,78% am Morgen, 0,79% am Mittag und 0,72% am Abend – ein nahezu doppelt so hohes relatives Risiko. Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt diesen Zusammenhang statistisch.
 
 ---
 
@@ -1198,7 +1204,7 @@ chisq_weather_injury
 
 Zur statistischen Absicherung der visuellen Befunde wurde ein Pearson’s Chi-Quadrat-Test durchgeführt. Zuvor wurden die Daten gefiltert, um Einträge mit fehlenden Werten in den Variablen `Weather` und `Injury.Severity` explizit auszuschließen und so eine saubere Datenbasis für die Kreuztabellierung zu schaffen.
 
-Das Testergebnis liefert einen p-Wert von $3,002 \cdot 10^{-12}$, der weit unter dem üblichen Signifikanzniveau von 0,05 liegt. Dies belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Wetterlage und der Verletzungsschwere. Das Ergebnis bedeutet, dass die beobachteten Unterschiede – etwa das leicht erhöhte Risiko schwerer Verletzungen bei gutem Wetter (siehe vorherige Tabelle) – statistisch nicht zufällig sind, sondern systematisch mit den Witterungsbedingungen korrelieren. Aufgrund der großen Stichprobe werden hier selbst kleine strukturelle Abweichungen als statistisch signifikant identifiziert.
+Das Testergebnis liefert einen p-Wert von 3,002 · 10⁻¹², der weit unter dem üblichen Signifikanzniveau von 0,05 liegt. Dies belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Wetterlage und der Verletzungsschwere. Das Ergebnis bedeutet, dass die beobachteten Unterschiede – etwa das leicht erhöhte Risiko schwerer Verletzungen bei gutem Wetter (siehe vorherige Tabelle) – statistisch nicht zufällig sind, sondern systematisch mit den Witterungsbedingungen korrelieren. Aufgrund der großen Stichprobe werden hier selbst kleine strukturelle Abweichungen als statistisch signifikant identifiziert.
 
 ```{r}
 # Chi-Quadrat-Test: Straßenbedingung × Fahrzeugschaden
@@ -1216,7 +1222,15 @@ Das Testergebnis bestätigt mit einem p-Wert von < 2.2e-16 die statistische Sign
 
 #### Zwischenfazit Fragestellung B
 
-Die Analyse der Wetterbedingungen liefert ein interessantes Ergebnis: Entgegen der verbreiteten Annahme zeigen die Daten, dass Unfälle bei schlechtem Wetter nicht unbedingt schwerer sind. Die Chi-Quadrat-Tests bestätigen zwar einen statistisch signifikanten Zusammenhang zwischen Wetter und Verletzungsschwere, jedoch in möglicherweise unerwarteter Richtung. Dies stützt unsere Hypothese, dass Fahrer bei widrigen Bedingungen ihr Verhalten anpassen und vorsichtiger fahren.
+Die Analyse der Wetterbedingungen bestätigt die kontraintuitive Hypothese vollständig:
+
+**Unfallhäufigkeit:** Die absolute Mehrheit der Unfälle (142.319 Fälle, ca. 73%) ereignet sich bei klarem Wetter. Widrige Witterungsbedingungen wie Schnee, Nebel oder starker Wind spielen quantitativ eine untergeordnete Rolle.
+
+**Verletzungsschwere:** Der Vergleich zeigt, dass Unfälle bei gutem Wetter tatsächlich einen höheren Anteil schwerer Verletzungen aufweisen (0,86%) als bei schlechtem Wetter (0,79%). Besonders auffällig: Bei Regen (0,67%) und Schnee (0,60%) ist das Risiko schwerer Verletzungen sogar niedriger als bei klarem Himmel. Die höchste Quote schwerer Verletzungen findet sich bei Nebel/schlechter Sicht (1,06%), wo die Gefahr offenbar unterschätzt wird.
+
+**Fahrzeugschäden:** Bei Straßenbedingungen mit Wasser (stehend/fließend) zeigt sich der höchste Anteil an Totalschäden, während bei Glätte (Eis, Schneematsch) Schäden dominieren, die das Fahrzeug fahruntüchtig machen.
+
+**Interpretation:** Diese Befunde stützen die Hypothese der Risikokompensation: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an (geringere Geschwindigkeit, erhöhte Aufmerksamkeit), während bei vermeintlich guten Verhältnissen tendenziell schneller und unvorsichtiger gefahren wird. Der Chi-Quadrat-Test (p = 3,0e-12) bestätigt den Zusammenhang statistisch.
 
 ---
 
@@ -1389,7 +1403,15 @@ Die Visualisierung offenbart ein differenziertes Risikoprofil. Zwar bildet die K
 
 #### Zwischenfazit Fragestellung C
 
-Die Analyse zeigt einen klaren Zusammenhang zwischen Substanzeinfluss und Unfallschuld. Der Chi-Quadrat-Test bestätigt, dass dieser Zusammenhang statistisch signifikant ist (p < 0.05). Die Hypothese, dass Fahrer unter Alkohol- oder Drogeneinfluss häufiger schuld am Unfall sind, wird durch die Daten gestützt.
+Die Analyse bestätigt beide Teile der aufgestellten Hypothese eindeutig:
+
+**Substanzeinfluss und Schuld:** Die Daten zeigen einen dramatischen Unterschied in der Schuldzuweisung. Bei nachgewiesenem Alkoholeinfluss („CONTRIBUTED") liegt der Anteil schuldiger Fahrer bei 98,9%, bei „PRESENT" bei 97,6%. Im Vergleich dazu sind nur 33,7% der Fahrer mit Status „NOT SUSPECT" als schuldig eingestuft. Ähnliche Muster zeigen sich beim Drogeneinfluss (99,3% bei „CONTRIBUTED", 96,3% bei „PRESENT"). Die Chi-Quadrat-Tests bestätigen diese Zusammenhänge mit extrem hohen Teststatistiken (X² = 10.277 für Alkohol, X² = 9.801 für Drogen, jeweils p < 2.2e-16).
+
+**Überlappung Alkohol/Drogen:** Die Kreuztabellierung zeigt, dass die Kategorien stark überlappen. Bei positivem Alkoholbefund wird der Drogenstatus häufig als „NO CLASSIFICATION" erfasst, was den hohen Schuldanteil dieser Kategorie (97,7%) erklärt.
+
+**Verletzungsschwere:** Die Visualisierung bestätigt, dass Unfälle unter Alkoholeinfluss zu einer Verschiebung hin zu schwereren Verletzungsfolgen führen. Der Anteil an „SUSPECTED SERIOUS INJURY" und „FATAL INJURY" ist bei alkoholisierten Fahrern sichtbar erhöht, während die Kategorie „POSSIBLE INJURY" bei nüchternen Fahrern dominiert.
+
+**Fazit:** Die Hypothese ist vollständig bestätigt – Substanzeinfluss ist sowohl mit signifikant höherer Unfallschuld als auch mit schwereren Verletzungen assoziiert.
 
 ---
 
@@ -1497,6 +1519,16 @@ Zur Analyse des Einflusses von Ablenkung auf die Unfallverantwortlichkeit wurde 
 Das Ergebnis zeigt, dass 51,6 % der Fahrer, bei denen eine visuelle Ablenkung dokumentiert wurde, als unfallverursachend eingestuft wurden. Da in der Darstellung keine Vergleichsgruppe (z. B. „Keine Ablenkung“) abgebildet ist, lässt sich aus diesem isolierten Wert statistisch nicht ableiten, ob Ablenkung das Unfallrisiko signifikant erhöht. Der Wert liegt nur knapp über dem Zufallsmittel, was ohne einen Referenzwert für aufmerksame Fahrer keine belastbare Aussage über eine relative Risikoerhöhung zulässt. Das Fehlen des zweiten Balkens deutet darauf hin, dass die Datenbasis für diese Grafik vorab auf Einträge mit vorhandenem Ablenkungsvermerk gefiltert wurde.
 
 #### Zwischenfazit Fragestellung D
+
+Die Analyse der Ablenkung am Steuer offenbart eine wesentliche Limitation der Datenbasis:
+
+**Datenlimitation:** Die Spalte „Driver.Distracted.By" enthält nach der Datenbereinigung ausschließlich den Wert „VISUAL DISTRACTION" für alle 204.688 Fälle. Es findet keine weitere Differenzierung in spezifische Ablenkungsarten (z.B. Handynutzung, manuelle Tätigkeiten, Gespräche) statt. Dies bedeutet, dass die ursprüngliche Hypothese – Handynutzung sei die häufigste dokumentierte Ablenkungsform – mit diesem Datensatz nicht überprüft werden kann.
+
+**Kollisionstypen bei visueller Ablenkung:** Trotz der eingeschränkten Datenbasis liefert die Analyse wertvolle Erkenntnisse. Bei dokumentierter visueller Ablenkung dominieren erwartungsgemäß Auffahrunfälle (REAR-END) mit 33% aller Fälle. Dies ist inhaltlich plausibel: Wer den Blick von der Straße abwendet, bemerkt bremsende Vordermänner zu spät. Winkelkollisionen (ANGLE) folgen mit 20%, was auf übersehene Vorfahrtsregelungen hindeutet.
+
+**Ablenkung und Schuld:** Der Schuldanteil bei abgelenkten Fahrern (51,6%) liegt nur geringfügig über dem statistischen Erwartungswert. Ohne Vergleichsgruppe (Fahrer ohne dokumentierte Ablenkung) lässt sich hieraus jedoch keine belastbare Aussage über eine relative Risikoerhöhung ableiten.
+
+**Fazit:** Die Hypothese zur Handynutzung kann nicht getestet werden. Die verfügbaren Daten zeigen jedoch, dass visuelle Ablenkung überproportional zu Auffahrunfällen führt – ein Teilaspekt der ursprünglichen Vermutung wird somit bestätigt.
 
 ---
 
@@ -1706,7 +1738,15 @@ Ein vergleichbares Vorgehen wurde bei der Analyse der Verletzungsschwere angewen
 
 #### Zwischenfazit Fragestellung E
 
-Die Analyse zeigt deutliche Unterschiede zwischen Unfällen mit und ohne nicht-motorisierte Verkehrsteilnehmer. Die Chi-Quadrat-Tests bestätigen statistisch signifikante Zusammenhänge sowohl mit den Lichtverhältnissen als auch mit der Verletzungsschwere. Die Hypothese, dass Unfälle mit Fußgängern und Radfahrern schwerere Verletzungen verursachen, kann anhand der Daten überprüft werden.
+Die Analyse bestätigt die aufgestellte Hypothese in wesentlichen Punkten:
+
+**Verletzungsschwere:** Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) bei Unfällen mit Fußgängern/Radfahrern (5,53%) ist nahezu siebenmal höher als bei reinen Fahrzeugunfällen (0,79%). Dies bestätigt eindeutig die Hypothese, dass der fehlende Schutz durch eine Karosserie diese Verkehrsteilnehmer besonders verwundbar macht.
+
+**Lichtverhältnisse:** Entgegen der ursprünglichen Vermutung ereignen sich Unfälle mit nicht-motorisierten Beteiligten nicht häufiger bei Dunkelheit. Der Dunkelheits-Anteil liegt bei Unfällen mit Fußgängern/Radfahrern (21,3%) nur geringfügig höher als bei reinen Fahrzeugunfällen (19,7%). Die Mehrheit dieser Unfälle findet bei Tageslicht statt. Der Chi-Quadrat-Test (p = 1,59e-09) zeigt dennoch einen signifikanten Zusammenhang.
+
+**Zeitliche Verteilung:** Die Unfälle mit nicht-motorisierten Beteiligten zeigen ein deutliches Maximum in den Nachmittagsstunden (14–18 Uhr), was mit typischen Freizeit- und Pendelzeiten für Fußgänger und Radfahrer korreliert.
+
+**Fazit:** Die Hypothese zur erhöhten Verletzungsschwere ist vollständig bestätigt (fast 7-fach erhöhtes Risiko schwerer Verletzungen). Die Vermutung häufigerer Unfälle bei Dunkelheit trifft jedoch nicht zu – die Lichtverhältnisse unterscheiden sich nur geringfügig von reinen Fahrzeugunfällen.
 
 ---
 
@@ -1728,54 +1768,57 @@ Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2
 
 #### Fragestellung A: Zeitliche Muster
 
-**Ergebnis:** Die zeitliche Analyse zeigt klare Muster in der Unfallverteilung. Die Heatmap offenbart Unterschiede zwischen Werktagen und Wochenenden sowie zwischen verschiedenen Tageszeiten. Der Chi-Quadrat-Test bestätigt, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.
+**Ergebnis:** Die zeitliche Analyse zeigt klare, statistisch signifikante Muster. Die Rush-Hour-Peaks (7–9 Uhr und 16–18 Uhr) sind deutlich erkennbar, wobei der abendliche Peak ausgeprägter ist als der morgendliche. Werktage zeigen das klassische Pendler-Muster, während Wochenenden ein gleichmäßigeres Unfallaufkommen zur Tagesmitte aufweisen. Der Anteil schwerer Verletzungen ist nachts (20–6 Uhr) mit 1,38% fast doppelt so hoch wie zu anderen Tageszeiten (0,72–0,79%).
 
-**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — Die erwarteten Rush-Hour-Peaks sind in den Daten sichtbar. Die Vermutung, dass nächtliche Unfälle schwerere Verletzungen verursachen, kann anhand der Verletzungsverteilung nach Tageszeit überprüft werden.
+**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Beide Teile der Hypothese wurden durch die Daten gestützt: Die Rush-Hour-Peaks treten wie erwartet auf, und nächtliche Unfälle verursachen trotz geringerer Häufigkeit signifikant schwerere Verletzungen.
 
 #### Fragestellung B: Wetter und Straßenbedingungen
 
-**Ergebnis:** Die Analyse der Wetterbedingungen zeigt ein differenziertes Bild. Obwohl ein statistisch signifikanter Zusammenhang zwischen Wetter und Verletzungsschwere besteht, ist die Richtung dieses Zusammenhangs bemerkenswert.
+**Ergebnis:** Bei klarem Wetter liegt der Anteil schwerer Verletzungen (0,86%) höher als bei schlechtem Wetter (0,79%). Besonders niedrig ist das Risiko bei Regen (0,67%) und Schnee (0,60%). Die höchste Quote findet sich bei Nebel (1,06%), wo die Gefahr unterschätzt zu werden scheint. Bei Straßenbedingungen mit Wasser treten die meisten Totalschäden auf.
 
-**Vergleich mit Hypothese:** ✅ **Bestätigt** — Unsere kontraintuitive Hypothese, dass Unfälle bei schlechtem Wetter nicht zwingend schwerer sind, wird durch die Daten gestützt. Dies deutet darauf hin, dass Fahrer ihr Verhalten an widrige Bedingungen anpassen.
+**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Die kontraintuitive Hypothese der Risikokompensation wird durch die Daten gestützt: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an und fahren langsamer, was die Unfallschwere reduziert.
 
 #### Fragestellung C: Substanzeinfluss und Schuldfrage
 
-**Ergebnis:** Die Analyse bestätigt einen klaren Zusammenhang zwischen Substanzeinfluss und Unfallschuld. Fahrer mit nachgewiesenem Alkohol- oder Drogeneinfluss werden signifikant häufiger als Unfallverursacher eingestuft. Der Chi-Quadrat-Test zeigt, dass dieser Zusammenhang statistisch hochsignifikant ist.
+**Ergebnis:** Bei nachgewiesenem Alkoholeinfluss liegt der Schuldanteil bei 97,6–98,9%, bei Drogeneinfluss bei 96,3–99,3%. Im Vergleich dazu sind nur 33,7% der Fahrer mit Status „NOT SUSPECT" als schuldig eingestuft. Unfälle unter Alkoholeinfluss zeigen zudem eine Verschiebung hin zu schwereren Verletzungsfolgen (erhöhter Anteil FATAL und SUSPECTED SERIOUS INJURY).
 
-**Vergleich mit Hypothese:** ✅ **Bestätigt** — Unsere Erwartung, dass Fahrer unter Substanzeinfluss häufiger schuld sind, wurde durch die Daten gestützt. Auch die Vermutung schwererer Verletzungen bei Substanzeinfluss konnte in den Daten beobachtet werden.
+**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Beide Hypothesenteile (höhere Schuldquote und schwerere Verletzungen bei Substanzeinfluss) werden durch die Daten eindeutig gestützt.
 
 #### Fragestellung D: Ablenkung am Steuer
 
-**Ergebnis:** Die Verteilung der Ablenkungsarten zeigt, welche Formen am häufigsten dokumentiert werden. Der Chi-Quadrat-Test bestätigt einen statistisch signifikanten Zusammenhang zwischen Ablenkungsart und Kollisionstyp.
+**Ergebnis:** Die Datenbasis enthält nur die generische Kategorie „VISUAL DISTRACTION" für alle Fälle – eine Differenzierung nach spezifischen Ablenkungsarten (Handy, Gespräche etc.) ist nicht möglich. Bei visueller Ablenkung dominieren Auffahrunfälle (REAR-END) mit 33% aller Kollisionen, gefolgt von Winkelkollisionen (ANGLE) mit 20%.
 
-**Vergleich mit Hypothese:** Die Hypothese, dass Handynutzung überproportional zu Auffahrunfällen führt, kann anhand der Daten überprüft werden. Die tatsächlichen Anteile zeigen, ob diese Vermutung zutrifft oder ob andere Ablenkungsformen stärker mit bestimmten Kollisionstypen assoziiert sind.
+**Vergleich mit Hypothese:** ⚠️ **Nicht testbar / Teilweise bestätigt** — Die spezifische Hypothese zur Handynutzung kann aufgrund der Datenlimitation nicht überprüft werden. Der Zusammenhang zwischen visueller Ablenkung und Auffahrunfällen (ein Teilaspekt der ursprünglichen Vermutung) wird jedoch bestätigt.
 
 #### Fragestellung E: Fußgänger- und Radfahrerunfälle
 
-**Ergebnis:** Unfälle mit nicht-motorisierten Verkehrsteilnehmern unterscheiden sich deutlich von reinen Fahrzeugunfällen. Die Chi-Quadrat-Tests bestätigen signifikante Zusammenhänge sowohl mit den Lichtverhältnissen als auch mit der Verletzungsschwere.
+**Ergebnis:** Der Anteil schwerer Verletzungen bei Unfällen mit Fußgängern/Radfahrern (5,53%) ist fast siebenmal höher als bei reinen Fahrzeugunfällen (0,79%). Entgegen der Erwartung findet jedoch die Mehrheit dieser Unfälle bei Tageslicht statt; der Dunkelheits-Anteil (21,3%) liegt nur geringfügig über dem bei Fahrzeugunfällen (19,7%).
 
-**Vergleich mit Hypothese:** ✅ **Bestätigt** — Die Erwartung, dass Unfälle mit Fußgängern und Radfahrern schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der fehlende Schutz durch eine Fahrzeugkarosserie macht diese Verkehrsteilnehmer besonders verwundbar.
+**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — Die Hypothese zur erhöhten Verletzungsschwere ist vollständig bestätigt (7-fach erhöhtes Risiko). Die Vermutung, dass Unfälle mit Fußgängern/Radfahrern häufiger bei Dunkelheit auftreten, trifft jedoch nicht zu.
 
 ### Gesamtfazit
 
-Die Analyse der Verkehrsunfalldaten aus Montgomery County liefert wertvolle Erkenntnisse über Faktoren, die zu Unfällen und deren Schwere beitragen:
+Die Analyse der 204.688 Verkehrsunfälle aus Montgomery County (2015–2025) liefert konkrete, statistisch abgesicherte Erkenntnisse:
 
-1. **Menschliches Verhalten ist entscheidend:** Substanzeinfluss und Ablenkung sind signifikant mit der Unfallschuld assoziiert. Diese Faktoren sind durch Prävention und Aufklärung beeinflussbar.
+1. **Menschliches Verhalten ist der stärkste Risikofaktor:** Bei nachgewiesenem Substanzeinfluss liegt die Schuldquote bei über 97%, verglichen mit nur 34% bei unverdächtigen Fahrern. Dieser Zusammenhang ist statistisch hochsignifikant (Chi² > 10.000, p < 2.2e-16) und zeigt die zentrale Rolle menschlichen Fehlverhaltens.
 
-2. **Vulnerable Verkehrsteilnehmer brauchen besonderen Schutz:** Fußgänger und Radfahrer erleiden bei Unfällen schwerere Verletzungen. Infrastrukturmaßnahmen und Aufklärung könnten hier Abhilfe schaffen.
+2. **Vulnerable Verkehrsteilnehmer sind massiv gefährdet:** Das Risiko schwerer Verletzungen für Fußgänger und Radfahrer ist fast siebenmal höher als bei Fahrzeuginsassen (5,53% vs. 0,79%). Infrastrukturmaßnahmen wie geschützte Radwege und Fußgängerüberwege könnten hier Leben retten.
 
-3. **Zeitliche Muster ermöglichen gezielte Prävention:** Die identifizierten Rush-Hour-Peaks und Unterschiede zwischen Tag und Nacht könnten für gezielte Präventionsmaßnahmen genutzt werden.
+3. **Zeitliche Muster ermöglichen gezielte Prävention:** Das doppelt so hohe Risiko schwerer Verletzungen in der Nacht (1,38% vs. 0,72-0,79%) sowie die Rush-Hour-Peaks bieten Ansatzpunkte für verstärkte Polizeipräsenz und Aufklärungskampagnen zu spezifischen Zeiten.
 
-4. **Risikokompensation bei schlechtem Wetter:** Die Erkenntnis, dass schlechtes Wetter nicht automatisch zu schwereren Unfällen führt, deutet auf adaptives Fahrverhalten hin.
+4. **Risikokompensation funktioniert – meist:** Bei Regen und Schnee ist das Risiko schwerer Verletzungen niedriger als bei klarem Wetter, was auf angepasstes Fahrverhalten hindeutet. Bei Nebel versagt dieser Mechanismus jedoch (höchste Verletzungsquote mit 1,06%).
+
+5. **Datenlimitationen schränken manche Analysen ein:** Die fehlende Differenzierung der Ablenkungsarten verhinderte die Überprüfung der Handy-Hypothese – ein Hinweis auf Verbesserungspotenzial bei der polizeilichen Datenerfassung.
 
 ### Limitationen
 
 Diese Analyse unterliegt einigen Einschränkungen:
 
 - **Beobachtungsdaten:** Es handelt sich um Beobachtungsdaten, die keine kausalen Schlüsse erlauben. Die identifizierten Zusammenhänge können durch Drittvariablen beeinflusst sein.
-- **Fehlende Werte:** Einige Variablen weisen hohe NA-Anteile auf, was die Generalisierbarkeit einschränken kann.
-- **Regionale Beschränkung:** Die Daten stammen ausschließlich aus Montgomery County, Maryland. Die Ergebnisse sind möglicherweise nicht auf andere Regionen übertragbar.
-- **Dokumentationsqualität:** Die Qualität der Daten hängt von der Dokumentation durch die Polizeibehörden ab. Systematische Verzerrungen in der Erfassung können nicht ausgeschlossen werden.
+- **Fehlende Differenzierung:** Die Variable „Driver.Distracted.By" enthält nur die generische Kategorie „VISUAL DISTRACTION" – spezifische Ablenkungsarten wie Handynutzung konnten daher nicht analysiert werden.
+- **Fehlende Werte:** Einige Variablen weisen hohe NA-Anteile auf (z.B. Related.Non.Motorist bei 96% der Fälle), was die Generalisierbarkeit einschränken kann.
+- **Regionale Beschränkung:** Die Daten stammen ausschließlich aus Montgomery County, Maryland (Vorort von Washington D.C.). Die Ergebnisse sind möglicherweise nicht auf ländliche Gebiete oder andere Bundesstaaten übertragbar.
+- **Dokumentationsqualität:** Die Qualität der Daten hängt von der Dokumentation durch die Polizeibehörden ab. Systematische Verzerrungen in der Erfassung (z.B. Untererfassung von Substanzverdacht) können nicht ausgeschlossen werden.
 
 ### Ausblick
 
