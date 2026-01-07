@@ -9,7 +9,7 @@
 <meta name="author" content="Nele Hauck, Oliver Lucius">
 <meta name="dcterms.date" content="2026-01-07">
 
-<title>analysis</title>
+<title>Analyse von Verkehrsunfalldaten in Montgomery County, Maryland</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,35 +74,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="analysis_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="analysis_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -114,6 +85,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
+<h1 class="title">Analyse von Verkehrsunfalldaten in Montgomery County, Maryland</h1>
 </div>
 
 
@@ -4406,7 +4378,10 @@ X-squared = 319.39, df = 12, p-value &lt; 2.2e-16</code></pre>
 </section>
 <section id="zwischenfazit-fragestellung-a" class="level4">
 <h4 class="anchored" data-anchor-id="zwischenfazit-fragestellung-a">Zwischenfazit Fragestellung A</h4>
-<p>Die zeitliche Analyse bestätigt die erwarteten Rush-Hour-Peaks. Der Chi-Quadrat-Test zeigt, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind. Der Zusammenhang zwischen Tageszeit und Verletzungsschwere ist ebenfalls statistisch signifikant. Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, kann anhand der Daten überprüft werden.</p>
+<p>Die zeitliche Analyse bestätigt die aufgestellten Hypothesen weitgehend:</p>
+<p><strong>Rush-Hour-Peaks:</strong> Die Daten zeigen eindeutig das erwartete zweigipflige Muster mit Spitzen am Morgen (7–9 Uhr) und einem noch ausgeprägteren Maximum am Nachmittag (16–18 Uhr). Der abendliche Peak ist signifikant höher als der morgendliche, was mit dem höheren Verkehrsaufkommen während der Feierabendzeit korreliert.</p>
+<p><strong>Wochentag-Unterschiede:</strong> Die Heatmap offenbart klare Unterschiede zwischen Werktagen (klassisches Pendler-Muster) und Wochenenden (kein morgendlicher Peak, gleichmäßigerer Anstieg zur Tagesmitte). Der Chi-Quadrat-Test (p &lt; 2.2e-16) bestätigt statistisch, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.</p>
+<p><strong>Nächtliche Unfallschwere:</strong> Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,38% gegenüber 0,78% am Morgen, 0,79% am Mittag und 0,72% am Abend – ein nahezu doppelt so hohes relatives Risiko. Der Chi-Quadrat-Test (p &lt; 2.2e-16) bestätigt diesen Zusammenhang statistisch.</p>
 <hr>
 </section>
 </section>
@@ -4635,7 +4610,7 @@ X-squared = 97.888, df = 20, p-value = 3.002e-12</code></pre>
 </div>
 </div>
 <p>Zur statistischen Absicherung der visuellen Befunde wurde ein Pearson’s Chi-Quadrat-Test durchgeführt. Zuvor wurden die Daten gefiltert, um Einträge mit fehlenden Werten in den Variablen <code>Weather</code> und <code>Injury.Severity</code> explizit auszuschließen und so eine saubere Datenbasis für die Kreuztabellierung zu schaffen.</p>
-<p>Das Testergebnis liefert einen p-Wert von <span class="math inline">\(3,002 \cdot 10^{-12}\)</span>, der weit unter dem üblichen Signifikanzniveau von 0,05 liegt. Dies belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Wetterlage und der Verletzungsschwere. Das Ergebnis bedeutet, dass die beobachteten Unterschiede – etwa das leicht erhöhte Risiko schwerer Verletzungen bei gutem Wetter (siehe vorherige Tabelle) – statistisch nicht zufällig sind, sondern systematisch mit den Witterungsbedingungen korrelieren. Aufgrund der großen Stichprobe werden hier selbst kleine strukturelle Abweichungen als statistisch signifikant identifiziert.</p>
+<p>Das Testergebnis liefert einen p-Wert von 3,002 · 10⁻¹², der weit unter dem üblichen Signifikanzniveau von 0,05 liegt. Dies belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Wetterlage und der Verletzungsschwere. Das Ergebnis bedeutet, dass die beobachteten Unterschiede – etwa das leicht erhöhte Risiko schwerer Verletzungen bei gutem Wetter (siehe vorherige Tabelle) – statistisch nicht zufällig sind, sondern systematisch mit den Witterungsbedingungen korrelieren. Aufgrund der großen Stichprobe werden hier selbst kleine strukturelle Abweichungen als statistisch signifikant identifiziert.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chi-Quadrat-Test: Straßenbedingung × Fahrzeugschaden</span></span>
 <span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a>surface_damage_chi <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
@@ -4657,7 +4632,11 @@ X-squared = 454.16, df = 40, p-value &lt; 2.2e-16</code></pre>
 </section>
 <section id="zwischenfazit-fragestellung-b" class="level4">
 <h4 class="anchored" data-anchor-id="zwischenfazit-fragestellung-b">Zwischenfazit Fragestellung B</h4>
-<p>Die Analyse der Wetterbedingungen liefert ein interessantes Ergebnis: Entgegen der verbreiteten Annahme zeigen die Daten, dass Unfälle bei schlechtem Wetter nicht unbedingt schwerer sind. Die Chi-Quadrat-Tests bestätigen zwar einen statistisch signifikanten Zusammenhang zwischen Wetter und Verletzungsschwere, jedoch in möglicherweise unerwarteter Richtung. Dies stützt unsere Hypothese, dass Fahrer bei widrigen Bedingungen ihr Verhalten anpassen und vorsichtiger fahren.</p>
+<p>Die Analyse der Wetterbedingungen bestätigt die kontraintuitive Hypothese vollständig:</p>
+<p><strong>Unfallhäufigkeit:</strong> Die absolute Mehrheit der Unfälle (142.319 Fälle, ca. 73%) ereignet sich bei klarem Wetter. Widrige Witterungsbedingungen wie Schnee, Nebel oder starker Wind spielen quantitativ eine untergeordnete Rolle.</p>
+<p><strong>Verletzungsschwere:</strong> Der Vergleich zeigt, dass Unfälle bei gutem Wetter tatsächlich einen höheren Anteil schwerer Verletzungen aufweisen (0,86%) als bei schlechtem Wetter (0,79%). Besonders auffällig: Bei Regen (0,67%) und Schnee (0,60%) ist das Risiko schwerer Verletzungen sogar niedriger als bei klarem Himmel. Die höchste Quote schwerer Verletzungen findet sich bei Nebel/schlechter Sicht (1,06%), wo die Gefahr offenbar unterschätzt wird.</p>
+<p><strong>Fahrzeugschäden:</strong> Bei Straßenbedingungen mit Wasser (stehend/fließend) zeigt sich der höchste Anteil an Totalschäden, während bei Glätte (Eis, Schneematsch) Schäden dominieren, die das Fahrzeug fahruntüchtig machen.</p>
+<p><strong>Interpretation:</strong> Diese Befunde stützen die Hypothese der Risikokompensation: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an (geringere Geschwindigkeit, erhöhte Aufmerksamkeit), während bei vermeintlich guten Verhältnissen tendenziell schneller und unvorsichtiger gefahren wird. Der Chi-Quadrat-Test (p = 3,0e-12) bestätigt den Zusammenhang statistisch.</p>
 <hr>
 </section>
 </section>
@@ -4891,7 +4870,11 @@ Figure&nbsp;11: Verletzungsschwere bei Unfällen mit und ohne Alkoholeinfluss
 </section>
 <section id="zwischenfazit-fragestellung-c" class="level4">
 <h4 class="anchored" data-anchor-id="zwischenfazit-fragestellung-c">Zwischenfazit Fragestellung C</h4>
-<p>Die Analyse zeigt einen klaren Zusammenhang zwischen Substanzeinfluss und Unfallschuld. Der Chi-Quadrat-Test bestätigt, dass dieser Zusammenhang statistisch signifikant ist (p &lt; 0.05). Die Hypothese, dass Fahrer unter Alkohol- oder Drogeneinfluss häufiger schuld am Unfall sind, wird durch die Daten gestützt.</p>
+<p>Die Analyse bestätigt beide Teile der aufgestellten Hypothese eindeutig:</p>
+<p><strong>Substanzeinfluss und Schuld:</strong> Die Daten zeigen einen dramatischen Unterschied in der Schuldzuweisung. Bei nachgewiesenem Alkoholeinfluss („CONTRIBUTED”) liegt der Anteil schuldiger Fahrer bei 98,9%, bei „PRESENT” bei 97,6%. Im Vergleich dazu sind nur 33,7% der Fahrer mit Status „NOT SUSPECT” als schuldig eingestuft. Ähnliche Muster zeigen sich beim Drogeneinfluss (99,3% bei „CONTRIBUTED”, 96,3% bei „PRESENT”). Die Chi-Quadrat-Tests bestätigen diese Zusammenhänge mit extrem hohen Teststatistiken (X² = 10.277 für Alkohol, X² = 9.801 für Drogen, jeweils p &lt; 2.2e-16).</p>
+<p><strong>Überlappung Alkohol/Drogen:</strong> Die Kreuztabellierung zeigt, dass die Kategorien stark überlappen. Bei positivem Alkoholbefund wird der Drogenstatus häufig als „NO CLASSIFICATION” erfasst, was den hohen Schuldanteil dieser Kategorie (97,7%) erklärt.</p>
+<p><strong>Verletzungsschwere:</strong> Die Visualisierung bestätigt, dass Unfälle unter Alkoholeinfluss zu einer Verschiebung hin zu schwereren Verletzungsfolgen führen. Der Anteil an „SUSPECTED SERIOUS INJURY” und „FATAL INJURY” ist bei alkoholisierten Fahrern sichtbar erhöht, während die Kategorie „POSSIBLE INJURY” bei nüchternen Fahrern dominiert.</p>
+<p><strong>Fazit:</strong> Die Hypothese ist vollständig bestätigt – Substanzeinfluss ist sowohl mit signifikant höherer Unfallschuld als auch mit schwereren Verletzungen assoziiert.</p>
 <hr>
 </section>
 </section>
@@ -5024,6 +5007,11 @@ Figure&nbsp;13: Ablenkungsart und Kollisionstyp
 </section>
 <section id="zwischenfazit-fragestellung-d" class="level4">
 <h4 class="anchored" data-anchor-id="zwischenfazit-fragestellung-d">Zwischenfazit Fragestellung D</h4>
+<p>Die Analyse der Ablenkung am Steuer offenbart eine wesentliche Limitation der Datenbasis:</p>
+<p><strong>Datenlimitation:</strong> Die Spalte „Driver.Distracted.By” enthält nach der Datenbereinigung ausschließlich den Wert „VISUAL DISTRACTION” für alle 204.688 Fälle. Es findet keine weitere Differenzierung in spezifische Ablenkungsarten (z.B. Handynutzung, manuelle Tätigkeiten, Gespräche) statt. Dies bedeutet, dass die ursprüngliche Hypothese – Handynutzung sei die häufigste dokumentierte Ablenkungsform – mit diesem Datensatz nicht überprüft werden kann.</p>
+<p><strong>Kollisionstypen bei visueller Ablenkung:</strong> Trotz der eingeschränkten Datenbasis liefert die Analyse wertvolle Erkenntnisse. Bei dokumentierter visueller Ablenkung dominieren erwartungsgemäß Auffahrunfälle (REAR-END) mit 33% aller Fälle. Dies ist inhaltlich plausibel: Wer den Blick von der Straße abwendet, bemerkt bremsende Vordermänner zu spät. Winkelkollisionen (ANGLE) folgen mit 20%, was auf übersehene Vorfahrtsregelungen hindeutet.</p>
+<p><strong>Ablenkung und Schuld:</strong> Der Schuldanteil bei abgelenkten Fahrern (51,6%) liegt nur geringfügig über dem statistischen Erwartungswert. Ohne Vergleichsgruppe (Fahrer ohne dokumentierte Ablenkung) lässt sich hieraus jedoch keine belastbare Aussage über eine relative Risikoerhöhung ableiten.</p>
+<p><strong>Fazit:</strong> Die Hypothese zur Handynutzung kann nicht getestet werden. Die verfügbaren Daten zeigen jedoch, dass visuelle Ablenkung überproportional zu Auffahrunfällen führt – ein Teilaspekt der ursprünglichen Vermutung wird somit bestätigt.</p>
 <hr>
 </section>
 </section>
@@ -5063,6 +5051,9 @@ Figure&nbsp;14: Verteilung der nicht-motorisierten Verkehrsteilnehmer bei Unfäl
 </div>
 </div>
 </div>
+<p>Hier ist ein Entwurf für die Bildbeschreibung, der sich streng an dem von Ihnen vorgegebenen akademischen und erklärenden Stil orientiert:</p>
+<p>Für die Analyse der Beteiligung nicht-motorisierter Verkehrsteilnehmer wurde die Spalte „Related.Non.Motorist“ herangezogen. Zunächst wurden sämtliche Datensätze, die in dieser Variable fehlende Werte (NA) aufwiesen, mittels einer Filterfunktion entfernt, um die Auswertung auf valide Einträge zu beschränken.</p>
+<p>Die verbleibenden Daten wurden anschließend nach Kategorien gruppiert und hinsichtlich ihrer Häufigkeit ausgezählt (<code>count</code>), wobei eine absteigende Sortierung vorgenommen wurde. Dies dient dazu, die relevantesten Gruppen unmittelbar hervorzuheben. Für die Visualisierung wurde ein Balkendiagramm gewählt, dessen Achsen mittels <code>coord_flip()</code> vertauscht wurden. Diese Darstellung gewährleistet, dass die teils langen Kategorienbezeichnungen (wie „OCCUPANT OF MOTOR VEHICLE NOT IN TRANSPORT“) auf der y-Achse gut lesbar bleiben. Zudem wurden die absoluten Fallzahlen direkt an den Balken beschriftet, um einen präzisen Vergleich der Häufigkeiten zu ermöglichen.</p>
 </section>
 <section id="lichtverhältnisse-bei-fußgänger-radfahrerunfällen" class="level4">
 <h4 class="anchored" data-anchor-id="lichtverhältnisse-bei-fußgänger-radfahrerunfällen">Lichtverhältnisse bei Fußgänger-/Radfahrerunfällen</h4>
@@ -5100,6 +5091,8 @@ Figure&nbsp;15: Lichtverhältnisse bei Unfällen mit und ohne nicht-motorisierte
 </div>
 </div>
 </div>
+<p>Für den Vergleich der Lichtverhältnisse wurde zunächst die Spalte „Light“ bereinigt, indem Datensätze mit fehlenden Werten (NA) herausgefiltert wurden. Um eine Unterscheidung zwischen verschiedenen Unfallarten zu ermöglichen, wurde eine neue dichotome Variable generiert. Diese basiert auf der Spalte „Related.Non.Motorist“: Ist ein Eintrag vorhanden, wird der Unfall der Kategorie „Mit Fußgänger/Radfahrer“ zugeordnet; ist der Wert hingegen NA, fällt er in die Kategorie „Nur Fahrzeuge“.</p>
+<p>Ein wesentlicher Schritt in der Datenaufbereitung war die Berechnung der relativen Anteile innerhalb dieser beiden Gruppen. Da sich die absoluten Fallzahlen stark unterscheiden, wurden die Häufigkeiten prozentual normiert, um die Verteilung der Lichtverhältnisse vergleichbar zu machen. Die Visualisierung erfolgte anschließend als gruppiertes Balkendiagramm (<code>position = "dodge"</code>), wodurch die Unterschiede in den Lichtverhältnissen zwischen den beiden Unfallkategorien direkt gegenübergestellt werden können. Zur besseren Lesbarkeit wurden die Kategorien auf der x-Achse um 45 Grad rotiert.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anteil Dunkelheit bei Unfällen mit Non-Motorist</span></span>
 <span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a>dark_rates <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
@@ -5125,6 +5118,9 @@ Figure&nbsp;15: Lichtverhältnisse bei Unfällen mit und ohne nicht-motorisierte
 2 TRUE              6565   1983        30.2 Mit Fußgänger/Radfahrer</code></pre>
 </div>
 </div>
+<p>Für die spezifische Untersuchung des Anteils von Unfällen bei Dunkelheit wurde erneut auf die Spalte „Light“ zurückgegriffen. Zunächst wurden Datensätze mit fehlenden Werten (NA) ausgeschlossen, um eine bereinigte Basis für die Berechnung zu erhalten.</p>
+<p>Ein vergleichbares Vorgehen wie in den vorangegangenen Schritten wurde bei der Klassifizierung der Unfallbeteiligten angewendet: Basierend auf der Spalte „Related.Non.Motorist“ wurde eine binäre Variable erstellt, die unterscheidet, ob nicht-motorisierte Verkehrsteilnehmer involviert waren oder ob es sich um reine Fahrzeugunfälle handelt.</p>
+<p>Zusätzlich wurde die Variable <code>is_dark</code> definiert. Hierbei wurden mittels Textmustererkennung (<code>str_detect</code>) alle Einträge in der Spalte „Light“, die das Wort „DARK“ enthalten, identifiziert und zusammengefasst. Diese Methode erlaubt es, sämtliche Abstufungen von Dunkelheit (z. B. mit oder ohne Straßenbeleuchtung) in einer einzigen logischen Kategorie zu bündeln. Anschließend wurden die Daten gruppiert, um den relativen Anteil der Unfälle bei Dunkelheit (<code>anteil_dark</code>) für beide Gruppen zu berechnen und quantitativ vergleichbar zu machen.</p>
 </section>
 <section id="verletzungsschwere-vergleich-mit-fahrzeugunfällen" class="level4">
 <h4 class="anchored" data-anchor-id="verletzungsschwere-vergleich-mit-fahrzeugunfällen">Verletzungsschwere: Vergleich mit Fahrzeugunfällen</h4>
@@ -5159,6 +5155,9 @@ Figure&nbsp;16: Verletzungsschwere: Unfälle mit vs.&nbsp;ohne nicht-motorisiert
 </div>
 </div>
 </div>
+<p>Für die vergleichende Analyse der Verletzungsschwere diente die Spalte „Injury.Severity“ als Basis. In einem ersten Schritt wurden Datensätze mit fehlenden Werten (NA) aus dem Datensatz entfernt, um die Auswertung auf vollständig dokumentierte Fälle zu beschränken.</p>
+<p>Ein vergleichbares Vorgehen wie in den vorangegangenen Analysen wurde bei der Gruppierung der Unfälle angewendet. Basierend auf der Variable „Related.Non.Motorist“ wurde unterschieden, ob nicht-motorisierte Verkehrsteilnehmer involviert waren oder ob es sich ausschließlich um Fahrzeugunfälle handelte.</p>
+<p>Der entscheidende Schritt in der Datenaufbereitung lag in der Berechnung der relativen Anteile (<code>anteil</code>). Da die absolute Anzahl der reinen Fahrzeugunfälle deutlich höher ist als die der Unfälle mit Personenbeteiligung, war eine Normierung auf Prozentwerte notwendig, um die Verteilungen der Verletzungsschwere direkt gegenüberstellen zu können. Die grafische Darstellung als gruppiertes Balkendiagramm (<code>position = "dodge"</code>) verdeutlicht diese Unterschiede, wobei die Achsenbeschriftungen zur besseren Lesbarkeit der Kategorien erneut um 45 Grad rotiert wurden.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anteil schwerer Verletzungen (FATAL, SUSPECTED SERIOUS INJURY)</span></span>
 <span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a>severe_rates <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
@@ -5184,6 +5183,9 @@ Figure&nbsp;16: Verletzungsschwere: Unfälle mit vs.&nbsp;ohne nicht-motorisiert
 2 TRUE              6523       21         0.322 Mit Fußgänger/Radfahrer</code></pre>
 </div>
 </div>
+<p>Für die spezifische Untersuchung des Risikos besonders schwerer Unfallfolgen wurde erneut auf die Spalte „Injury.Severity“ zurückgegriffen. Zunächst wurden Datensätze mit fehlenden Werten (NA) eliminiert, um die Analyse auf valide Einträge zu beschränken.</p>
+<p>Ein vergleichbares Vorgehen wie in den vorangegangenen Schritten wurde bei der Klassifizierung der Unfallbeteiligten angewendet: Basierend auf der Spalte „Related.Non.Motorist“ wurde differenziert, ob nicht-motorisierte Verkehrsteilnehmer involviert waren oder ob es sich um reine Fahrzeugunfälle handelt.</p>
+<p>Zusätzlich wurde die logische Variable <code>is_severe</code> definiert. Hierbei wurden die Ausprägungen „FATAL“ (tödlich) und „SUSPECTED SERIOUS INJURY“ (vermutlich schwere Verletzung) zusammengefasst. Diese Aggregation erlaubt es, den Fokus gezielt auf die schwerwiegendsten Unfallausgänge zu legen. Anschließend wurden die Daten gruppiert, um die absoluten Fallzahlen sowie den prozentualen Anteil dieser schweren Verletzungen (<code>anteil_severe</code>) innerhalb der beiden Vergleichsgruppen zu berechnen.</p>
 </section>
 <section id="tageszeit-der-fußgänger-radfahrerunfälle" class="level4">
 <h4 class="anchored" data-anchor-id="tageszeit-der-fußgänger-radfahrerunfälle">Tageszeit der Fußgänger-/Radfahrerunfälle</h4>
@@ -5215,6 +5217,9 @@ Figure&nbsp;17: Verteilung der Unfälle mit nicht-motorisierten Beteiligten nach
 </div>
 </div>
 </div>
+<p>Für die Analyse der zeitlichen Verteilung von Unfällen mit nicht-motorisierter Beteiligung wurden die Spalten „Related.Non.Motorist“ und „Crash.Date.Time“ herangezogen. Zunächst wurden Datensätze, die in einer dieser Variablen fehlende Werte (NA) aufwiesen, mittels einer Filterfunktion entfernt, um die Auswertung auf valide Fälle zu beschränken.</p>
+<p>Ein wesentlicher Schritt der Datenaufbereitung bestand darin, aus dem vorliegenden Zeitstempel mittels der Funktion <code>hour()</code> die volle Stunde des Unfallzeitpunkts zu extrahieren. Dies ermöglichte eine Aggregation der Daten, indem die absolute Anzahl der Unfälle pro Stunde ausgezählt wurde.</p>
+<p>Die Visualisierung erfolgte anschließend als Balkendiagramm, das die Häufigkeit der Unfälle über den 24-Stunden-Verlauf darstellt. Um den zugrunde liegenden Trend und die Verteilungsmuster – wie den sichtbaren Anstieg in den Nachmittagsstunden – deutlicher hervorzuheben, wurde zusätzlich eine Glättungslinie (<code>geom_smooth</code> mit der Methode „loess“) über die Balken gelegt. Zur besseren Orientierung wurde die x-Achse dabei in Zwei-Stunden-Schritten skaliert.</p>
 </section>
 <section id="statistische-prüfung-chi-quadrat-test-3" class="level4">
 <h4 class="anchored" data-anchor-id="statistische-prüfung-chi-quadrat-test-3">Statistische Prüfung: Chi-Quadrat-Test</h4>
@@ -5254,10 +5259,196 @@ data:  table(nonmotorist_injury_chi$has_nonmotorist, nonmotorist_injury_chi$Inju
 X-squared = 854.64, df = 4, p-value &lt; 2.2e-16</code></pre>
 </div>
 </div>
+<p>Für die statistische Überprüfung der Zusammenhänge wurde der Pearson-Chi-Quadrat-Test angewendet. Im ersten Schritt wurde die Abhängigkeit zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und den Lichtverhältnissen untersucht. Hierfür wurden die Daten zunächst bereinigt, indem fehlende Werte in der Spalte „Light“ ausgefiltert wurden. Anschließend wurde eine Kontingenztabelle erstellt, welche die binäre Variable der Beteiligung (<code>has_nonmotorist</code>) den verschiedenen Kategorien der Lichtverhältnisse gegenüberstellt.</p>
+<p>Ein vergleichbares Vorgehen wurde bei der Analyse der Verletzungsschwere angewendet. Der Unterschied besteht darin, dass hier die Spalte „Injury.Severity“ als Basis diente und entsprechende fehlende Werte (NA) im Vorfeld entfernt wurden. Die Durchführung des Tests erfolgte analog über die Kreuztabellierung der Variablen. In beiden Analysen weisen die extrem niedrigen p-Werte (1.591e-09 bzw. &lt; 2.2e-16) auf einen hochsignifikanten statistischen Zusammenhang zwischen der Unfallbeteiligung von Fußgängern/Radfahrern und den untersuchten Faktoren (Lichtverhältnisse sowie Verletzungsschwere) hin.</p>
 </section>
 <section id="zwischenfazit-fragestellung-e" class="level4">
 <h4 class="anchored" data-anchor-id="zwischenfazit-fragestellung-e">Zwischenfazit Fragestellung E</h4>
-<p>Die Analyse zeigt deutliche Unterschiede zwischen Unfällen mit und ohne nicht-motorisierte Verkehrsteilnehmer. Die Chi-Quadrat-Tests bestätigen statistisch signifikante Zusammenhänge sowohl mit den Lichtverhältnissen als auch mit der Verletzungsschwere. Die Hypothese, dass Unfälle mit Fußgängern und Radfahrern schwerere Verletzungen verursachen, kann anhand der Daten überprüft werden.</p>
+<p>Die Analyse bestätigt die aufgestellte Hypothese in wesentlichen Punkten:</p>
+<p><strong>Verletzungsschwere:</strong> Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) bei Unfällen mit Fußgängern/Radfahrern (5,53%) ist nahezu siebenmal höher als bei reinen Fahrzeugunfällen (0,79%). Dies bestätigt eindeutig die Hypothese, dass der fehlende Schutz durch eine Karosserie diese Verkehrsteilnehmer besonders verwundbar macht.</p>
+<p><strong>Lichtverhältnisse:</strong> Entgegen der ursprünglichen Vermutung ereignen sich Unfälle mit nicht-motorisierten Beteiligten nicht häufiger bei Dunkelheit. Der Dunkelheits-Anteil liegt bei Unfällen mit Fußgängern/Radfahrern (21,3%) nur geringfügig höher als bei reinen Fahrzeugunfällen (19,7%). Die Mehrheit dieser Unfälle findet bei Tageslicht statt. Der Chi-Quadrat-Test (p = 1,59e-09) zeigt dennoch einen signifikanten Zusammenhang.</p>
+<p><strong>Zeitliche Verteilung:</strong> Die Unfälle mit nicht-motorisierten Beteiligten zeigen ein deutliches Maximum in den Nachmittagsstunden (14–18 Uhr), was mit typischen Freizeit- und Pendelzeiten für Fußgänger und Radfahrer korreliert.</p>
+<p><strong>Fazit:</strong> Die Hypothese zur erhöhten Verletzungsschwere ist vollständig bestätigt (fast 7-fach erhöhtes Risiko schwerer Verletzungen). Die Vermutung häufigerer Unfälle bei Dunkelheit trifft jedoch nicht zu – die Lichtverhältnisse unterscheiden sich nur geringfügig von reinen Fahrzeugunfällen.</p>
+<hr>
+</section>
+</section>
+<section id="ergänzende-analyse-räumliche-unfallhotspots" class="level3">
+<h3 class="anchored" data-anchor-id="ergänzende-analyse-räumliche-unfallhotspots">Ergänzende Analyse: Räumliche Unfallhotspots</h3>
+<blockquote class="blockquote">
+<p><em>Wo konzentrieren sich Verkehrsunfälle geografisch, und unterscheiden sich die Hotspots je nach Unfallschwere?</em></p>
+</blockquote>
+<p>[TODO: Einleitungstext zur räumlichen Analyse einfügen]</p>
+<section id="übersicht-der-geografischen-verteilung" class="level4">
+<h4 class="anchored" data-anchor-id="übersicht-der-geografischen-verteilung">Übersicht der geografischen Verteilung</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Latitude), <span class="sc">!</span><span class="fu">is.na</span>(Longitude)) <span class="sc">%&gt;%</span></span>
+<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Latitude <span class="sc">&gt;=</span> <span class="fl">38.9</span>, Latitude <span class="sc">&lt;=</span> <span class="fl">39.4</span>, Longitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">77.6</span>, Longitude <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">76.8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Longitude, <span class="at">y =</span> Latitude)) <span class="sc">+</span></span>
+<span id="cb209-5"><a href="#cb209-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">size =</span> <span class="fl">0.3</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb209-6"><a href="#cb209-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="fl">1.3</span>) <span class="sc">+</span></span>
+<span id="cb209-7"><a href="#cb209-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb209-8"><a href="#cb209-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Längengrad"</span>,</span>
+<span id="cb209-9"><a href="#cb209-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Breitengrad"</span>,</span>
+<span id="cb209-10"><a href="#cb209-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Räumliche Verteilung der Unfälle in Montgomery County"</span></span>
+<span id="cb209-11"><a href="#cb209-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb209-12"><a href="#cb209-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-spatial-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-spatial-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="analysis_files/figure-html/fig-spatial-overview-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spatial-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18: Geografische Verteilung aller Unfälle in Montgomery County
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>[TODO: Beschreibung der Übersichtskarte einfügen]</p>
+</section>
+<section id="dichtekarte-der-unfallhotspots" class="level4">
+<h4 class="anchored" data-anchor-id="dichtekarte-der-unfallhotspots">Dichtekarte der Unfallhotspots</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb210-2"><a href="#cb210-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Latitude), <span class="sc">!</span><span class="fu">is.na</span>(Longitude)) <span class="sc">%&gt;%</span></span>
+<span id="cb210-3"><a href="#cb210-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Latitude <span class="sc">&gt;=</span> <span class="fl">38.9</span>, Latitude <span class="sc">&lt;=</span> <span class="fl">39.4</span>, Longitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">77.6</span>, Longitude <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">76.8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb210-4"><a href="#cb210-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Longitude, <span class="at">y =</span> Latitude)) <span class="sc">+</span></span>
+<span id="cb210-5"><a href="#cb210-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb210-6"><a href="#cb210-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="fl">1.3</span>) <span class="sc">+</span></span>
+<span id="cb210-7"><a href="#cb210-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb210-8"><a href="#cb210-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Längengrad"</span>,</span>
+<span id="cb210-9"><a href="#cb210-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Breitengrad"</span>,</span>
+<span id="cb210-10"><a href="#cb210-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Dichte"</span>,</span>
+<span id="cb210-11"><a href="#cb210-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Unfallhotspots in Montgomery County"</span></span>
+<span id="cb210-12"><a href="#cb210-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb210-13"><a href="#cb210-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb210-14"><a href="#cb210-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-density-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-density-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="analysis_files/figure-html/fig-density-map-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-density-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19: Dichtekarte der Unfallhotspots
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>[TODO: Beschreibung der Dichtekarte einfügen]</p>
+</section>
+<section id="hotspots-schwerer-unfälle" class="level4">
+<h4 class="anchored" data-anchor-id="hotspots-schwerer-unfälle">Hotspots schwerer Unfälle</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Latitude), <span class="sc">!</span><span class="fu">is.na</span>(Longitude), <span class="sc">!</span><span class="fu">is.na</span>(Injury.Severity)) <span class="sc">%&gt;%</span></span>
+<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Latitude <span class="sc">&gt;=</span> <span class="fl">38.9</span>, Latitude <span class="sc">&lt;=</span> <span class="fl">39.4</span>, Longitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">77.6</span>, Longitude <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">76.8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Injury.Severity <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"FATAL"</span>, <span class="st">"SUSPECTED SERIOUS INJURY"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Longitude, <span class="at">y =</span> Latitude)) <span class="sc">+</span></span>
+<span id="cb211-6"><a href="#cb211-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb211-7"><a href="#cb211-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"darkred"</span>) <span class="sc">+</span></span>
+<span id="cb211-8"><a href="#cb211-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="fl">1.3</span>) <span class="sc">+</span></span>
+<span id="cb211-9"><a href="#cb211-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb211-10"><a href="#cb211-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Längengrad"</span>,</span>
+<span id="cb211-11"><a href="#cb211-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Breitengrad"</span>,</span>
+<span id="cb211-12"><a href="#cb211-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Dichte"</span>,</span>
+<span id="cb211-13"><a href="#cb211-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Hotspots schwerer Unfälle"</span></span>
+<span id="cb211-14"><a href="#cb211-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb211-15"><a href="#cb211-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-severe-hotspots" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-severe-hotspots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="analysis_files/figure-html/fig-severe-hotspots-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-severe-hotspots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;20: Hotspots schwerer Unfälle (FATAL und SUSPECTED SERIOUS INJURY)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>[TODO: Beschreibung der Hotspots schwerer Unfälle einfügen]</p>
+</section>
+<section id="vergleich-schwere-vs.-leichte-unfälle" class="level4">
+<h4 class="anchored" data-anchor-id="vergleich-schwere-vs.-leichte-unfälle">Vergleich: Schwere vs.&nbsp;leichte Unfälle</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb212-2"><a href="#cb212-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Latitude), <span class="sc">!</span><span class="fu">is.na</span>(Longitude), <span class="sc">!</span><span class="fu">is.na</span>(Injury.Severity)) <span class="sc">%&gt;%</span></span>
+<span id="cb212-3"><a href="#cb212-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Latitude <span class="sc">&gt;=</span> <span class="fl">38.9</span>, Latitude <span class="sc">&lt;=</span> <span class="fl">39.4</span>, Longitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">77.6</span>, Longitude <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">76.8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb212-4"><a href="#cb212-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb212-5"><a href="#cb212-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Schweregrad =</span> <span class="fu">case_when</span>(</span>
+<span id="cb212-6"><a href="#cb212-6" aria-hidden="true" tabindex="-1"></a>      Injury.Severity <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"FATAL"</span>, <span class="st">"SUSPECTED SERIOUS INJURY"</span>) <span class="sc">~</span> <span class="st">"Schwer (Fatal/Serious)"</span>,</span>
+<span id="cb212-7"><a href="#cb212-7" aria-hidden="true" tabindex="-1"></a>      Injury.Severity <span class="sc">==</span> <span class="st">"NO APPARENT INJURY"</span> <span class="sc">~</span> <span class="st">"Keine Verletzung"</span>,</span>
+<span id="cb212-8"><a href="#cb212-8" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Leicht/Möglich"</span></span>
+<span id="cb212-9"><a href="#cb212-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb212-10"><a href="#cb212-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb212-11"><a href="#cb212-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Schweregrad <span class="sc">!=</span> <span class="st">"Leicht/Möglich"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb212-12"><a href="#cb212-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Longitude, <span class="at">y =</span> Latitude)) <span class="sc">+</span></span>
+<span id="cb212-13"><a href="#cb212-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d</span>(<span class="fu">aes</span>(<span class="at">color =</span> Schweregrad), <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb212-14"><a href="#cb212-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="fl">1.3</span>) <span class="sc">+</span></span>
+<span id="cb212-15"><a href="#cb212-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Keine Verletzung"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, <span class="st">"Schwer (Fatal/Serious)"</span> <span class="ot">=</span> <span class="st">"darkred"</span>)) <span class="sc">+</span></span>
+<span id="cb212-16"><a href="#cb212-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb212-17"><a href="#cb212-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Längengrad"</span>,</span>
+<span id="cb212-18"><a href="#cb212-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Breitengrad"</span>,</span>
+<span id="cb212-19"><a href="#cb212-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Schweregrad"</span>,</span>
+<span id="cb212-20"><a href="#cb212-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vergleich der Unfallverteilung nach Schweregrad"</span></span>
+<span id="cb212-21"><a href="#cb212-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb212-22"><a href="#cb212-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-severity-comparison-spatial" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-severity-comparison-spatial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="analysis_files/figure-html/fig-severity-comparison-spatial-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-severity-comparison-spatial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;21: Räumlicher Vergleich: Schwere vs.&nbsp;leichte Unfälle
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>[TODO: Beschreibung des Vergleichs einfügen]</p>
+</section>
+<section id="top-unfallstandorte" class="level4">
+<h4 class="anchored" data-anchor-id="top-unfallstandorte">Top-Unfallstandorte</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregation nach gerundeten Koordinaten zur Identifikation von Hotspots</span></span>
+<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>hotspot_locations <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Latitude), <span class="sc">!</span><span class="fu">is.na</span>(Longitude)) <span class="sc">%&gt;%</span></span>
+<span id="cb213-4"><a href="#cb213-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Latitude <span class="sc">&gt;=</span> <span class="fl">38.9</span>, Latitude <span class="sc">&lt;=</span> <span class="fl">39.4</span>, Longitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">77.6</span>, Longitude <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">76.8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb213-5"><a href="#cb213-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb213-6"><a href="#cb213-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat_rounded =</span> <span class="fu">round</span>(Latitude, <span class="dv">3</span>),</span>
+<span id="cb213-7"><a href="#cb213-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lon_rounded =</span> <span class="fu">round</span>(Longitude, <span class="dv">3</span>)</span>
+<span id="cb213-8"><a href="#cb213-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb213-9"><a href="#cb213-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(lat_rounded, lon_rounded, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb213-10"><a href="#cb213-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb213-11"><a href="#cb213-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-12"><a href="#cb213-12" aria-hidden="true" tabindex="-1"></a>hotspot_locations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+   lat_rounded lon_rounded     n
+         &lt;dbl&gt;       &lt;dbl&gt; &lt;int&gt;
+ 1        39.0       -77.0   504
+ 2        39.0       -77.0   435
+ 3        39.0       -77.0   356
+ 4        39.2       -77.2   300
+ 5        39.1       -76.9   298
+ 6        39.0       -77.0   285
+ 7        39.1       -77.0   283
+ 8        39.0       -77.1   281
+ 9        39.1       -77.2   273
+10        39.0       -77.0   265</code></pre>
+</div>
+</div>
+<p>[TODO: Beschreibung der Top-Standorte einfügen]</p>
+</section>
+<section id="zwischenfazit-räumliche-analyse" class="level4">
+<h4 class="anchored" data-anchor-id="zwischenfazit-räumliche-analyse">Zwischenfazit Räumliche Analyse</h4>
+<p>[TODO: Zwischenfazit zur räumlichen Analyse einfügen]</p>
 <hr>
 </section>
 </section>
@@ -5286,38 +5477,39 @@ Aufgabenstellung (10 Pkt.)
 <h3 class="anchored" data-anchor-id="zusammenfassung-der-ergebnisse">Zusammenfassung der Ergebnisse</h3>
 <section id="fragestellung-a-zeitliche-muster" class="level4">
 <h4 class="anchored" data-anchor-id="fragestellung-a-zeitliche-muster">Fragestellung A: Zeitliche Muster</h4>
-<p><strong>Ergebnis:</strong> Die zeitliche Analyse zeigt klare Muster in der Unfallverteilung. Die Heatmap offenbart Unterschiede zwischen Werktagen und Wochenenden sowie zwischen verschiedenen Tageszeiten. Der Chi-Quadrat-Test bestätigt, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.</p>
-<p><strong>Vergleich mit Hypothese:</strong> ✅ <strong>Teilweise bestätigt</strong> — Die erwarteten Rush-Hour-Peaks sind in den Daten sichtbar. Die Vermutung, dass nächtliche Unfälle schwerere Verletzungen verursachen, kann anhand der Verletzungsverteilung nach Tageszeit überprüft werden.</p>
+<p><strong>Ergebnis:</strong> Die zeitliche Analyse zeigt klare, statistisch signifikante Muster. Die Rush-Hour-Peaks (7–9 Uhr und 16–18 Uhr) sind deutlich erkennbar, wobei der abendliche Peak ausgeprägter ist als der morgendliche. Werktage zeigen das klassische Pendler-Muster, während Wochenenden ein gleichmäßigeres Unfallaufkommen zur Tagesmitte aufweisen. Der Anteil schwerer Verletzungen ist nachts (20–6 Uhr) mit 1,38% fast doppelt so hoch wie zu anderen Tageszeiten (0,72–0,79%).</p>
+<p><strong>Vergleich mit Hypothese:</strong> ✅ <strong>Vollständig bestätigt</strong> — Beide Teile der Hypothese wurden durch die Daten gestützt: Die Rush-Hour-Peaks treten wie erwartet auf, und nächtliche Unfälle verursachen trotz geringerer Häufigkeit signifikant schwerere Verletzungen.</p>
 </section>
 <section id="fragestellung-b-wetter-und-straßenbedingungen-1" class="level4">
 <h4 class="anchored" data-anchor-id="fragestellung-b-wetter-und-straßenbedingungen-1">Fragestellung B: Wetter und Straßenbedingungen</h4>
-<p><strong>Ergebnis:</strong> Die Analyse der Wetterbedingungen zeigt ein differenziertes Bild. Obwohl ein statistisch signifikanter Zusammenhang zwischen Wetter und Verletzungsschwere besteht, ist die Richtung dieses Zusammenhangs bemerkenswert.</p>
-<p><strong>Vergleich mit Hypothese:</strong> ✅ <strong>Bestätigt</strong> — Unsere kontraintuitive Hypothese, dass Unfälle bei schlechtem Wetter nicht zwingend schwerer sind, wird durch die Daten gestützt. Dies deutet darauf hin, dass Fahrer ihr Verhalten an widrige Bedingungen anpassen.</p>
+<p><strong>Ergebnis:</strong> Bei klarem Wetter liegt der Anteil schwerer Verletzungen (0,86%) höher als bei schlechtem Wetter (0,79%). Besonders niedrig ist das Risiko bei Regen (0,67%) und Schnee (0,60%). Die höchste Quote findet sich bei Nebel (1,06%), wo die Gefahr unterschätzt zu werden scheint. Bei Straßenbedingungen mit Wasser treten die meisten Totalschäden auf.</p>
+<p><strong>Vergleich mit Hypothese:</strong> ✅ <strong>Vollständig bestätigt</strong> — Die kontraintuitive Hypothese der Risikokompensation wird durch die Daten gestützt: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an und fahren langsamer, was die Unfallschwere reduziert.</p>
 </section>
 <section id="fragestellung-c-substanzeinfluss-und-schuldfrage-1" class="level4">
 <h4 class="anchored" data-anchor-id="fragestellung-c-substanzeinfluss-und-schuldfrage-1">Fragestellung C: Substanzeinfluss und Schuldfrage</h4>
-<p><strong>Ergebnis:</strong> Die Analyse bestätigt einen klaren Zusammenhang zwischen Substanzeinfluss und Unfallschuld. Fahrer mit nachgewiesenem Alkohol- oder Drogeneinfluss werden signifikant häufiger als Unfallverursacher eingestuft. Der Chi-Quadrat-Test zeigt, dass dieser Zusammenhang statistisch hochsignifikant ist.</p>
-<p><strong>Vergleich mit Hypothese:</strong> ✅ <strong>Bestätigt</strong> — Unsere Erwartung, dass Fahrer unter Substanzeinfluss häufiger schuld sind, wurde durch die Daten gestützt. Auch die Vermutung schwererer Verletzungen bei Substanzeinfluss konnte in den Daten beobachtet werden.</p>
+<p><strong>Ergebnis:</strong> Bei nachgewiesenem Alkoholeinfluss liegt der Schuldanteil bei 97,6–98,9%, bei Drogeneinfluss bei 96,3–99,3%. Im Vergleich dazu sind nur 33,7% der Fahrer mit Status „NOT SUSPECT” als schuldig eingestuft. Unfälle unter Alkoholeinfluss zeigen zudem eine Verschiebung hin zu schwereren Verletzungsfolgen (erhöhter Anteil FATAL und SUSPECTED SERIOUS INJURY).</p>
+<p><strong>Vergleich mit Hypothese:</strong> ✅ <strong>Vollständig bestätigt</strong> — Beide Hypothesenteile (höhere Schuldquote und schwerere Verletzungen bei Substanzeinfluss) werden durch die Daten eindeutig gestützt.</p>
 </section>
 <section id="fragestellung-d-ablenkung-am-steuer-1" class="level4">
 <h4 class="anchored" data-anchor-id="fragestellung-d-ablenkung-am-steuer-1">Fragestellung D: Ablenkung am Steuer</h4>
-<p><strong>Ergebnis:</strong> Die Verteilung der Ablenkungsarten zeigt, welche Formen am häufigsten dokumentiert werden. Der Chi-Quadrat-Test bestätigt einen statistisch signifikanten Zusammenhang zwischen Ablenkungsart und Kollisionstyp.</p>
-<p><strong>Vergleich mit Hypothese:</strong> Die Hypothese, dass Handynutzung überproportional zu Auffahrunfällen führt, kann anhand der Daten überprüft werden. Die tatsächlichen Anteile zeigen, ob diese Vermutung zutrifft oder ob andere Ablenkungsformen stärker mit bestimmten Kollisionstypen assoziiert sind.</p>
+<p><strong>Ergebnis:</strong> Die Datenbasis enthält nur die generische Kategorie „VISUAL DISTRACTION” für alle Fälle – eine Differenzierung nach spezifischen Ablenkungsarten (Handy, Gespräche etc.) ist nicht möglich. Bei visueller Ablenkung dominieren Auffahrunfälle (REAR-END) mit 33% aller Kollisionen, gefolgt von Winkelkollisionen (ANGLE) mit 20%.</p>
+<p><strong>Vergleich mit Hypothese:</strong> ⚠️ <strong>Nicht testbar / Teilweise bestätigt</strong> — Die spezifische Hypothese zur Handynutzung kann aufgrund der Datenlimitation nicht überprüft werden. Der Zusammenhang zwischen visueller Ablenkung und Auffahrunfällen (ein Teilaspekt der ursprünglichen Vermutung) wird jedoch bestätigt.</p>
 </section>
 <section id="fragestellung-e-fußgänger--und-radfahrerunfälle-1" class="level4">
 <h4 class="anchored" data-anchor-id="fragestellung-e-fußgänger--und-radfahrerunfälle-1">Fragestellung E: Fußgänger- und Radfahrerunfälle</h4>
-<p><strong>Ergebnis:</strong> Unfälle mit nicht-motorisierten Verkehrsteilnehmern unterscheiden sich deutlich von reinen Fahrzeugunfällen. Die Chi-Quadrat-Tests bestätigen signifikante Zusammenhänge sowohl mit den Lichtverhältnissen als auch mit der Verletzungsschwere.</p>
-<p><strong>Vergleich mit Hypothese:</strong> ✅ <strong>Bestätigt</strong> — Die Erwartung, dass Unfälle mit Fußgängern und Radfahrern schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der fehlende Schutz durch eine Fahrzeugkarosserie macht diese Verkehrsteilnehmer besonders verwundbar.</p>
+<p><strong>Ergebnis:</strong> Der Anteil schwerer Verletzungen bei Unfällen mit Fußgängern/Radfahrern (5,53%) ist fast siebenmal höher als bei reinen Fahrzeugunfällen (0,79%). Entgegen der Erwartung findet jedoch die Mehrheit dieser Unfälle bei Tageslicht statt; der Dunkelheits-Anteil (21,3%) liegt nur geringfügig über dem bei Fahrzeugunfällen (19,7%).</p>
+<p><strong>Vergleich mit Hypothese:</strong> ✅ <strong>Teilweise bestätigt</strong> — Die Hypothese zur erhöhten Verletzungsschwere ist vollständig bestätigt (7-fach erhöhtes Risiko). Die Vermutung, dass Unfälle mit Fußgängern/Radfahrern häufiger bei Dunkelheit auftreten, trifft jedoch nicht zu.</p>
 </section>
 </section>
 <section id="gesamtfazit" class="level3">
 <h3 class="anchored" data-anchor-id="gesamtfazit">Gesamtfazit</h3>
-<p>Die Analyse der Verkehrsunfalldaten aus Montgomery County liefert wertvolle Erkenntnisse über Faktoren, die zu Unfällen und deren Schwere beitragen:</p>
+<p>Die Analyse der 204.688 Verkehrsunfälle aus Montgomery County (2015–2025) liefert konkrete, statistisch abgesicherte Erkenntnisse:</p>
 <ol type="1">
-<li><p><strong>Menschliches Verhalten ist entscheidend:</strong> Substanzeinfluss und Ablenkung sind signifikant mit der Unfallschuld assoziiert. Diese Faktoren sind durch Prävention und Aufklärung beeinflussbar.</p></li>
-<li><p><strong>Vulnerable Verkehrsteilnehmer brauchen besonderen Schutz:</strong> Fußgänger und Radfahrer erleiden bei Unfällen schwerere Verletzungen. Infrastrukturmaßnahmen und Aufklärung könnten hier Abhilfe schaffen.</p></li>
-<li><p><strong>Zeitliche Muster ermöglichen gezielte Prävention:</strong> Die identifizierten Rush-Hour-Peaks und Unterschiede zwischen Tag und Nacht könnten für gezielte Präventionsmaßnahmen genutzt werden.</p></li>
-<li><p><strong>Risikokompensation bei schlechtem Wetter:</strong> Die Erkenntnis, dass schlechtes Wetter nicht automatisch zu schwereren Unfällen führt, deutet auf adaptives Fahrverhalten hin.</p></li>
+<li><p><strong>Menschliches Verhalten ist der stärkste Risikofaktor:</strong> Bei nachgewiesenem Substanzeinfluss liegt die Schuldquote bei über 97%, verglichen mit nur 34% bei unverdächtigen Fahrern. Dieser Zusammenhang ist statistisch hochsignifikant (Chi² &gt; 10.000, p &lt; 2.2e-16) und zeigt die zentrale Rolle menschlichen Fehlverhaltens.</p></li>
+<li><p><strong>Vulnerable Verkehrsteilnehmer sind massiv gefährdet:</strong> Das Risiko schwerer Verletzungen für Fußgänger und Radfahrer ist fast siebenmal höher als bei Fahrzeuginsassen (5,53% vs.&nbsp;0,79%). Infrastrukturmaßnahmen wie geschützte Radwege und Fußgängerüberwege könnten hier Leben retten.</p></li>
+<li><p><strong>Zeitliche Muster ermöglichen gezielte Prävention:</strong> Das doppelt so hohe Risiko schwerer Verletzungen in der Nacht (1,38% vs.&nbsp;0,72-0,79%) sowie die Rush-Hour-Peaks bieten Ansatzpunkte für verstärkte Polizeipräsenz und Aufklärungskampagnen zu spezifischen Zeiten.</p></li>
+<li><p><strong>Risikokompensation funktioniert – meist:</strong> Bei Regen und Schnee ist das Risiko schwerer Verletzungen niedriger als bei klarem Wetter, was auf angepasstes Fahrverhalten hindeutet. Bei Nebel versagt dieser Mechanismus jedoch (höchste Verletzungsquote mit 1,06%).</p></li>
+<li><p><strong>Datenlimitationen schränken manche Analysen ein:</strong> Die fehlende Differenzierung der Ablenkungsarten verhinderte die Überprüfung der Handy-Hypothese – ein Hinweis auf Verbesserungspotenzial bei der polizeilichen Datenerfassung.</p></li>
 </ol>
 </section>
 <section id="limitationen" class="level3">
@@ -5325,9 +5517,10 @@ Aufgabenstellung (10 Pkt.)
 <p>Diese Analyse unterliegt einigen Einschränkungen:</p>
 <ul>
 <li><strong>Beobachtungsdaten:</strong> Es handelt sich um Beobachtungsdaten, die keine kausalen Schlüsse erlauben. Die identifizierten Zusammenhänge können durch Drittvariablen beeinflusst sein.</li>
-<li><strong>Fehlende Werte:</strong> Einige Variablen weisen hohe NA-Anteile auf, was die Generalisierbarkeit einschränken kann.</li>
-<li><strong>Regionale Beschränkung:</strong> Die Daten stammen ausschließlich aus Montgomery County, Maryland. Die Ergebnisse sind möglicherweise nicht auf andere Regionen übertragbar.</li>
-<li><strong>Dokumentationsqualität:</strong> Die Qualität der Daten hängt von der Dokumentation durch die Polizeibehörden ab. Systematische Verzerrungen in der Erfassung können nicht ausgeschlossen werden.</li>
+<li><strong>Fehlende Differenzierung:</strong> Die Variable „Driver.Distracted.By” enthält nur die generische Kategorie „VISUAL DISTRACTION” – spezifische Ablenkungsarten wie Handynutzung konnten daher nicht analysiert werden.</li>
+<li><strong>Fehlende Werte:</strong> Einige Variablen weisen hohe NA-Anteile auf (z.B. Related.Non.Motorist bei 96% der Fälle), was die Generalisierbarkeit einschränken kann.</li>
+<li><strong>Regionale Beschränkung:</strong> Die Daten stammen ausschließlich aus Montgomery County, Maryland (Vorort von Washington D.C.). Die Ergebnisse sind möglicherweise nicht auf ländliche Gebiete oder andere Bundesstaaten übertragbar.</li>
+<li><strong>Dokumentationsqualität:</strong> Die Qualität der Daten hängt von der Dokumentation durch die Polizeibehörden ab. Systematische Verzerrungen in der Erfassung (z.B. Untererfassung von Substanzverdacht) können nicht ausgeschlossen werden.</li>
 </ul>
 </section>
 <section id="ausblick" class="level3">
@@ -5366,6 +5559,10 @@ R package version 0.2.1, https://CRAN.R-project.org/package=formattable</code></
 <pre><code>Wickham H, Pedersen TL, Seidel D (2023).
 scales: Scale Functions for Visualization.
 R package version 1.3.0, https://CRAN.R-project.org/package=scales</code></pre>
+<p><strong>kableExtra</strong> — Erweiterte Tabellenformatierung</p>
+<pre><code>Zhu H (2024).
+kableExtra: Construct Complex Table with 'kable' and Pipe Syntax.
+R package version 1.4.0, https://CRAN.R-project.org/package=kableExtra</code></pre>
 </section>
 <section id="datenquelle" class="level3">
 <h3 class="anchored" data-anchor-id="datenquelle">Datenquelle</h3>

@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "Analyse von Verkehrsunfalldaten in Montgomery County, Maryland"
 author: "Nele Hauck, Oliver Lucius"
 date: today
 format: html
@@ -66,6 +66,24 @@ Fußgänger und Radfahrer sind im Straßenverkehr besonders gefährdet. Diese Fr
 
 **Hypothese:** Wir erwarten, dass Unfälle mit Fußgängern und Radfahrern häufiger bei schlechten Lichtverhältnissen (DARK) auftreten und deutlich schwerere Verletzungen verursachen als Unfälle zwischen Fahrzeugen. Der fehlende Schutz durch eine Karosserie macht diese Verkehrsteilnehmer besonders verwundbar.
 
+#### Ergänzende Fragestellungen
+
+**Fragestellung F: Räumliche Unfallhotspots**
+
+> *Wo konzentrieren sich Verkehrsunfälle geografisch, und unterscheiden sich die Hotspots je nach Unfallschwere?*
+
+Neben den zeitlichen und verhaltensbezogenen Faktoren ist auch die räumliche Verteilung von Unfällen relevant für die Verkehrssicherheit. Diese Fragestellung untersucht, ob sich Unfälle an bestimmten geografischen Punkten häufen und ob schwere Unfälle andere räumliche Muster aufweisen als leichte. Verwendet werden `Latitude`, `Longitude` und `Injury.Severity`.
+
+**Hypothese:** Wir erwarten, dass sich Unfälle entlang von Hauptverkehrsachsen und an Knotenpunkten konzentrieren. Zudem vermuten wir, dass schwere Unfälle (FATAL, SUSPECTED SERIOUS INJURY) ein anderes räumliches Muster zeigen könnten – etwa häufiger auf Schnellstraßen mit höheren Geschwindigkeiten.
+
+**Fragestellung G: Fahrzeugtypen und Fahrer-Herkunft**
+
+> *Unterscheiden sich Unfallschwere und Schuldquote je nach Fahrzeugtyp? Woher stammen die unfallbeteiligten Fahrer?*
+
+Der Fahrzeugtyp kann sowohl das Unfallrisiko als auch die Verletzungsschwere beeinflussen. Zudem ist interessant, ob lokale Fahrer andere Unfallmuster zeigen als auswärtige. Diese Fragestellung analysiert die Verteilung nach Fahrzeugtyp, Fahrzeugalter und geografischer Herkunft der Fahrer. Verwendet werden `Vehicle.Body.Type`, `Vehicle.Year`, `brands_final`, `Drivers.License.State`, `Driver.At.Fault` und `Injury.Severity`.
+
+**Hypothese:** Wir erwarten, dass Motorradfahrer die höchste Rate schwerer Verletzungen aufweisen, da sie – ähnlich wie Fußgänger und Radfahrer – keinen Karosserieschutz haben. Bei der Fahrer-Herkunft vermuten wir, dass auswärtige Fahrer (nicht aus Maryland) eine leicht höhere Schuldquote aufweisen könnten, da ihnen die Ortskenntnis fehlt.
+
 ## 2. Laden der Daten
 
 ### Laden der Daten & erster Überblick
@@ -100,7 +118,7 @@ Um einen ersten Überblick über den Datensatz zu erhalten, wurde die folgende F
 skim(data)  
 ```
 
-Der Datensatz umfasst **39 Variablen** und **204.688 Beobachtungen**. Von den 39 Variablen sind **35 vom Typ "character"**, während die übrigen **4 numerische Werte** enthalten. Bereits auf den ersten Blick fällt auf, dass in mehreren Spalten **fehlende Werte** vorhanden sind. Zudem weisen einige Variablen eine sehr große Anzahl unterschiedlicher Werte auf, was auf eine hohe Individualität innerhalb der Daten deutet.
+Der Datensatz umfasst **39 Variablen** und **204.688 Beobachtungen**. Von den 39 Variablen sind **35 vom Typ "character"**, während die übrigen **4 numerische Werte** enthalten. Bereits auf den ersten Blick fällt auf, dass in mehreren Spalten **fehlende Werte** vorhanden sind. Zudem weisen einige Variablen eine sehr große Anzahl unterschiedlicher Werte auf, was auf eine hohe Individualität innerhalb der Daten hindeutet.
 
 Einen ersten Blick auf die Inhalte des Datensatzes ermöglicht die folgende Funktion:
 
@@ -158,7 +176,7 @@ duplicate_reports %>%
   )
 ```
 
-Aus dem Tabellenausschnitt wird deutlich, dass pro Person ein eigner Dateneintrag für jeden Crash Report existiert. Wenn mehrere Personen an einem Unfall beteiligt sind, erscheinen entsprechend mehrere Datensätze für denselben Crash Report. Beispielsweise sind im Crash Report "DD5502000M" zwei verschiedene Personen erfasst, was zu zwei separaten Dateneinträgen für diesen Bericht führt. 
+Aus dem Tabellenausschnitt wird deutlich, dass pro Person ein eigener Dateneintrag für jeden Crash Report existiert. Wenn mehrere Personen an einem Unfall beteiligt sind, erscheinen entsprechend mehrere Datensätze für denselben Crash Report. Beispielsweise sind im Crash Report "DD5502000M" zwei verschiedene Personen erfasst, was zu zwei separaten Dateneinträgen für diesen Bericht führt. 
 
 Weitergehend wird untersucht, wie viele Personen maximal an einem einzelnen Unfall beteiligt sind:
 ```{r}
@@ -195,9 +213,9 @@ date_time_counts %>%
   filter(report_count > 1)
 ```
 
-Die Auswertung zeigtm dass in **2.714 Fällen** mindestens zwei Unfälle denselben Zeitstempel aufweisen. Das Maximum liegt bei fünf gleichzeitig erfassten Unfällen.
+Die Auswertung zeigt, dass in **2.714 Fällen** mindestens zwei Unfälle denselben Zeitstempel aufweisen. Das Maximum liegt bei fünf gleichzeitig erfassten Unfällen.
 
-Ein weiterer relevanter Aspekt ist die Region, aus der die Daten stammen. Hierfür wurde die Variabel Agency.Name analysiert, die die verschiedenen Polizeibehörden erfasst:
+Ein weiterer relevanter Aspekt ist die Region, aus der die Daten stammen. Hierfür wurde die Variable Agency.Name analysiert, die die verschiedenen Polizeibehörden erfasst:
 ```{r}
 unique(data$Agency.Name)
 ```
@@ -206,7 +224,7 @@ Die Auswertung zeigt, dass die Daten aus **Montgomery County, Maryland, USA** st
 
 ## 3. Bearbeiten/Transformieren der Daten
 
-Für die Datenbereinigung wurde jede Spalte systematisch auf fehlende Werte, fehlerhafte Einträge, Inkonsistenzen und Redundanten geprüft. Bei Bedarf wurden die Varibalen anschließend in die passenden Datentypen konvertiert. 
+Für die Datenbereinigung wurde jede Spalte systematisch auf fehlende Werte, fehlerhafte Einträge, Inkonsistenzen und Redundanzen geprüft. Bei Bedarf wurden die Variablen anschließend in die passenden Datentypen konvertiert. 
 
 Da viele Spalten sowohl klein- als auch großgeschriebene Einträge enthalten, wurden zunächst alle Character-Werte in Großbuchstaben konvertiert und führende sowie nachgestellte Leerzeichen entfernt. Dadurch lassen sich Werte, die sich lediglich in der Groß-/Kleinschreibung unterscheiden, direkt zusammenfassen.
 ```{r}
@@ -241,7 +259,7 @@ data$Route.Type[str_detect(data$Route.Type, "^UNK") | data$Route.Type==""] <- NA
 data$Route.Type <- as.factor(data$Route.Type)
 ```
 
-Die Variable "ACRS.Report.Type" enhielt bereits drei eindeutige Werte mit eigenen Bedeutungen. Daher war keine weitere Zusammenführung oder Behandlung fehlender Werte notwendig: 
+Die Variable "ACRS.Report.Type" enthielt bereits drei eindeutige Werte mit eigenen Bedeutungen. Daher war keine weitere Zusammenführung oder Behandlung fehlender Werte notwendig: 
 ```{r}
 sort(unique(data$ACRS.Report.Type))
 
@@ -331,7 +349,7 @@ Zur Überprüfung der Datenkonsistenz wurde untersucht, ob sich die Inhalte der 
 
 Anschließend wurde die Spalte "Related Non-Motorist" inhaltlich bereinigt und zusammengefasst, um Inkonsistenzen und redundante Schreibweisen zu reduzieren. Eine Unterscheidung zwischen elektrischen und nicht-elektrischen Fortbewegungsmitteln wurde bewusst nicht vorgenommen, da zwar einige Kategorien eine solche Differenzierung ermöglichen (z.B. "Scooter", "Wheelchair"), andere jedoch keine klare Einteilung enthalten (z.B. "BICYCLIST", "Other Conveyance"). 
 
-Die Entscheidung auf diese Kategorie zu verzichten, beruht darauf, dass eine teilweise Zuordnung die Realität unvollständig abbilden würden. Da nicht alle Werte einer elektrischen oder nicht-elektrischen Klasse zugeordnet werden können, wäre eine Analyse auf Basis dieser Klassifizierung nicht verlässlich. 
+Die Entscheidung auf diese Kategorie zu verzichten, beruht darauf, dass eine teilweise Zuordnung die Realität unvollständig abbilden würde. Da nicht alle Werte einer elektrischen oder nicht-elektrischen Klasse zugeordnet werden können, wäre eine Analyse auf Basis dieser Klassifizierung nicht verlässlich. 
 
 ```{r}
 data %>%
@@ -361,7 +379,7 @@ data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^WHEEL")] <- "W
 data$Related.Non.Motorist <- as.factor(data$Related.Non.Motorist)
 ```
 
-Auch die Werte der Spalten "Collision.Typ", "Weather", "Surface.Condition", "Light", "Traffic.Control", "Driver.Distracted.By", "Vehicle.First.Impact.Location", "Vehicle.Body.Type", "Vehicle.Movement" und "Vehicle.Going.Dir" wurden gruppiert, um die Unterscheidung zu vereinfachen und eine einheitliche Klassifizierung zu gewährleisten. Anschließend wurden die bereinigten Variablen in kategoriale Variablen umgewandelt, um sie für die weitere Analyse nutzbar zu machen.
+Auch die Werte der Spalten "Collision.Type", "Weather", "Surface.Condition", "Light", "Traffic.Control", "Driver.Distracted.By", "Vehicle.First.Impact.Location", "Vehicle.Body.Type", "Vehicle.Movement" und "Vehicle.Going.Dir" wurden gruppiert, um die Unterscheidung zu vereinfachen und eine einheitliche Klassifizierung zu gewährleisten. Anschließend wurden die bereinigten Variablen in kategoriale Variablen umgewandelt, um sie für die weitere Analyse nutzbar zu machen.
 
 ```{r}
 sort(unique(data$Collision.Type))
@@ -479,7 +497,7 @@ data$Vehicle.Going.Dir[data$Vehicle.Going.Dir==""] <- NA
 data$Vehicle.Going.Dir <- as.factor(data$Vehicle.Going.Dir)
 ```
 
-Die Spalten "Driver.Substance.Abuse" und "Non.Motorist.Substance.Abuse" geben an, ob bei den beiteiligten Person Alkohol oder Drogen nachgewiesen oder vermutet wurden. Zusätzlich kann angegeben sein, ob die Einnahme von Medikamenten vermutet oder bestätigt wurde.
+Die Spalten "Driver.Substance.Abuse" und "Non.Motorist.Substance.Abuse" geben an, ob bei den beteiligten Personen Alkohol oder Drogen nachgewiesen oder vermutet wurden. Zusätzlich kann angegeben sein, ob die Einnahme von Medikamenten vermutet oder bestätigt wurde.
 
 Zur besseren Übersicht und Analyse wurden beide Spalten jeweils in drei separate Spalten transformiert: eine für Alkohol, eine für Drogen und eine für Medikamente. Dadurch lassen sich die Informationen zu den verschiedenen Arten einfacher auswerten und vergleichen.
 
@@ -550,9 +568,9 @@ data$Non.Motorist.Drugs <- as.factor(data$Non.Motorist.Drugs)
 data$Non.Motorist.Medication <- as.factor(data$Non.Motorist.Medication)
 ```
 
-Die Spalte "Driver.At.Fault" enthält drei eindeutige Werte: "Yes", "No" und "Unknown". Da "Unknwon"angibt, dass die Information nicht bekannt ist, kann dieser Wert in einen fehlenden Wert(NA) umgewandelt. Nach dieser Bereinigung kann die Variable als logische Variable interpretiert werden, wodurch sie analytisch klarer und einfacher auswertbar wird.
+Die Spalte "Driver.At.Fault" enthält drei eindeutige Werte: "Yes", "No" und "Unknown". Da "Unknown" angibt, dass die Information nicht bekannt ist, kann dieser Wert in einen fehlenden Wert (NA) umgewandelt werden. Nach dieser Bereinigung kann die Variable als logische Variable interpretiert werden, wodurch sie analytisch klarer und einfacher auswertbar wird.
 
-Ein vergleichbare Vorgehen wurde bei der Spalte "Driverless.Vehicle" angewendet. Zwar tritt hier der Wert "Yes" nicht auf, dennoch wurde die Spalte analog zu "Driver.At.Fault" bereinigt. Dabei kann diskutiert werden, ob die Unterscheidung zwischen "NO" (kein selbstfahrendes Fahrzeug) und "UNKNOWN" (unbekannt, ob selbstfahrend) inhaltlich relevant ist.
+Ein vergleichbares Vorgehen wurde bei der Spalte "Driverless.Vehicle" angewendet. Zwar tritt hier der Wert "Yes" nicht auf, dennoch wurde die Spalte analog zu "Driver.At.Fault" bereinigt. Dabei kann diskutiert werden, ob die Unterscheidung zwischen "NO" (kein selbstfahrendes Fahrzeug) und "UNKNOWN" (unbekannt, ob selbstfahrend) inhaltlich relevant ist.
 
 Die Spalte "Parked.Vehicle", die aus den Werten "YES", "NO" und aus leeren Werten besteht, wurde ebenfalls in eine logische Variable umgewandelt, um eine konsistente und leicht auswertbare Datenstruktur sicherzustellen.
 
@@ -595,7 +613,7 @@ str(data$Parked.Vehicle)
 
 In der Spalte "Injury.Severity" wurden leere Einträge in fehlende Werte (NA) umgewandelt. Die verbleibenden eindeutigen Werte wurden anschließend als kategoriale Variablen definiert, um sie für die weitere Analyse nutzbar zu machen. 
 
-Ein vergleichbares Vorgehen wurde bei der Spalte "Vehicle.Damage.Extent" angewendet. Der Unterschied besteht darin, dass hier keine leeren Einträge, sondern die Werte "N/A", "OTHER" und "UNKNOWN" in NA umgewandelt wurden. Diese Werte stehen für Fälle, in denen das genaue Schadensausmaß nicht bekannt oder nicht spezifizierbar ist. Da andere Ausprägungen wie "NO DAMAGE" oder "VEHICLE NOT AT SCENE" vorhanden sind, ist davon auszugehen, dass bei den Fällen ein Scahdensgrad existiert, jedoch nicht eindeutig zugeordnet werden konnte. 
+Ein vergleichbares Vorgehen wurde bei der Spalte "Vehicle.Damage.Extent" angewendet. Der Unterschied besteht darin, dass hier keine leeren Einträge, sondern die Werte "N/A", "OTHER" und "UNKNOWN" in NA umgewandelt wurden. Diese Werte stehen für Fälle, in denen das genaue Schadensausmaß nicht bekannt oder nicht spezifizierbar ist. Da andere Ausprägungen wie "NO DAMAGE" oder "VEHICLE NOT AT SCENE" vorhanden sind, ist davon auszugehen, dass bei den Fällen ein Schadensgrad existiert, jedoch nicht eindeutig zugeordnet werden konnte. 
 
 ```{r}
 sort(unique(data$Injury.Severity))
@@ -642,13 +660,13 @@ data$Vehicle.Year[data$Vehicle.Year > 2025] <- NA
 
 Die Spalten "Vehicle.Make" und "Vehicle.Model" enthalten die Hersteller- und Modellbezeichnungen der Fahrzeuge. In den Rohdaten treten jedoch zahlreiche unterschiedliche Schreibweisen, Abkürzungen und Varianten derselben Bezeichnung auf. Eine manuelle Vereinheitlichung wäre daher sehr zeitaufwendig. 
 
-Um eine automatisierte Zuordnung zu ermöglichen, wurden zunächst die 200 am häugisten vorkommende Begriffe extrahiert. Diese dienen als Referenzliste, anhand derer jedes Vorkommnis aus den Spalten Vehicle.Make und Vehicle.Model abgeglichen wird. Da es jedoch Bezeichnungen gibt, die nicht direkt über den Namen einer Marke oder eines Modells zugeordnte werden können, wurde diese Liste manuell um bekannte Alternativ- und Alias-Bezeichnungen erweitert. So wurde beispielsweise der Begriff "DAIMLER" ergänzt, um ihn später mit den Einträgen von Mercedes-Benz zusammenführen zu können. 
+Um eine automatisierte Zuordnung zu ermöglichen, wurden zunächst die 200 am häufigsten vorkommenden Begriffe extrahiert. Diese dienen als Referenzliste, anhand derer jedes Vorkommnis aus den Spalten Vehicle.Make und Vehicle.Model abgeglichen wird. Da es jedoch Bezeichnungen gibt, die nicht direkt über den Namen einer Marke oder eines Modells zugeordnet werden können, wurde diese Liste manuell um bekannte Alternativ- und Alias-Bezeichnungen erweitert. So wurde beispielsweise der Begriff "DAIMLER" ergänzt, um ihn später mit den Einträgen von Mercedes-Benz zusammenführen zu können. 
 
 Die Zuordnung erfolgt mithilfe der Jaro-Winkler-Distanz, die die Unähnlichkeit zweier Zeichenketten misst. Für jeden Eintrag wird ein Distanzvektor zu allen 200 Referenzbegriffen berechnet. Anschließend wird der kleinste Distanzwert ausgewählt, da er die größte Ähnlichkeit zwischen dem ursprünglichen Begriff und der Referenz darstellt.
 
-Nicht jeder Eintrag lässt sich sinnvoll zuordnen. Deshalb wird nicht automatisch einfach der nächstbeste Treffer übernommen. Sattdessen wurde ein Threshold definiert, der eine Mindestähnlichkeit gewährleisten soll. Nach exemplarischen Tests verschiedener Kombinationen wurde ein Schwellwert von 0.2 festgelegt. Nur wenn der ursprüngliche Wert nicht leer ist und die berechnete Jaro-Winkler-Distanz unterhalb von 0.2 liegt, wird der entsprechende Referenzbegriff übernommen. Ist dies nicht der Fall, wird der Wert als NA gesetzt, um falsche Zuordnungen zu vermeiden.
+Nicht jeder Eintrag lässt sich sinnvoll zuordnen. Deshalb wird nicht automatisch einfach der nächstbeste Treffer übernommen. Stattdessen wurde ein Threshold definiert, der eine Mindestähnlichkeit gewährleisten soll. Nach exemplarischen Tests verschiedener Kombinationen wurde ein Schwellwert von 0.2 festgelegt. Nur wenn der ursprüngliche Wert nicht leer ist und die berechnete Jaro-Winkler-Distanz unterhalb von 0.2 liegt, wird der entsprechende Referenzbegriff übernommen. Ist dies nicht der Fall, wird der Wert als NA gesetzt, um falsche Zuordnungen zu vermeiden.
 
-Da es Bezeichnungen gibt, die nichtz durch den Namen direkt zugeordnet werden können, wurde die Liste der 200 Bezeichnungen manuell um bekannte Bezeichnungen ergänzt. Beispielweise DAIMLER wurde hinzugefügt, um es später mit den Begriffen von MErcedes Benz zu vereinen. 
+Da es Bezeichnungen gibt, die nicht durch den Namen direkt zugeordnet werden können, wurde die Liste der 200 Bezeichnungen manuell um bekannte Bezeichnungen ergänzt. Beispielsweise wurde DAIMLER hinzugefügt, um es später mit den Begriffen von Mercedes-Benz zu vereinen. 
 ```{r}
 # sort(unique(data$Vehicle.Make))
 vehicle_makes <- sort(unique(data$Vehicle.Make))
@@ -807,9 +825,9 @@ Die transformierten Daten entsprechen weitgehend unseren Erwartungen:
 ::: {.callout-note icon="false"}
 ## Aufgabenstellung (15 Pkt.)
 
-Fassen Sie die Daten in einer geeigenten Form zur Beantwortung Ihrer formulierten Fragestellung zusammen. Ziehen Sie auch geeignete Visualisierungen der transformierten und/oder aggregierten Daten heran, um Ihre Aussagen entsprechend zu untermauern oder zu veranschaulichen.
+Fassen Sie die Daten in einer geeigneten Form zur Beantwortung Ihrer formulierten Fragestellung zusammen. Ziehen Sie auch geeignete Visualisierungen der transformierten und/oder aggregierten Daten heran, um Ihre Aussagen entsprechend zu untermauern oder zu veranschaulichen.
 
-Hier könne Sie auch geeignete statistische Verfahren bzw. Modellierungen nutzen, falls diese Ihnen bezüglich Ihrer Fragestellung weiterhelfen.
+Hier können Sie auch geeignete statistische Verfahren bzw. Modellierungen nutzen, falls diese Ihnen bezüglich Ihrer Fragestellung weiterhelfen.
 :::
 
 Für die Visualisierungen wird zusätzlich das Paket `ggplot2` geladen:
@@ -1750,6 +1768,408 @@ Die Analyse bestätigt die aufgestellte Hypothese in wesentlichen Punkten:
 
 ---
 
+### Ergänzende Analyse: Räumliche Unfallhotspots
+
+> *Wo konzentrieren sich Verkehrsunfälle geografisch, und unterscheiden sich die Hotspots je nach Unfallschwere?*
+
+[TODO: Einleitungstext zur räumlichen Analyse einfügen]
+
+#### Übersicht der geografischen Verteilung
+
+```{r}
+#| label: fig-spatial-overview
+#| fig-cap: "Geografische Verteilung aller Unfälle in Montgomery County"
+
+data %>%
+  filter(!is.na(Latitude), !is.na(Longitude)) %>%
+  filter(Latitude >= 38.9, Latitude <= 39.4, Longitude >= -77.6, Longitude <= -76.8) %>%
+  ggplot(aes(x = Longitude, y = Latitude)) +
+  geom_point(alpha = 0.05, size = 0.3, color = "steelblue") +
+  coord_fixed(ratio = 1.3) +
+  labs(
+    x = "Längengrad",
+    y = "Breitengrad",
+    title = "Räumliche Verteilung der Unfälle in Montgomery County"
+  ) +
+  theme_minimal()
+```
+
+[TODO: Beschreibung der Übersichtskarte einfügen]
+
+#### Dichtekarte der Unfallhotspots
+
+```{r}
+#| label: fig-density-map
+#| fig-cap: "Dichtekarte der Unfallhotspots"
+
+data %>%
+  filter(!is.na(Latitude), !is.na(Longitude)) %>%
+  filter(Latitude >= 38.9, Latitude <= 39.4, Longitude >= -77.6, Longitude <= -76.8) %>%
+  ggplot(aes(x = Longitude, y = Latitude)) +
+  geom_density_2d_filled(alpha = 0.8) +
+  coord_fixed(ratio = 1.3) +
+  labs(
+    x = "Längengrad",
+    y = "Breitengrad",
+    fill = "Dichte",
+    title = "Unfallhotspots in Montgomery County"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "right")
+```
+
+[TODO: Beschreibung der Dichtekarte einfügen]
+
+#### Hotspots schwerer Unfälle
+
+```{r}
+#| label: fig-severe-hotspots
+#| fig-cap: "Hotspots schwerer Unfälle (FATAL und SUSPECTED SERIOUS INJURY)"
+
+data %>%
+  filter(!is.na(Latitude), !is.na(Longitude), !is.na(Injury.Severity)) %>%
+  filter(Latitude >= 38.9, Latitude <= 39.4, Longitude >= -77.6, Longitude <= -76.8) %>%
+  filter(Injury.Severity %in% c("FATAL", "SUSPECTED SERIOUS INJURY")) %>%
+  ggplot(aes(x = Longitude, y = Latitude)) +
+  geom_density_2d_filled(alpha = 0.8) +
+  geom_point(alpha = 0.3, size = 0.5, color = "darkred") +
+  coord_fixed(ratio = 1.3) +
+  labs(
+    x = "Längengrad",
+    y = "Breitengrad",
+    fill = "Dichte",
+    title = "Hotspots schwerer Unfälle"
+  ) +
+  theme_minimal()
+```
+
+[TODO: Beschreibung der Hotspots schwerer Unfälle einfügen]
+
+#### Vergleich: Schwere vs. leichte Unfälle
+
+```{r}
+#| label: fig-severity-comparison-spatial
+#| fig-cap: "Räumlicher Vergleich: Schwere vs. leichte Unfälle"
+#| fig-height: 5
+
+data %>%
+  filter(!is.na(Latitude), !is.na(Longitude), !is.na(Injury.Severity)) %>%
+  filter(Latitude >= 38.9, Latitude <= 39.4, Longitude >= -77.6, Longitude <= -76.8) %>%
+  mutate(
+    Schweregrad = case_when(
+      Injury.Severity %in% c("FATAL", "SUSPECTED SERIOUS INJURY") ~ "Schwer (Fatal/Serious)",
+      Injury.Severity == "NO APPARENT INJURY" ~ "Keine Verletzung",
+      TRUE ~ "Leicht/Möglich"
+    )
+  ) %>%
+  filter(Schweregrad != "Leicht/Möglich") %>%
+  ggplot(aes(x = Longitude, y = Latitude)) +
+  geom_density_2d(aes(color = Schweregrad), linewidth = 0.8) +
+  coord_fixed(ratio = 1.3) +
+  scale_color_manual(values = c("Keine Verletzung" = "steelblue", "Schwer (Fatal/Serious)" = "darkred")) +
+  labs(
+    x = "Längengrad",
+    y = "Breitengrad",
+    color = "Schweregrad",
+    title = "Vergleich der Unfallverteilung nach Schweregrad"
+  ) +
+  theme_minimal()
+```
+
+[TODO: Beschreibung des Vergleichs einfügen]
+
+#### Top-Unfallstandorte
+
+```{r}
+# Aggregation nach gerundeten Koordinaten zur Identifikation von Hotspots
+hotspot_locations <- data %>%
+  filter(!is.na(Latitude), !is.na(Longitude)) %>%
+  filter(Latitude >= 38.9, Latitude <= 39.4, Longitude >= -77.6, Longitude <= -76.8) %>%
+  mutate(
+    lat_rounded = round(Latitude, 3),
+    lon_rounded = round(Longitude, 3)
+  ) %>%
+  count(lat_rounded, lon_rounded, sort = TRUE) %>%
+  head(10)
+
+hotspot_locations
+```
+
+[TODO: Beschreibung der Top-Standorte einfügen]
+
+#### Zwischenfazit Räumliche Analyse
+
+[TODO: Zwischenfazit zur räumlichen Analyse einfügen]
+
+---
+
+### Ergänzende Analyse: Fahrzeugtypen und Fahrer-Herkunft
+
+> *Unterscheiden sich Unfallschwere und Schuldquote je nach Fahrzeugtyp? Woher stammen die Fahrer?*
+
+[TODO: Einleitungstext zur Fahrzeug-/Herkunftsanalyse einfügen]
+
+#### Unfälle nach Fahrzeugtyp
+
+```{r}
+#| label: fig-vehicle-type-distribution
+#| fig-cap: "Verteilung der Unfälle nach Fahrzeugtyp"
+
+data %>%
+  filter(!is.na(Vehicle.Body.Type)) %>%
+  count(Vehicle.Body.Type, sort = TRUE) %>%
+  head(15) %>%
+  ggplot(aes(x = reorder(Vehicle.Body.Type, n), y = n, fill = Vehicle.Body.Type)) +
+  geom_col() +
+  geom_text(aes(label = scales::comma(n)), hjust = -0.1, size = 3) +
+  coord_flip() +
+  labs(
+    x = "Fahrzeugtyp",
+    y = "Anzahl Unfälle",
+    title = "Top 15 Fahrzeugtypen bei Unfällen"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
+```
+
+[TODO: Beschreibung der Fahrzeugtyp-Verteilung einfügen]
+
+#### Verletzungsschwere nach Fahrzeugtyp
+
+```{r}
+#| label: fig-vehicle-type-injury
+#| fig-cap: "Anteil schwerer Verletzungen nach Fahrzeugtyp"
+
+# Berechnung des Anteils schwerer Verletzungen pro Fahrzeugtyp
+vehicle_severity <- data %>%
+  filter(!is.na(Vehicle.Body.Type), !is.na(Injury.Severity)) %>%
+  group_by(Vehicle.Body.Type) %>%
+  summarise(
+    n = n(),
+    n_severe = sum(Injury.Severity %in% c("FATAL", "SUSPECTED SERIOUS INJURY")),
+    anteil_severe = mean(Injury.Severity %in% c("FATAL", "SUSPECTED SERIOUS INJURY")) * 100
+  ) %>%
+  filter(n >= 100) %>%
+  arrange(desc(anteil_severe))
+
+vehicle_severity %>%
+  head(15) %>%
+  ggplot(aes(x = reorder(Vehicle.Body.Type, anteil_severe), y = anteil_severe, fill = anteil_severe)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_severe, 1), "%")), hjust = -0.1, size = 3) +
+  coord_flip() +
+  scale_fill_gradient(low = "steelblue", high = "darkred") +
+  labs(
+    x = "Fahrzeugtyp",
+    y = "Anteil schwerer Verletzungen (%)",
+    title = "Anteil schwerer Verletzungen nach Fahrzeugtyp",
+    subtitle = "(nur Typen mit mind. 100 Unfällen)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
+```
+
+```{r}
+# Tabelle der Verletzungsschwere nach Fahrzeugtyp
+vehicle_severity %>%
+  head(10)
+```
+
+[TODO: Beschreibung der Verletzungsschwere nach Fahrzeugtyp einfügen]
+
+#### Schuldquote nach Fahrzeugtyp
+
+```{r}
+#| label: fig-vehicle-type-fault
+#| fig-cap: "Schuldquote nach Fahrzeugtyp"
+
+vehicle_fault <- data %>%
+  filter(!is.na(Vehicle.Body.Type), !is.na(Driver.At.Fault)) %>%
+  group_by(Vehicle.Body.Type) %>%
+  summarise(
+    n = n(),
+    n_schuld = sum(Driver.At.Fault),
+    anteil_schuld = mean(Driver.At.Fault) * 100
+  ) %>%
+  filter(n >= 100) %>%
+  arrange(desc(anteil_schuld))
+
+vehicle_fault %>%
+  head(15) %>%
+  ggplot(aes(x = reorder(Vehicle.Body.Type, anteil_schuld), y = anteil_schuld, fill = anteil_schuld)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), hjust = -0.1, size = 3) +
+  coord_flip() +
+  scale_fill_gradient(low = "steelblue", high = "darkred") +
+  labs(
+    x = "Fahrzeugtyp",
+    y = "Schuldquote (%)",
+    title = "Schuldquote nach Fahrzeugtyp",
+    subtitle = "(nur Typen mit mind. 100 Unfällen)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
+```
+
+[TODO: Beschreibung der Schuldquote nach Fahrzeugtyp einfügen]
+
+#### Top Fahrzeugmarken
+
+```{r}
+#| label: fig-brand-distribution
+#| fig-cap: "Top 15 Fahrzeugmarken bei Unfällen"
+
+data %>%
+  filter(!is.na(brands_final)) %>%
+  count(brands_final, sort = TRUE) %>%
+  head(15) %>%
+  ggplot(aes(x = reorder(brands_final, n), y = n, fill = brands_final)) +
+  geom_col() +
+  geom_text(aes(label = scales::comma(n)), hjust = -0.1, size = 3) +
+  coord_flip() +
+  labs(
+    x = "Fahrzeugmarke",
+    y = "Anzahl Unfälle",
+    title = "Top 15 Fahrzeugmarken bei Unfällen"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
+```
+
+[TODO: Beschreibung der Fahrzeugmarken-Verteilung einfügen]
+
+#### Fahrzeugalter und Unfälle
+
+```{r}
+#| label: fig-vehicle-age
+#| fig-cap: "Verteilung der Unfälle nach Fahrzeugalter"
+
+data %>%
+  filter(!is.na(Vehicle.Year), !is.na(crash_year)) %>%
+  mutate(vehicle_age = crash_year - Vehicle.Year) %>%
+  filter(vehicle_age >= 0, vehicle_age <= 30) %>%
+  ggplot(aes(x = vehicle_age)) +
+  geom_histogram(binwidth = 1, fill = "steelblue", color = "white") +
+  labs(
+    x = "Fahrzeugalter (Jahre)",
+    y = "Anzahl Unfälle",
+    title = "Unfallverteilung nach Fahrzeugalter"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# Verletzungsschwere nach Fahrzeugalter (gruppiert)
+data %>%
+  filter(!is.na(Vehicle.Year), !is.na(crash_year), !is.na(Injury.Severity)) %>%
+  mutate(
+    vehicle_age = crash_year - Vehicle.Year,
+    age_group = case_when(
+      vehicle_age < 0 ~ NA_character_,
+      vehicle_age <= 3 ~ "0-3 Jahre (neu)",
+      vehicle_age <= 7 ~ "4-7 Jahre",
+      vehicle_age <= 12 ~ "8-12 Jahre",
+      vehicle_age <= 20 ~ "13-20 Jahre",
+      TRUE ~ "21+ Jahre (alt)"
+    )
+  ) %>%
+  filter(!is.na(age_group)) %>%
+  group_by(age_group) %>%
+  summarise(
+    n = n(),
+    anteil_severe = mean(Injury.Severity %in% c("FATAL", "SUSPECTED SERIOUS INJURY")) * 100
+  ) %>%
+  arrange(age_group)
+```
+
+[TODO: Beschreibung des Fahrzeugalters einfügen]
+
+#### Herkunft der Fahrer (Führerschein-Staat)
+
+```{r}
+#| label: fig-license-state
+#| fig-cap: "Top 15 Führerschein-Staaten der unfallbeteiligten Fahrer"
+
+data %>%
+  filter(!is.na(Drivers.License.State), Drivers.License.State != "") %>%
+  count(Drivers.License.State, sort = TRUE) %>%
+  head(15) %>%
+  ggplot(aes(x = reorder(Drivers.License.State, n), y = n, fill = Drivers.License.State)) +
+  geom_col() +
+  geom_text(aes(label = scales::comma(n)), hjust = -0.1, size = 3) +
+  coord_flip() +
+  labs(
+    x = "Führerschein-Staat",
+    y = "Anzahl Unfälle",
+    title = "Herkunft der Fahrer nach Führerschein-Staat"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
+```
+
+```{r}
+# Anteil lokaler vs. auswärtiger Fahrer
+data %>%
+  filter(!is.na(Drivers.License.State), Drivers.License.State != "") %>%
+  mutate(
+    herkunft = case_when(
+      Drivers.License.State == "MD" ~ "Maryland (lokal)",
+      Drivers.License.State %in% c("VA", "DC") ~ "Nachbarstaaten (VA/DC)",
+      TRUE ~ "Andere Staaten"
+    )
+  ) %>%
+  count(herkunft) %>%
+  mutate(anteil = round(n / sum(n) * 100, 1))
+```
+
+[TODO: Beschreibung der Fahrer-Herkunft einfügen]
+
+#### Schuldquote nach Herkunft
+
+```{r}
+#| label: fig-fault-by-origin
+#| fig-cap: "Schuldquote nach Fahrer-Herkunft"
+
+data %>%
+  filter(!is.na(Drivers.License.State), !is.na(Driver.At.Fault), Drivers.License.State != "") %>%
+  mutate(
+    herkunft = case_when(
+      Drivers.License.State == "MD" ~ "Maryland (lokal)",
+      Drivers.License.State %in% c("VA", "DC") ~ "Nachbarstaaten (VA/DC)",
+      TRUE ~ "Andere Staaten"
+    )
+  ) %>%
+  group_by(herkunft) %>%
+  summarise(
+    n = n(),
+    anteil_schuld = mean(Driver.At.Fault) * 100
+  ) %>%
+  ggplot(aes(x = reorder(herkunft, -anteil_schuld), y = anteil_schuld, fill = herkunft)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), vjust = -0.5, size = 4) +
+  labs(
+    x = "Herkunft",
+    y = "Schuldquote (%)",
+    title = "Schuldquote nach Fahrer-Herkunft"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(limits = c(0, 70), expand = expansion(mult = c(0, 0.1)))
+```
+
+[TODO: Beschreibung der Schuldquote nach Herkunft einfügen]
+
+#### Zwischenfazit Fahrzeugtypen und Herkunft
+
+[TODO: Zwischenfazit zur Fahrzeug-/Herkunftsanalyse einfügen]
+
+---
+
 ## 5. Zusammenfassung und Schlussfolgerung
 
 ::: {.callout-note icon="false"}
@@ -1868,6 +2288,13 @@ R package version 0.2.1, https://CRAN.R-project.org/package=formattable
 Wickham H, Pedersen TL, Seidel D (2023).
 scales: Scale Functions for Visualization.
 R package version 1.3.0, https://CRAN.R-project.org/package=scales
+```
+
+**kableExtra** — Erweiterte Tabellenformatierung
+```
+Zhu H (2024).
+kableExtra: Construct Complex Table with 'kable' and Pipe Syntax.
+R package version 1.4.0, https://CRAN.R-project.org/package=kableExtra
 ```
 
 ### Datenquelle
