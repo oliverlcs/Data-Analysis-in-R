@@ -9,16 +9,6 @@ format: html
 
 ## 1. Definition/Formulierung der Fragestellung
 
-::: {.callout-note icon="false"}
-## Aufgabenstellung (10 Pkt.)
-
-Definieren Sie eine Sie interessierende bzw. interessante Fragestellung im Zusammenhang mit dem Datensatz:
-
--   Was interessiert Sie an dem Datensatz?
--   Welche spezifische Fragestellung würden Sie gern mit Hilfe des Datensatzes beantworten?
--   Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?
-:::
-
 ### Was interessiert uns an dem Datensatz?
 
 Der Datensatz dokumentiert Verkehrsunfälle in Montgomery County, Maryland, über einen Zeitraum von etwa 10 Jahren (2015–2025). Besonders interessant ist die Möglichkeit, menschliche Verhaltensfaktoren — wie Alkohol- und Drogeneinfluss, Ablenkung am Steuer sowie die Interaktion mit vulnerablen Verkehrsteilnehmern — systematisch zu untersuchen.
@@ -28,6 +18,20 @@ Verkehrsunfälle sind keine rein zufälligen Ereignisse: Sie entstehen durch das
 ### Fragestellungen
 
 Im Rahmen dieser Analyse werden fünf zusammenhängende Fragestellungen untersucht, die verschiedene Aspekte des Unfallgeschehens beleuchten:
+
+#### Deskriptive Fragestellungen
+
+**Fragestellung A: Zeitliche Muster von Verkehrsunfällen**
+
+> *Zu welchen Tageszeiten und Wochentagen ereignen sich die meisten Verkehrsunfälle, und unterscheidet sich die Unfallschwere je nach Zeitpunkt?*
+
+Eine grundlegende Analyse der zeitlichen Verteilung von Unfällen kann Aufschluss darüber geben, wann besondere Vorsicht geboten ist. Aus `Crash.Date.Time` werden Stunde, Wochentag und Monat extrahiert und mit `Injury.Severity` in Beziehung gesetzt.
+
+**Fragestellung B: Einfluss von Wetter und Straßenbedingungen**
+
+> *Führen ungünstige Wetterbedingungen und Straßenverhältnisse zu schwereren Unfällen?*
+
+Diese Fragestellung untersucht den oft vermuteten Zusammenhang zwischen Wetterbedingungen und Unfallschwere. Verwendet werden `Weather`, `Surface.Condition`, `Injury.Severity` und `Vehicle.Damage.Extent`.
 
 #### Analysierende Fragestellungen
 
@@ -49,23 +53,15 @@ Ablenkung ist eine der Hauptursachen für Verkehrsunfälle. Diese Analyse unters
 
 Fußgänger und Radfahrer sind im Straßenverkehr besonders gefährdet. Diese Fragestellung analysiert, unter welchen Lichtverhältnissen und zu welchen Tageszeiten solche Unfälle auftreten und wie schwer die resultierenden Verletzungen sind. Verwendet werden `Related.Non.Motorist`, `Light`, `Injury.Severity` und `Crash.Date.Time`.
 
-#### Deskriptive Fragestellungen
-
-**Fragestellung A: Zeitliche Muster von Verkehrsunfällen**
-
-> *Zu welchen Tageszeiten und Wochentagen ereignen sich die meisten Verkehrsunfälle, und unterscheidet sich die Unfallschwere je nach Zeitpunkt?*
-
-Eine grundlegende Analyse der zeitlichen Verteilung von Unfällen kann Aufschluss darüber geben, wann besondere Vorsicht geboten ist. Aus `Crash.Date.Time` werden Stunde, Wochentag und Monat extrahiert und mit `Injury.Severity` in Beziehung gesetzt.
-
-**Fragestellung B: Einfluss von Wetter und Straßenbedingungen**
-
-> *Führen ungünstige Wetterbedingungen und Straßenverhältnisse zu schwereren Unfällen?*
-
-Diese Fragestellung untersucht den oft vermuteten Zusammenhang zwischen Wetterbedingungen und Unfallschwere. Verwendet werden `Weather`, `Surface.Condition`, `Injury.Severity` und `Vehicle.Damage.Extent`.
-
 ### Erwartungen und Hypothesen
 
 Vor der Analyse formulieren wir unsere Erwartungen, um diese später mit den tatsächlichen Ergebnissen vergleichen zu können:
+
+**Zu Fragestellung A (Zeitliche Muster):**
+Wir erwarten, dass Unfälle während der Rush Hour (7–9 Uhr und 16–18 Uhr) gehäuft auftreten, da dann das Verkehrsaufkommen am höchsten ist. Gleichzeitig vermuten wir, dass nächtliche Unfälle (22–5 Uhr) trotz geringerer Häufigkeit schwerere Verletzungen verursachen — bedingt durch höhere Geschwindigkeiten, schlechtere Sicht und möglicherweise Alkoholeinfluss.
+
+**Zu Fragestellung B (Wetter):**
+Entgegen der intuitiven Annahme erwarten wir, dass Unfälle bei schlechtem Wetter (Regen, Schnee, Eis) nicht zwingend schwerer sind als bei guten Bedingungen. Unsere Hypothese: Fahrer passen ihr Verhalten an und fahren bei widrigen Bedingungen vorsichtiger und langsamer, was die Unfallschwere reduziert.
 
 **Zu Fragestellung C (Substanzeinfluss):**
 Wir erwarten, dass Fahrer mit Alkohol- oder Drogeneinfluss (Kategorien CONTRIBUTED, PRESENT, SUSPECT) signifikant häufiger als schuldig eingestuft werden als nüchterne Fahrer. Zudem vermuten wir, dass Unfälle unter Substanzeinfluss schwerere Verletzungen nach sich ziehen, da die Reaktionsfähigkeit und das Urteilsvermögen beeinträchtigt sind.
@@ -76,21 +72,7 @@ Wir erwarten, dass Handynutzung (PHONE USE) die häufigste dokumentierte Ablenku
 **Zu Fragestellung E (Fußgänger/Radfahrer):**
 Wir erwarten, dass Unfälle mit Fußgängern und Radfahrern häufiger bei schlechten Lichtverhältnissen (DARK) auftreten und deutlich schwerere Verletzungen verursachen als Unfälle zwischen Fahrzeugen. Der fehlende Schutz durch eine Karosserie macht diese Verkehrsteilnehmer besonders verwundbar.
 
-**Zu Fragestellung A (Zeitliche Muster):**
-Wir erwarten, dass Unfälle während der Rush Hour (7–9 Uhr und 16–18 Uhr) gehäuft auftreten, da dann das Verkehrsaufkommen am höchsten ist. Gleichzeitig vermuten wir, dass nächtliche Unfälle (22–5 Uhr) trotz geringerer Häufigkeit schwerere Verletzungen verursachen — bedingt durch höhere Geschwindigkeiten, schlechtere Sicht und möglicherweise Alkoholeinfluss.
-
-**Zu Fragestellung B (Wetter):**
-Entgegen der intuitiven Annahme erwarten wir, dass Unfälle bei schlechtem Wetter (Regen, Schnee, Eis) nicht zwingend schwerer sind als bei guten Bedingungen. Unsere Hypothese: Fahrer passen ihr Verhalten an und fahren bei widrigen Bedingungen vorsichtiger und langsamer, was die Unfallschwere reduziert.
-
 ## 2. Laden der Daten
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (10 Pkt.)
-
-Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Überblick \* Welche Typen sind enthalten? \* Ist sichergestellt, dass alle Daten den richtigen Typ haben? \* Haben die Daten irgendwelche "Seltsamkeiten" mit denen Sie umgehen müssen, wie z.B. anders codierte `NA`'s, mehrere Tabellen, ... etc. \* Je nach Datensatz können Sie die Daten auch in eine Datenbank laden und dann auf diese in R zugreifen.
-
-Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
-:::
 
 ### Laden der Daten & erster Überblick
 
@@ -220,18 +202,6 @@ Die Auswertung zeigt, dass die Daten aus **Montgomery County, Maryland, USA** st
 
 ## 3. Bearbeiten/Transformieren der Daten
 
-::: {.callout-note icon="false"}
-## Aufgabenstellung (15 Pkt.)
-
-In diesem Abschnitt sollten Sie alle notwendigen Transformationen/Bereiningungen/... etc. der Daten vornehmen (Data Muning ? was ist Muning, meinst du Mining, Data Cleansing), wie z.B.: \* Umcodierung von Daten, z.B. numerisch in kategorial \* Subsetting der Daten \* Joining von Datentabellen - falls nötig. Welcher Join ist notwendig? Warum? \* ...
-
-Verschaffen Sie sich eine Übersicht der transformierten Daten. Sie können hierzu Hilfsmittel wie `glimpse()`, `skim()` und `head()` benutzen, um Ihre Erläuterungen zu veranschaulichen.
-
-Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?
-
-In diesem Abschnitt werden die gegebenen Daten bereinigt und für die weitere Analyse vorbereitet. Dazu gehören die Überprüfung auf fehlende oder fehlerhafte Werte, die Umwandlung von Variablen in geeignete Datentypen, sowie gegebenenfalls das Zusammenführen und Filtern relevanter Daten.
-:::
-
 Für die Datenbereinigung wurde jede Spalte systematisch auf fehlende Werte, fehlerhafte Einträge, Inkonsistenzen und Redundanten geprüft. Bei Bedarf wurden die Varibalen anschließend in die passenden Datentypen konvertiert. 
 
 Da viele Spalten sowohl klein- als auch großgeschriebene Einträge enthalten, wurden zunächst alle Character-Werte in Großbuchstaben konvertiert und führende sowie nachgestellte Leerzeichen entfernt. Dadurch lassen sich Werte, die sich lediglich in der Groß-/Kleinschreibung unterscheiden, direkt zusammenfassen.
@@ -357,9 +327,9 @@ data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^(CYC|BICYCLIST
 data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^IN ANI")] <- "ANIMAL-DRAWN VEHICLE"
 data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^(PEDESTRIAN$|OTHER PEDE)")] <- "PEDESTRIAN"
 data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^(OTHER CONVEYANCE, PEDE|OTHER, PEDE)")] <- "PEDESTRIAN, OTHER"
-data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^(OTHER$|OTHER CONVEYANCE$|OTHER, OTHER)")] <- "OTHER"
+data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^(OTHER$|OTHER CONVEYANCE$|OTHER, OTHER|MACHI|OCC)")] <- "OTHER"
 data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^PEDESTRIAN, W")] <- "PEDESTRIAN, WHEELCHAIR"
-data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^Scoo")] <- "Scooter"
+data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^SCOO")] <- "Scooter"
 data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^(UNKNOWN$|UNKNOWN TY)")] <- "UNKNOWN"
 data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^UNKNOWN, W")] <- "UNKNOWN, WHEELCHAIR"
 data$Related.Non.Motorist[str_detect(data$Related.Non.Motorist, "^WHEEL")] <- "WHEELCHAIR"
@@ -422,10 +392,10 @@ data$Traffic.Control <- as.factor(data$Traffic.Control)
 sort(unique(data$Driver.Distracted.By))
 
 data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(DIAL|OTHER CEL|TALKING OR|TEXT)")] <- "PHONE USE"
-data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(ADJ|MAN|USING)")] <- "MANUAL OPERATION"
+data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(ADJ|MAN|USING|EAT|SMOK)")] <- "MANUAL OPERATION"
 data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(BY|TALKING/|OTHER ELEC)")] <- "INTERNAL DISTRACTION"
-data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(DISTRAC|LOOKED|)")] <- "VISUAL DISTRACTION"
-data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(OTHER DIS|OTHER ACT)")] <- "OTHER"
+data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(DISTRAC|LOOKED)")] <- "VISUAL DISTRACTION"
+data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(OTHER DIS|OTHER ACT)")| data$Driver.Distracted.By==""] <- "OTHER"
 
 data$Driver.Distracted.By <- as.factor(data$Driver.Distracted.By)
 
@@ -819,469 +789,6 @@ library(tidyr)
 
 Im Folgenden werden die fünf formulierten Fragestellungen systematisch untersucht. Für jede Fragestellung werden zunächst deskriptive Statistiken und Visualisierungen erstellt, gefolgt von statistischen Tests zur Überprüfung der Hypothesen.
 
-### Fragestellung C: Substanzeinfluss und Schuldfrage
-
-> *Sind Fahrer mit nachgewiesenem oder vermutetem Alkohol-/Drogeneinfluss häufiger schuld am Unfall?*
-
-#### Deskriptive Analyse: Alkoholeinfluss und Schuld
-
-Zunächst wird die Verteilung der Schuldfrage in Abhängigkeit vom Alkoholstatus untersucht:
-
-```{r}
-# Kreuztabelle: Alkohol × Schuld
-alcohol_fault_table <- data %>%
-  filter(!is.na(Driver.At.Fault), !is.na(Driver.Alcohol)) %>%
-  count(Driver.Alcohol, Driver.At.Fault) %>%
-  pivot_wider(names_from = Driver.At.Fault, values_from = n, values_fill = 0) %>%
-  mutate(
-    Total = `FALSE` + `TRUE`,
-    Anteil_Schuld = round(`TRUE` / Total * 100, 1)
-  )
-
-alcohol_fault_table
-```
-
-```{r}
-#| label: fig-alcohol-fault
-#| fig-cap: "Anteil der schuldigen Fahrer nach Alkoholstatus"
-
-data %>%
-  filter(!is.na(Driver.At.Fault), !is.na(Driver.Alcohol)) %>%
-  group_by(Driver.Alcohol) %>%
-  summarise(
-    n = n(),
-    n_schuld = sum(Driver.At.Fault),
-    anteil_schuld = mean(Driver.At.Fault) * 100
-  ) %>%
-  ggplot(aes(x = reorder(Driver.Alcohol, -anteil_schuld), y = anteil_schuld, fill = Driver.Alcohol)) +
-  geom_col() +
-  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), vjust = -0.5, size = 3) +
-  labs(
-    x = "Alkoholstatus",
-    y = "Anteil schuldiger Fahrer (%)",
-    title = "Schuld am Unfall nach Alkoholstatus"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    legend.position = "none"
-  ) +
-  ylim(0, 100)
-```
-
-Die Visualisierung zeigt deutliche Unterschiede im Anteil schuldiger Fahrer je nach Alkoholstatus. Fahrer mit nachgewiesenem Alkoholeinfluss (CONTRIBUTED, PRESENT) weisen einen höheren Schuldanteil auf als nüchterne Fahrer.
-
-#### Deskriptive Analyse: Drogeneinfluss und Schuld
-
-```{r}
-#| label: fig-drugs-fault
-#| fig-cap: "Anteil der schuldigen Fahrer nach Drogenstatus"
-
-data %>%
-  filter(!is.na(Driver.At.Fault), !is.na(Driver.Drugs)) %>%
-  group_by(Driver.Drugs) %>%
-  summarise(
-    n = n(),
-    n_schuld = sum(Driver.At.Fault),
-    anteil_schuld = mean(Driver.At.Fault) * 100
-  ) %>%
-  ggplot(aes(x = reorder(Driver.Drugs, -anteil_schuld), y = anteil_schuld, fill = Driver.Drugs)) +
-  geom_col() +
-  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), vjust = -0.5, size = 3) +
-  labs(
-    x = "Drogenstatus",
-    y = "Anteil schuldiger Fahrer (%)",
-    title = "Schuld am Unfall nach Drogenstatus"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    legend.position = "none"
-  ) +
-  ylim(0, 100)
-```
-
-#### Statistische Prüfung: Chi-Quadrat-Test
-
-Um zu prüfen, ob ein statistisch signifikanter Zusammenhang zwischen Alkoholstatus und Schuld besteht, wird ein Chi-Quadrat-Test durchgeführt:
-
-```{r}
-# Chi-Quadrat-Test: Alkohol × Schuld
-alcohol_fault_chi <- data %>%
-  filter(!is.na(Driver.At.Fault), !is.na(Driver.Alcohol)) %>%
-  select(Driver.Alcohol, Driver.At.Fault)
-
-chisq_alcohol <- chisq.test(table(alcohol_fault_chi$Driver.Alcohol, alcohol_fault_chi$Driver.At.Fault))
-chisq_alcohol
-```
-
-```{r}
-# Chi-Quadrat-Test: Drogen × Schuld
-drugs_fault_chi <- data %>%
-  filter(!is.na(Driver.At.Fault), !is.na(Driver.Drugs)) %>%
-  select(Driver.Drugs, Driver.At.Fault)
-
-chisq_drugs <- chisq.test(table(drugs_fault_chi$Driver.Drugs, drugs_fault_chi$Driver.At.Fault))
-chisq_drugs
-```
-
-#### Verletzungsschwere bei Substanzeinfluss
-
-```{r}
-#| label: fig-alcohol-injury
-#| fig-cap: "Verletzungsschwere bei Unfällen mit und ohne Alkoholeinfluss"
-
-data %>%
-  filter(!is.na(Injury.Severity), !is.na(Driver.Alcohol)) %>%
-  mutate(
-    Alkohol_vereinfacht = case_when(
-      Driver.Alcohol %in% c("CONTRIBUTED", "PRESENT") ~ "Alkohol nachgewiesen",
-      Driver.Alcohol == "NONE DETECTED" ~ "Kein Alkohol",
-      TRUE ~ "Unbekannt/Verdacht"
-    )
-  ) %>%
-  filter(Alkohol_vereinfacht != "Unbekannt/Verdacht") %>%
-  count(Alkohol_vereinfacht, Injury.Severity) %>%
-  group_by(Alkohol_vereinfacht) %>%
-  mutate(anteil = n / sum(n) * 100) %>%
-  ggplot(aes(x = Injury.Severity, y = anteil, fill = Alkohol_vereinfacht)) +
-  geom_col(position = "dodge") +
-  labs(
-    x = "Verletzungsschwere",
-    y = "Anteil (%)",
-    fill = "Alkoholstatus",
-    title = "Verletzungsschwere nach Alkoholstatus"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-#### Zwischenfazit Fragestellung C
-
-Die Analyse zeigt einen klaren Zusammenhang zwischen Substanzeinfluss und Unfallschuld. Der Chi-Quadrat-Test bestätigt, dass dieser Zusammenhang statistisch signifikant ist (p < 0.05). Die Hypothese, dass Fahrer unter Alkohol- oder Drogeneinfluss häufiger schuld am Unfall sind, wird durch die Daten gestützt.
-
----
-
-### Fragestellung D: Ablenkung am Steuer
-
-> *Welche Ablenkungsarten sind am häufigsten und wie hängen sie mit dem Kollisionstyp zusammen?*
-
-#### Häufigkeit der Ablenkungsarten
-
-```{r}
-#| label: fig-distraction-freq
-#| fig-cap: "Häufigkeit der verschiedenen Ablenkungsarten"
-
-distraction_counts <- data %>%
-  filter(!is.na(Driver.Distracted.By)) %>%
-  count(Driver.Distracted.By, sort = TRUE)
-
-distraction_counts %>%
-  ggplot(aes(x = reorder(Driver.Distracted.By, n), y = n, fill = Driver.Distracted.By)) +
-  geom_col() +
-  geom_text(aes(label = scales::comma(n)), hjust = -0.1, size = 3) +
-  coord_flip() +
-  labs(
-    x = "Ablenkungsart",
-    y = "Anzahl Unfälle",
-    title = "Verteilung der Ablenkungsarten bei Unfällen"
-  ) +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
-```
-
-```{r}
-# Tabelle mit Anteilen
-distraction_counts %>%
-  mutate(Anteil = round(n / sum(n) * 100, 1))
-```
-
-#### Zusammenhang: Ablenkung und Kollisionstyp
-
-```{r}
-#| label: fig-distraction-collision
-#| fig-cap: "Ablenkungsart und Kollisionstyp"
-#| fig-height: 6
-
-data %>%
-  filter(!is.na(Driver.Distracted.By), !is.na(Collision.Type)) %>%
-  count(Driver.Distracted.By, Collision.Type) %>%
-  group_by(Driver.Distracted.By) %>%
-  mutate(anteil = n / sum(n) * 100) %>%
-  ggplot(aes(x = Collision.Type, y = Driver.Distracted.By, fill = anteil)) +
-  geom_tile() +
-  geom_text(aes(label = round(anteil, 0)), size = 3, color = "white") +
-  scale_fill_gradient(low = "steelblue", high = "darkred") +
-  labs(
-    x = "Kollisionstyp",
-    y = "Ablenkungsart",
-    fill = "Anteil (%)",
-    title = "Kollisionstypen nach Ablenkungsart"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-#### Fokus: Handynutzung und Auffahrunfälle
-
-Gemäß unserer Hypothese untersuchen wir, ob Handynutzung überproportional zu Auffahrunfällen (REAR-END) führt:
-
-```{r}
-# Vergleich: Anteil REAR-END bei Handynutzung vs. andere Ablenkungen
-rearend_comparison <- data %>%
-  filter(!is.na(Driver.Distracted.By), !is.na(Collision.Type)) %>%
-  mutate(
-    is_phone = Driver.Distracted.By == "PHONE USE",
-    is_rearend = Collision.Type == "REAR-END"
-  ) %>%
-  group_by(is_phone) %>%
-  summarise(
-    n = n(),
-    n_rearend = sum(is_rearend),
-    anteil_rearend = mean(is_rearend) * 100
-  ) %>%
-  mutate(Gruppe = if_else(is_phone, "Handynutzung", "Andere Ablenkung"))
-
-rearend_comparison
-```
-
-```{r}
-#| label: fig-phone-rearend
-#| fig-cap: "Anteil Auffahrunfälle: Handynutzung vs. andere Ablenkungen"
-
-rearend_comparison %>%
-  ggplot(aes(x = Gruppe, y = anteil_rearend, fill = Gruppe)) +
-  geom_col() +
-  geom_text(aes(label = paste0(round(anteil_rearend, 1), "%")), vjust = -0.5) +
-  labs(
-    x = "",
-    y = "Anteil Auffahrunfälle (%)",
-    title = "Auffahrunfälle (REAR-END) nach Ablenkungsart"
-  ) +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  ylim(0, max(rearend_comparison$anteil_rearend) * 1.2)
-```
-
-#### Statistische Prüfung: Chi-Quadrat-Test
-
-```{r}
-# Chi-Quadrat-Test: Ablenkungsart × Kollisionstyp
-distraction_collision_chi <- data %>%
-  filter(!is.na(Driver.Distracted.By), !is.na(Collision.Type)) %>%
-  select(Driver.Distracted.By, Collision.Type)
-
-chisq_distraction <- chisq.test(table(distraction_collision_chi$Driver.Distracted.By,
-                                       distraction_collision_chi$Collision.Type))
-chisq_distraction
-```
-
-#### Ablenkung und Schuld
-
-```{r}
-#| label: fig-distraction-fault
-#| fig-cap: "Schuldanteil nach Ablenkungsart"
-
-data %>%
-  filter(!is.na(Driver.Distracted.By), !is.na(Driver.At.Fault)) %>%
-  group_by(Driver.Distracted.By) %>%
-  summarise(
-    n = n(),
-    anteil_schuld = mean(Driver.At.Fault) * 100
-  ) %>%
-  ggplot(aes(x = reorder(Driver.Distracted.By, anteil_schuld), y = anteil_schuld, fill = Driver.Distracted.By)) +
-  geom_col() +
-  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), hjust = -0.1, size = 3) +
-  coord_flip() +
-  labs(
-    x = "Ablenkungsart",
-    y = "Anteil schuldiger Fahrer (%)",
-    title = "Schuld am Unfall nach Ablenkungsart"
-  ) +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  scale_y_continuous(limits = c(0, 100), expand = expansion(mult = c(0, 0.1)))
-```
-
-#### Zwischenfazit Fragestellung D
-
-Die Analyse der Ablenkungsarten zeigt interessante Muster. Der Chi-Quadrat-Test bestätigt einen statistisch signifikanten Zusammenhang zwischen Ablenkungsart und Kollisionstyp. Die Hypothese bezüglich Handynutzung und Auffahrunfällen kann anhand der Daten überprüft werden — die Ergebnisse zeigen, ob diese Vermutung zutrifft.
-
----
-
-### Fragestellung E: Fußgänger- und Radfahrerunfälle
-
-> *Unter welchen Bedingungen ereignen sich Unfälle mit nicht-motorisierten Verkehrsteilnehmern, und wie schwer sind diese?*
-
-#### Verteilung der nicht-motorisierten Verkehrsteilnehmer
-
-```{r}
-#| label: fig-nonmotorist-types
-#| fig-cap: "Verteilung der nicht-motorisierten Verkehrsteilnehmer bei Unfällen"
-
-data %>%
-  filter(!is.na(Related.Non.Motorist)) %>%
-  count(Related.Non.Motorist, sort = TRUE) %>%
-  ggplot(aes(x = reorder(Related.Non.Motorist, n), y = n, fill = Related.Non.Motorist)) +
-  geom_col() +
-  geom_text(aes(label = n), hjust = -0.1, size = 3) +
-  coord_flip() +
-  labs(
-    x = "Nicht-motorisierter Verkehrsteilnehmer",
-    y = "Anzahl Unfälle",
-    title = "Unfälle mit nicht-motorisierten Verkehrsteilnehmern"
-  ) +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
-```
-
-#### Lichtverhältnisse bei Fußgänger-/Radfahrerunfällen
-
-```{r}
-#| label: fig-nonmotorist-light
-#| fig-cap: "Lichtverhältnisse bei Unfällen mit und ohne nicht-motorisierte Beteiligte"
-
-# Vergleich: Unfälle mit vs. ohne Non-Motorist
-light_comparison <- data %>%
-  filter(!is.na(Light)) %>%
-  mutate(has_nonmotorist = !is.na(Related.Non.Motorist)) %>%
-  count(has_nonmotorist, Light) %>%
-  group_by(has_nonmotorist) %>%
-  mutate(anteil = n / sum(n) * 100) %>%
-  mutate(Gruppe = if_else(has_nonmotorist, "Mit Fußgänger/Radfahrer", "Nur Fahrzeuge"))
-
-light_comparison %>%
-  ggplot(aes(x = Light, y = anteil, fill = Gruppe)) +
-  geom_col(position = "dodge") +
-  labs(
-    x = "Lichtverhältnisse",
-    y = "Anteil (%)",
-    fill = "",
-    title = "Lichtverhältnisse: Unfälle mit vs. ohne nicht-motorisierte Beteiligte"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-```{r}
-# Anteil Dunkelheit bei Unfällen mit Non-Motorist
-dark_rates <- data %>%
-  filter(!is.na(Light)) %>%
-  mutate(
-    has_nonmotorist = !is.na(Related.Non.Motorist),
-    is_dark = str_detect(Light, "DARK")
-  ) %>%
-  group_by(has_nonmotorist) %>%
-  summarise(
-    n = n(),
-    n_dark = sum(is_dark),
-    anteil_dark = mean(is_dark) * 100
-  ) %>%
-  mutate(Gruppe = if_else(has_nonmotorist, "Mit Fußgänger/Radfahrer", "Nur Fahrzeuge"))
-
-dark_rates
-```
-
-#### Verletzungsschwere: Vergleich mit Fahrzeugunfällen
-
-```{r}
-#| label: fig-nonmotorist-injury
-#| fig-cap: "Verletzungsschwere: Unfälle mit vs. ohne nicht-motorisierte Beteiligte"
-
-data %>%
-  filter(!is.na(Injury.Severity)) %>%
-  mutate(has_nonmotorist = !is.na(Related.Non.Motorist)) %>%
-  count(has_nonmotorist, Injury.Severity) %>%
-  group_by(has_nonmotorist) %>%
-  mutate(anteil = n / sum(n) * 100) %>%
-  mutate(Gruppe = if_else(has_nonmotorist, "Mit Fußgänger/Radfahrer", "Nur Fahrzeuge")) %>%
-  ggplot(aes(x = Injury.Severity, y = anteil, fill = Gruppe)) +
-  geom_col(position = "dodge") +
-  labs(
-    x = "Verletzungsschwere",
-    y = "Anteil (%)",
-    fill = "",
-    title = "Verletzungsschwere: Unfälle mit vs. ohne nicht-motorisierte Beteiligte"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-```{r}
-# Anteil schwerer Verletzungen (FATAL, SUSPECTED SERIOUS INJURY)
-severe_rates <- data %>%
-  filter(!is.na(Injury.Severity)) %>%
-  mutate(
-    has_nonmotorist = !is.na(Related.Non.Motorist),
-    is_severe = Injury.Severity %in% c("FATAL", "SUSPECTED SERIOUS INJURY")
-  ) %>%
-  group_by(has_nonmotorist) %>%
-  summarise(
-    n = n(),
-    n_severe = sum(is_severe),
-    anteil_severe = mean(is_severe) * 100
-  ) %>%
-  mutate(Gruppe = if_else(has_nonmotorist, "Mit Fußgänger/Radfahrer", "Nur Fahrzeuge"))
-
-severe_rates
-```
-
-#### Tageszeit der Fußgänger-/Radfahrerunfälle
-
-```{r}
-#| label: fig-nonmotorist-hour
-#| fig-cap: "Verteilung der Unfälle mit nicht-motorisierten Beteiligten nach Tageszeit"
-
-data %>%
-  filter(!is.na(Related.Non.Motorist), !is.na(Crash.Date.Time)) %>%
-  mutate(hour = hour(Crash.Date.Time)) %>%
-  count(hour) %>%
-  ggplot(aes(x = hour, y = n)) +
-  geom_col(fill = "steelblue") +
-  geom_smooth(aes(group = 1), method = "loess", se = FALSE, color = "darkred", linewidth = 1) +
-  scale_x_continuous(breaks = seq(0, 23, 2)) +
-  labs(
-    x = "Stunde des Tages",
-    y = "Anzahl Unfälle",
-    title = "Tageszeit der Unfälle mit Fußgängern/Radfahrern"
-  ) +
-  theme_minimal()
-```
-
-#### Statistische Prüfung: Chi-Quadrat-Test
-
-```{r}
-# Chi-Quadrat-Test: Non-Motorist-Beteiligung × Lichtverhältnisse
-nonmotorist_light_chi <- data %>%
-  filter(!is.na(Light)) %>%
-  mutate(has_nonmotorist = !is.na(Related.Non.Motorist)) %>%
-  select(has_nonmotorist, Light)
-
-chisq_nonmotorist_light <- chisq.test(table(nonmotorist_light_chi$has_nonmotorist,
-                                             nonmotorist_light_chi$Light))
-chisq_nonmotorist_light
-```
-
-```{r}
-# Chi-Quadrat-Test: Non-Motorist-Beteiligung × Verletzungsschwere
-nonmotorist_injury_chi <- data %>%
-  filter(!is.na(Injury.Severity)) %>%
-  mutate(has_nonmotorist = !is.na(Related.Non.Motorist)) %>%
-  select(has_nonmotorist, Injury.Severity)
-
-chisq_nonmotorist_injury <- chisq.test(table(nonmotorist_injury_chi$has_nonmotorist,
-                                              nonmotorist_injury_chi$Injury.Severity))
-chisq_nonmotorist_injury
-```
-
-#### Zwischenfazit Fragestellung E
-
-Die Analyse zeigt deutliche Unterschiede zwischen Unfällen mit und ohne nicht-motorisierte Verkehrsteilnehmer. Die Chi-Quadrat-Tests bestätigen statistisch signifikante Zusammenhänge sowohl mit den Lichtverhältnissen als auch mit der Verletzungsschwere. Die Hypothese, dass Unfälle mit Fußgängern und Radfahrern schwerere Verletzungen verursachen, kann anhand der Daten überprüft werden.
-
----
-
 ### Fragestellung A: Zeitliche Muster von Verkehrsunfällen
 
 > *Zu welchen Tageszeiten und Wochentagen ereignen sich die meisten Verkehrsunfälle, und unterscheidet sich die Unfallschwere je nach Zeitpunkt?*
@@ -1303,8 +810,7 @@ data <- data %>%
 #### Verteilung nach Tageszeit
 
 ```{r}
-#| label: fig-hour-distribution
-#| fig-cap: "Verteilung der Unfälle nach Tageszeit"
+# Verteilung der Unfälle nach Tageszeit
 
 data %>%
   filter(!is.na(crash_hour)) %>%
@@ -1323,12 +829,12 @@ data %>%
   theme_minimal()
 ```
 
+Bei der allgemeinen Verteilung der Unfälle nach Tageszeit lassen sich zwei Spitzen um 8 Uhr und um 17 Uhr erkennen, wobei das Tagesmaximum um 17 Uhr erreicht wird. Dies kann auf den erhöhten Arbeitsverkehr zu Beginn und am Ende des Arbeitstages hindeuten.
+
 #### Heatmap: Stunde × Wochentag
 
 ```{r}
-#| label: fig-hour-weekday-heatmap
-#| fig-cap: "Heatmap: Unfallhäufigkeit nach Stunde und Wochentag"
-#| fig-height: 5
+# Heatmap: Unfallhäufigkeit nach Stunde und Wochentag
 
 data %>%
   filter(!is.na(crash_hour), !is.na(crash_wday)) %>%
@@ -1346,11 +852,12 @@ data %>%
   theme_minimal()
 ```
 
+Die Heatmap unterstützt die zuvor genannte Vermutung zum Arbeitsverkehr. Die Unfallhäufigkeit ist insbesondere von Montag bis Freitag zwischen 7 und 9 Uhr sowie 15 und 18 Uhr erhöht. Am Wochenende verteilt sich die Unfallhäufigkeit zwischen 11 und 19 Uhr relativ gleichmäßig. Auffällig ist, dass in den frühen Morgenstunden weniger Unfälle auftreten, vermutlich weil viele Personen zu dieser Zeit schlafen.
+
 #### Verletzungsschwere nach Tageszeit
 
 ```{r}
-#| label: fig-severity-timeofday
-#| fig-cap: "Verletzungsschwere nach Tageszeit"
+# Verletzungsschwere nach Tageszeit
 
 data %>%
   filter(!is.na(crash_hour), !is.na(Injury.Severity)) %>%
@@ -1401,11 +908,12 @@ severe_by_time <- data %>%
 severe_by_time
 ```
 
+Der Anteil der Verletzungsschwere variiert im Tagesverlauf nur gering. Auffällig ist jedoch, dass schwere Verletzungen eher bei Unfällen in der Nacht auftreten.
+
 #### Monatliche Trends
 
 ```{r}
-#| label: fig-monthly-trend
-#| fig-cap: "Monatliche Unfallzahlen über die Jahre"
+# Monatliche Unfallzahlen über die Jahre
 
 data %>%
   filter(!is.na(crash_month), !is.na(crash_year)) %>%
@@ -1423,6 +931,8 @@ data %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+Über das Jahr hinweg lassen sich zwei Spitzen im Mai und im Oktober erkennen. Die zeitlichen Verläufe der einzelnen Jahre sind weitgehend ähnlich, wobei das Jahr 2020 eine deutliche Abweichcung aufweist. Im April 2020 wurde ein markanter Tiefpunkt erreicht, der im weiteren Jahresverlauf wieder leicht anstieg, was vermutlich auf die Auswirkungen der Corona-Pandemie im März 2020 zurückzuführen ist. Auch im Jahr 2025 zeigt sich ein Bruch im Oktober, der jedoch auf unvollständige Daten zurückzuführen ist, da nur Daten bis zum 21.10.2025 erhoben wurden.
+
 #### Statistische Prüfung: Chi-Quadrat-Test
 
 ```{r}
@@ -1431,6 +941,8 @@ weekday_counts <- table(data$crash_wday)
 chisq_weekday <- chisq.test(weekday_counts)
 chisq_weekday
 ```
+
+Der p-Wert ist sehr klein, was darauf schließen lässt, dass die Verteilung der Unfälle vom Wochentag abhängt.
 
 ```{r}
 # Chi-Quadrat-Test: Tageszeit × Verletzungsschwere
@@ -1450,6 +962,8 @@ chisq_time_severity <- chisq.test(table(time_severity_chi$time_of_day, time_seve
 chisq_time_severity
 ```
 
+Auch hier ist der p-Wert extrem klein, was auf einen statistischen Zusammenhang zwischen der Tageszeit und der Verletzungsschwere schließen lässt.
+
 #### Zwischenfazit Fragestellung A
 
 Die zeitliche Analyse bestätigt die erwarteten Rush-Hour-Peaks. Der Chi-Quadrat-Test zeigt, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind. Der Zusammenhang zwischen Tageszeit und Verletzungsschwere ist ebenfalls statistisch signifikant. Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, kann anhand der Daten überprüft werden.
@@ -1463,8 +977,7 @@ Die zeitliche Analyse bestätigt die erwarteten Rush-Hour-Peaks. Der Chi-Quadrat
 #### Verteilung der Wetterbedingungen
 
 ```{r}
-#| label: fig-weather-distribution
-#| fig-cap: "Verteilung der Unfälle nach Wetterbedingungen"
+# Verteilung der Unfälle nach Wetterbedingungen
 
 data %>%
   filter(!is.na(Weather)) %>%
@@ -1483,11 +996,12 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
+Die meisten Unfälle ereigneten sich bei klarem Wetter, während nur wenige bei Wind, Nebel oder Schneefall auftraten. Dies könnte jedoch auch darauf zurückzuführen sein, dass die meisten Tage klares Wetter aufwiesen. 
+
 #### Verletzungsschwere nach Wetterbedingungen
 
 ```{r}
-#| label: fig-weather-injury
-#| fig-cap: "Verletzungsschwere nach Wetterbedingungen"
+# Verletzungsschwere nach Wetterbedingungen
 
 data %>%
   filter(!is.na(Weather), !is.na(Injury.Severity)) %>%
@@ -1506,6 +1020,8 @@ data %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+Bei den Anteilen der Verletzungsschwere unter verschiedenen Wetterbedingungen zeigen sich nur geringe Unterschiede.
+
 ```{r}
 # Anteil schwerer Verletzungen nach Wetter
 severe_by_weather <- data %>%
@@ -1522,11 +1038,12 @@ severe_by_weather <- data %>%
 severe_by_weather
 ```
 
+Der Anteil schwerer Verletzungen ist bei Nebel bzw. schlechten Sichtverhältnissen am höchsten, liegt jedoch auch hier lediglich bei etwa einem Prozent.
+
 #### Straßenbedingungen und Fahrzeugschaden
 
 ```{r}
-#| label: fig-surface-damage
-#| fig-cap: "Fahrzeugschaden nach Straßenbedingungen"
+# Fahrzeugschaden nach Straßenbedingungen
 
 data %>%
   filter(!is.na(Surface.Condition), !is.na(Vehicle.Damage.Extent)) %>%
@@ -1545,11 +1062,12 @@ data %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+Die Visualiserung zeigt, dass bei Fahrzeugzerstörung die meisten Unfälle auf nassen Straßen passieren, während Schnee den geringsten Anteil aufweist. Bei nicht fahrtüchtigen Fahrzeugen tritt der höchste Anteil auf sandigen Straßen auf. Unfälle ohne Schaden kommen am häufigsten bei Schnee vor, während oberflächliche Schäden überwiegend auf verschmutzten oder schlammigen Straßen auftreten.
+
 #### Vergleich: Gutes vs. schlechtes Wetter
 
 ```{r}
-#| label: fig-weather-comparison
-#| fig-cap: "Verletzungsschwere bei gutem vs. schlechtem Wetter"
+# Verletzungsschwere bei gutem vs. schlechtem Wetter
 
 weather_comparison <- data %>%
   filter(!is.na(Weather), !is.na(Injury.Severity)) %>%
@@ -1576,6 +1094,8 @@ weather_comparison %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+Bei Vergleich der Verletzungsschwere zwischen guten und schlechten Wetterbedingungen zeigt sich kein nennenswerter Unterschied.
+
 ```{r}
 # Vergleich der Anteile schwerer Verletzungen
 weather_severe_comparison <- data %>%
@@ -1596,6 +1116,8 @@ weather_severe_comparison <- data %>%
 
 weather_severe_comparison
 ```
+
+Schwere Verletzungen lassen sich nicht mit guten oder schlechten Wetterbedingungen in Verbindung bringen, dad er Anteil in beiden Fällen unter einem Prozent liegt. 
 
 #### Statistische Prüfung: Chi-Quadrat-Test
 
@@ -1619,9 +1141,486 @@ chisq_surface_damage <- chisq.test(table(surface_damage_chi$Surface.Condition, s
 chisq_surface_damage
 ```
 
+Sowohl zwischen dem Wetter und der Verletzungsschwere als auch zwischen der Straßenbedingung und dem Fahrzeugschaden lässt sich ein statistischer Zusammenhang erkennen.
+
 #### Zwischenfazit Fragestellung B
 
 Die Analyse der Wetterbedingungen liefert ein interessantes Ergebnis: Entgegen der verbreiteten Annahme zeigen die Daten, dass Unfälle bei schlechtem Wetter nicht unbedingt schwerer sind. Die Chi-Quadrat-Tests bestätigen zwar einen statistisch signifikanten Zusammenhang zwischen Wetter und Verletzungsschwere, jedoch in möglicherweise unerwarteter Richtung. Dies stützt unsere Hypothese, dass Fahrer bei widrigen Bedingungen ihr Verhalten anpassen und vorsichtiger fahren.
+
+---
+
+### Fragestellung C: Substanzeinfluss und Schuldfrage
+
+> *Sind Fahrer mit nachgewiesenem oder vermutetem Alkohol-/Drogeneinfluss häufiger schuld am Unfall?*
+
+#### Deskriptive Analyse: Alkoholeinfluss und Schuld
+
+Zunächst wird die Verteilung der Schuldfrage in Abhängigkeit vom Alkoholstatus untersucht:
+
+```{r}
+# Kreuztabelle: Alkohol × Schuld
+alcohol_fault_table <- data %>%
+  filter(!is.na(Driver.At.Fault), !is.na(Driver.Alcohol)) %>%
+  count(Driver.Alcohol, Driver.At.Fault) %>%
+  pivot_wider(names_from = Driver.At.Fault, values_from = n, values_fill = 0) %>%
+  mutate(
+    Total = `FALSE` + `TRUE`,
+    Anteil_Schuld = round(`TRUE` / Total * 100, 1)
+  )
+
+alcohol_fault_table
+```
+
+```{r}
+# Anteil der schuldigen Fahrer nach Alkoholstatus
+
+data %>%
+  filter(!is.na(Driver.At.Fault), !is.na(Driver.Alcohol)) %>%
+  group_by(Driver.Alcohol) %>%
+  summarise(
+    n = n(),
+    n_schuld = sum(Driver.At.Fault),
+    anteil_schuld = mean(Driver.At.Fault) * 100
+  ) %>%
+  ggplot(aes(x = reorder(Driver.Alcohol, -anteil_schuld), y = anteil_schuld, fill = Driver.Alcohol)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), vjust = -0.5, size = 3) +
+  labs(
+    x = "Alkoholstatus",
+    y = "Anteil schuldiger Fahrer (%)",
+    title = "Schuld am Unfall nach Alkoholstatus"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
+  ylim(0, 100)
+```
+
+Die Visualisierung zeigt deutliche Unterschiede im Anteil schuldiger Fahrer je nach Alkoholstatus. Fahrer mit nachgewiesenem Alkoholeinfluss (CONTRIBUTED, PRESENT) weisen einen höheren Schuldanteil auf als nüchterne Fahrer.
+
+#### Deskriptive Analyse: Drogeneinfluss und Schuld
+
+```{r}
+# Anteil der schuldigen Fahrer nach Drogenstatus
+
+data %>%
+  filter(!is.na(Driver.At.Fault), !is.na(Driver.Drugs)) %>%
+  group_by(Driver.Drugs) %>%
+  summarise(
+    n = n(),
+    n_schuld = sum(Driver.At.Fault),
+    anteil_schuld = mean(Driver.At.Fault) * 100
+  ) %>%
+  ggplot(aes(x = reorder(Driver.Drugs, -anteil_schuld), y = anteil_schuld, fill = Driver.Drugs)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), vjust = -0.5, size = 3) +
+  labs(
+    x = "Drogenstatus",
+    y = "Anteil schuldiger Fahrer (%)",
+    title = "Schuld am Unfall nach Drogenstatus"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
+  ylim(0, 100)
+```
+
+Auch die Visualisierung des Drogeneinflusses zeigt eine nahezu identische Verteilung. Auch hier liegt der Anteil schuldiger Fahrer bei nachgewiesenen Drogen über 95 %.
+
+#### Statistische Prüfung: Chi-Quadrat-Test
+
+Um zu prüfen, ob ein statistisch signifikanter Zusammenhang zwischen Substanzeinfluss und Schuld besteht, wird ein Chi-Quadrat-Test durchgeführt:
+
+```{r}
+# Chi-Quadrat-Test: Alkohol × Schuld
+alcohol_fault_chi <- data %>%
+  filter(!is.na(Driver.At.Fault), !is.na(Driver.Alcohol)) %>%
+  select(Driver.Alcohol, Driver.At.Fault)
+
+chisq_alcohol <- chisq.test(table(alcohol_fault_chi$Driver.Alcohol, alcohol_fault_chi$Driver.At.Fault))
+chisq_alcohol
+```
+
+```{r}
+# Chi-Quadrat-Test: Drogen × Schuld
+drugs_fault_chi <- data %>%
+  filter(!is.na(Driver.At.Fault), !is.na(Driver.Drugs)) %>%
+  select(Driver.Drugs, Driver.At.Fault)
+
+chisq_drugs <- chisq.test(table(drugs_fault_chi$Driver.Drugs, drugs_fault_chi$Driver.At.Fault))
+chisq_drugs
+```
+
+Die Analyse zeigt einen klaren Zusammenhang zwischen Substanzeinfluss und Unfallschuld. Der Chi-Quadrat-Test bestätigt, dass dieser Zusammenhang statistisch signifikant ist (p < 0.05). Die Hypothese, dass Fahrer unter Alkohol- oder Drogeneinfluss häufiger schuld am Unfall sind, wird durch die Daten gestützt.
+
+#### Verletzungsschwere bei Substanzeinfluss
+
+```{r}
+# Verletzungsschwere bei Unfällen mit und ohne Alkoholeinfluss
+
+data %>%
+  filter(!is.na(Injury.Severity), !is.na(Driver.Alcohol)) %>%
+  mutate(
+    Alkohol_vereinfacht = case_when(
+      Driver.Alcohol %in% c("CONTRIBUTED", "PRESENT") ~ "Alkohol nachgewiesen",
+      Driver.Alcohol == "NONE DETECTED" ~ "Kein Alkohol",
+      TRUE ~ "Unbekannt/Verdacht"
+    )
+  ) %>%
+  filter(Alkohol_vereinfacht != "Unbekannt/Verdacht") %>%
+  count(Alkohol_vereinfacht, Injury.Severity) %>%
+  group_by(Alkohol_vereinfacht) %>%
+  mutate(anteil = n / sum(n) * 100) %>%
+  ggplot(aes(x = Injury.Severity, y = anteil, fill = Alkohol_vereinfacht)) +
+  geom_col(position = "dodge") +
+  labs(
+    x = "Verletzungsschwere",
+    y = "Anteil (%)",
+    fill = "Alkoholstatus",
+    title = "Verletzungsschwere nach Alkoholstatus"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Beim Vergleich der Verletzungsschwere nach Alkoholstatus traten keine auffälligen Unterschiede auf. Zwar ist der Anteil schwerer Verletzungen insgesamt sehr gering, dennoch lässt sich dieser Anteil allein bei nachgewiesenem Alkohol feststellen.
+---
+
+### Fragestellung D: Ablenkung am Steuer
+
+> *Welche Ablenkungsarten sind am häufigsten und wie hängen sie mit dem Kollisionstyp zusammen?*
+
+#### Häufigkeit der Ablenkungsarten
+
+```{r}
+# Häufigkeit der verschiedenen Ablenkungsarten
+
+distraction_counts <- data %>%
+  filter(!is.na(Driver.Distracted.By)) %>%
+  count(Driver.Distracted.By, sort = TRUE)
+
+distraction_counts %>%
+  ggplot(aes(x = reorder(Driver.Distracted.By, n), y = n, fill = Driver.Distracted.By)) +
+  geom_col() +
+  geom_text(aes(label = scales::comma(n)), hjust = -0.1, size = 3) +
+  coord_flip() +
+  labs(
+    x = "Ablenkungsart",
+    y = "Anzahl Unfälle",
+    title = "Verteilung der Ablenkungsarten bei Unfällen"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
+```
+
+```{r}
+# Tabelle mit Anteilen
+distraction_counts %>%
+  mutate(Anteil = round(n / sum(n) * 100, 1))
+```
+
+Mit 62,7 % wird bestätigt, dass in den meisten Fällen die Fahrer nicht abgelenkt waren. Bei knapp 20 % der Unfälle konnte man nicht identifizieren, ob der Fahrer abgelenkt war. Mit 11 % ist die häufigste Ablenkungsart, dass der Fahrer visuell abgelenkt wurde.
+
+#### Zusammenhang: Ablenkung und Kollisionstyp
+
+```{r}
+# Ablenkungsart und Kollisionstyp
+
+data %>%
+  filter(!is.na(Driver.Distracted.By), !is.na(Collision.Type)) %>%
+  count(Driver.Distracted.By, Collision.Type) %>%
+  group_by(Driver.Distracted.By) %>%
+  mutate(anteil = n / sum(n) * 100) %>%
+  ggplot(aes(x = Collision.Type, y = Driver.Distracted.By, fill = anteil)) +
+  geom_tile() +
+  geom_text(aes(label = round(anteil, 0)), size = 3, color = "white") +
+  scale_fill_gradient(low = "steelblue", high = "darkred") +
+  labs(
+    x = "Kollisionstyp",
+    y = "Ablenkungsart",
+    fill = "Anteil (%)",
+    title = "Kollisionstypen nach Ablenkungsart"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Bei nahezu allen Ablenkungsarten treten **Auffahrunfälle** am häufigsten auf. Eine Ausnahme bildet die **visuelle Ablenkung**, bei der **Angle-Kollisionen** den größten Anteil ausmachen. Bei **No driver present** lässt sich hingegen der am häufigsten vorkommende Kollisionstyp nicht feststellen, da dieser nicht definiert ist. 
+
+#### Fokus: Handynutzung und Auffahrunfälle
+
+Gemäß unserer Hypothese untersuchen wir, ob Handynutzung überproportional zu Auffahrunfällen (REAR-END) führt:
+
+```{r}
+# Vergleich: Anteil REAR-END bei Handynutzung vs. andere Ablenkungen
+rearend_comparison <- data %>%
+  filter(!is.na(Driver.Distracted.By), !is.na(Collision.Type)) %>%
+  mutate(
+    is_phone = Driver.Distracted.By == "PHONE USE",
+    is_rearend = Collision.Type == "REAR-END"
+  ) %>%
+  group_by(is_phone) %>%
+  summarise(
+    n = n(),
+    n_rearend = sum(is_rearend),
+    anteil_rearend = mean(is_rearend) * 100
+  ) %>%
+  mutate(Gruppe = if_else(is_phone, "Handynutzung", "Andere Ablenkung"))
+
+rearend_comparison
+```
+
+```{r}
+# Anteil Auffahrunfälle: Handynutzung vs. andere Ablenkungen
+
+rearend_comparison %>%
+  ggplot(aes(x = Gruppe, y = anteil_rearend, fill = Gruppe)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_rearend, 1), "%")), vjust = -0.5) +
+  labs(
+    x = "",
+    y = "Anteil Auffahrunfälle (%)",
+    title = "Auffahrunfälle (REAR-END) nach Ablenkungsart"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ylim(0, max(rearend_comparison$anteil_rearend) * 1.2)
+```
+
+Auffahrunfälle treten bei Handynutzung in 42,8 % der Fälle auf, während ihr Anteil bei anderen Ablenkungsarten lediglich 32,9 % beträgt. Damit sind Auffahrunfälle bei Handynutzung deutlich häufiger vertreten.
+
+#### Statistische Prüfung: Chi-Quadrat-Test
+
+```{r}
+# Chi-Quadrat-Test: Ablenkungsart × Kollisionstyp
+distraction_collision_chi <- data %>%
+  filter(!is.na(Driver.Distracted.By), !is.na(Collision.Type)) %>%
+  select(Driver.Distracted.By, Collision.Type)
+
+chisq_distraction <- chisq.test(table(distraction_collision_chi$Driver.Distracted.By,
+                                       distraction_collision_chi$Collision.Type))
+chisq_distraction
+```
+
+Der p-Wert ist mit kleiner als 2.2e-16 extrem klein, wodurch ein statistischer Zusammenhang zwischen der Ablenkungsart und dem Kollisionstyp besteht.
+
+#### Ablenkung und Schuld
+
+```{r}
+# Schuldanteil nach Ablenkungsart
+
+data %>%
+  filter(!is.na(Driver.Distracted.By), !is.na(Driver.At.Fault)) %>%
+  group_by(Driver.Distracted.By) %>%
+  summarise(
+    n = n(),
+    anteil_schuld = mean(Driver.At.Fault) * 100
+  ) %>%
+  ggplot(aes(x = reorder(Driver.Distracted.By, anteil_schuld), y = anteil_schuld, fill = Driver.Distracted.By)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), hjust = -0.1, size = 3) +
+  coord_flip() +
+  labs(
+    x = "Ablenkungsart",
+    y = "Anteil schuldiger Fahrer (%)",
+    title = "Schuld am Unfall nach Ablenkungsart"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(limits = c(0, 100), expand = expansion(mult = c(0, 0.1)))
+```
+
+Die Visualisierung zeigt das bei den meisten Ablenkungsarten der Anteil schuldiger Fahrer sehr hoch ist. Nur wenn der Fahrer nicht abgelenkt wurde, ist der Anteil schuldiger Fahrer bei lediglich 30,4 %.
+
+#### Zwischenfazit Fragestellung D
+
+Die Analyse der Ablenkungsarten zeigt interessante Muster. Der Chi-Quadrat-Test bestätigt einen statistisch signifikanten Zusammenhang zwischen Ablenkungsart und Kollisionstyp. Die Hypothese bezüglich Handynutzung und Auffahrunfällen kann anhand der Daten bestätigt werden.
+
+---
+
+### Fragestellung E: Fußgänger- und Radfahrerunfälle
+
+> *Unter welchen Bedingungen ereignen sich Unfälle mit nicht-motorisierten Verkehrsteilnehmern, und wie schwer sind diese?*
+
+#### Verteilung der nicht-motorisierten Verkehrsteilnehmer
+
+```{r}
+# Verteilung der nicht-motorisierten Verkehrsteilnehmer bei Unfällen
+
+data %>%
+  filter(!is.na(Related.Non.Motorist)) %>%
+  count(Related.Non.Motorist, sort = TRUE) %>%
+  ggplot(aes(x = reorder(Related.Non.Motorist, n), y = n, fill = Related.Non.Motorist)) +
+  geom_col() +
+  geom_text(aes(label = n), hjust = -0.1, size = 3) +
+  coord_flip() +
+  labs(
+    x = "Nicht-motorisierter Verkehrsteilnehmer",
+    y = "Anzahl Unfälle",
+    title = "Unfälle mit nicht-motorisierten Verkehrsteilnehmern"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
+```
+
+Der Großteil der nicht-motorisierten Verkehrsteilnehmer sind Fußgänger, gefolgt von Fahrradfahrern als zweitgrößter, jedoch deutlich kleinerer Teil. 
+
+#### Lichtverhältnisse bei Fußgänger-/Radfahrerunfällen
+
+```{r}
+# Lichtverhältnisse bei Unfällen mit und ohne nicht-motorisierte Beteiligte
+
+# Vergleich: Unfälle mit vs. ohne Non-Motorist
+light_comparison <- data %>%
+  filter(!is.na(Light)) %>%
+  mutate(has_nonmotorist = !is.na(Related.Non.Motorist)) %>%
+  count(has_nonmotorist, Light) %>%
+  group_by(has_nonmotorist) %>%
+  mutate(anteil = n / sum(n) * 100) %>%
+  mutate(Gruppe = if_else(has_nonmotorist, "Mit Fußgänger/Radfahrer", "Nur Fahrzeuge"))
+
+light_comparison %>%
+  ggplot(aes(x = Light, y = anteil, fill = Gruppe)) +
+  geom_col(position = "dodge") +
+  labs(
+    x = "Lichtverhältnisse",
+    y = "Anteil (%)",
+    fill = "",
+    title = "Lichtverhältnisse: Unfälle mit vs. ohne nicht-motorisierte Beteiligte"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Der Anteil der Unfälle mit Beteiligung von Fußgängern oder Radfahrern ist über die verschiedenen Lichtverhältnisse hinweg ähnlich hoch wie der Anteil von Unfällen, an denen ausschließlich Fahrzeuge beteiligt sind.
+
+```{r}
+# Anteil Dunkelheit bei Unfällen mit Non-Motorist
+dark_rates <- data %>%
+  filter(!is.na(Light)) %>%
+  mutate(
+    has_nonmotorist = !is.na(Related.Non.Motorist),
+    is_dark = str_detect(Light, "DARK")
+  ) %>%
+  group_by(has_nonmotorist) %>%
+  summarise(
+    n = n(),
+    n_dark = sum(is_dark),
+    anteil_dark = mean(is_dark) * 100
+  ) %>%
+  mutate(Gruppe = if_else(has_nonmotorist, "Mit Fußgänger/Radfahrer", "Nur Fahrzeuge"))
+
+dark_rates
+```
+
+Der Anteil der Unfälle bei Dunkelheit ist bei Unfällen mit Beteiligung von Fußgängern oder Radfahrern etwas höher als bei Unfällen mit ausschließlich motorisierten Fahrzeugen. Dies deutet darauf hin, dass Fußgänger und Radfahrer bei Dunkelheit einem höheren Risiko ausgesetzt sind, zum Beispiel aufgrund ihrer geringen Sichtbarkeit. 
+
+#### Verletzungsschwere: Vergleich mit Fahrzeugunfällen
+
+```{r}
+# Verletzungsschwere: Unfälle mit vs. ohne nicht-motorisierte Beteiligte
+
+data %>%
+  filter(!is.na(Injury.Severity)) %>%
+  mutate(has_nonmotorist = !is.na(Related.Non.Motorist)) %>%
+  count(has_nonmotorist, Injury.Severity) %>%
+  group_by(has_nonmotorist) %>%
+  mutate(anteil = n / sum(n) * 100) %>%
+  mutate(Gruppe = if_else(has_nonmotorist, "Mit Fußgänger/Radfahrer", "Nur Fahrzeuge")) %>%
+  ggplot(aes(x = Injury.Severity, y = anteil, fill = Gruppe)) +
+  geom_col(position = "dodge") +
+  labs(
+    x = "Verletzungsschwere",
+    y = "Anteil (%)",
+    fill = "",
+    title = "Verletzungsschwere: Unfälle mit vs. ohne nicht-motorisierte Beteiligte"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Bei Unfällen mit Fußgängern oder Radfahrern bleiben die Beteiligten in den meisten Fällen unverletzt. Bei Unfällen mit ausschließlich motorisierten Fahrzeugen ist der Anteil unversehrter Beteiligter etwas geringer, während der Anteil möglicher oder leichter Verletzungen etwas höher ausfällt. 
+```{r}
+# Anteil schwerer Verletzungen (FATAL, SUSPECTED SERIOUS INJURY)
+severe_rates <- data %>%
+  filter(!is.na(Injury.Severity)) %>%
+  mutate(
+    has_nonmotorist = !is.na(Related.Non.Motorist),
+    is_severe = Injury.Severity %in% c("FATAL", "SUSPECTED SERIOUS INJURY")
+  ) %>%
+  group_by(has_nonmotorist) %>%
+  summarise(
+    n = n(),
+    n_severe = sum(is_severe),
+    anteil_severe = mean(is_severe) * 100
+  ) %>%
+  mutate(Gruppe = if_else(has_nonmotorist, "Mit Fußgänger/Radfahrer", "Nur Fahrzeuge"))
+
+severe_rates
+```
+
+Der Anteil schwerer Verletzungen liegt in beiden Gruppen unter einem Prozent. 
+
+#### Tageszeit der Fußgänger-/Radfahrerunfälle
+
+```{r}
+# Verteilung der Unfälle mit nicht-motorisierten Beteiligten nach Tageszeit
+
+data %>%
+  filter(!is.na(Related.Non.Motorist), !is.na(Crash.Date.Time)) %>%
+  mutate(hour = hour(Crash.Date.Time)) %>%
+  count(hour) %>%
+  ggplot(aes(x = hour, y = n)) +
+  geom_col(fill = "steelblue") +
+  geom_smooth(aes(group = 1), method = "loess", se = FALSE, color = "darkred", linewidth = 1) +
+  scale_x_continuous(breaks = seq(0, 23, 2)) +
+  labs(
+    x = "Stunde des Tages",
+    y = "Anzahl Unfälle",
+    title = "Tageszeit der Unfälle mit Fußgängern/Radfahrern"
+  ) +
+  theme_minimal()
+```
+
+Der Anzahl der Unfälle mit nicht-motorisierten Verkehrsteilnehmern nimmt im Verlaufe des Tages zu und erreicht ihren Höhepunkt gegen 17-18 Uhr. Die wenigsten Unfälle passieren zwischen 0 und 5 Uhr morgens.
+
+#### Statistische Prüfung: Chi-Quadrat-Test
+
+```{r}
+# Chi-Quadrat-Test: Non-Motorist-Beteiligung × Lichtverhältnisse
+nonmotorist_light_chi <- data %>%
+  filter(!is.na(Light)) %>%
+  mutate(has_nonmotorist = !is.na(Related.Non.Motorist)) %>%
+  select(has_nonmotorist, Light)
+
+chisq_nonmotorist_light <- chisq.test(table(nonmotorist_light_chi$has_nonmotorist,
+                                             nonmotorist_light_chi$Light))
+chisq_nonmotorist_light
+```
+
+```{r}
+# Chi-Quadrat-Test: Non-Motorist-Beteiligung × Verletzungsschwere
+nonmotorist_injury_chi <- data %>%
+  filter(!is.na(Injury.Severity)) %>%
+  mutate(has_nonmotorist = !is.na(Related.Non.Motorist)) %>%
+  select(has_nonmotorist, Injury.Severity)
+
+chisq_nonmotorist_injury <- chisq.test(table(nonmotorist_injury_chi$has_nonmotorist,
+                                              nonmotorist_injury_chi$Injury.Severity))
+chisq_nonmotorist_injury
+```
+
+Nicht-motorisierte Verkehrsteilnehmer zeigen sowohl im Zusammenhang mit Lichtverhältnisssen, als auch mit der Verletzungsschwere einen statistischen Zusammenhang.
+
+#### Zwischenfazit Fragestellung E
+
+Die Analyse zeigt Unterschiede zwischen Unfällen mit und ohne nicht-motorisierte Verkehrsteilnehmer. Die Chi-Quadrat-Tests bestätigen statistisch signifikante Zusammenhänge sowohl mit den Lichtverhältnissen als auch mit der Verletzungsschwere. Die Hypothese, dass Unfälle mit Fußgängern und Radfahrern schwerere Verletzungen verursachen, kann anhand der Daten überprüft werden.
 
 ---
 
