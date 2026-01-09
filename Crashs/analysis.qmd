@@ -434,10 +434,10 @@ data$Traffic.Control <- as.factor(data$Traffic.Control)
 sort(unique(data$Driver.Distracted.By))
 
 data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(DIAL|OTHER CEL|TALKING OR|TEXT)")] <- "PHONE USE"
-data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(ADJ|MAN|USING)")] <- "MANUAL OPERATION"
+data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(ADJ|MAN|USING|EAT|SMOK)")] <- "MANUAL OPERATION"
 data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(BY|TALKING/|OTHER ELEC)")] <- "INTERNAL DISTRACTION"
-data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(DISTRAC|LOOKED|)")] <- "VISUAL DISTRACTION"
-data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(OTHER DIS|OTHER ACT)")] <- "OTHER"
+data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(DISTRAC|LOOKED)")] <- "VISUAL DISTRACTION"
+data$Driver.Distracted.By[str_detect(data$Driver.Distracted.By, "^(OTHER DIS|OTHER ACT)")| data$Driver.Distracted.By==""] <- "OTHER"
 
 data$Driver.Distracted.By <- as.factor(data$Driver.Distracted.By)
 
@@ -822,14 +822,6 @@ Die transformierten Daten entsprechen weitgehend unseren Erwartungen:
 
 ## 4. Geeignete Visualisierung und Aggregation der Daten
 
-::: {.callout-note icon="false"}
-## Aufgabenstellung (15 Pkt.)
-
-Fassen Sie die Daten in einer geeigneten Form zur Beantwortung Ihrer formulierten Fragestellung zusammen. Ziehen Sie auch geeignete Visualisierungen der transformierten und/oder aggregierten Daten heran, um Ihre Aussagen entsprechend zu untermauern oder zu veranschaulichen.
-
-Hier können Sie auch geeignete statistische Verfahren bzw. Modellierungen nutzen, falls diese Ihnen bezüglich Ihrer Fragestellung weiterhelfen.
-:::
-
 Für die Visualisierungen wird zusätzlich das Paket `ggplot2` geladen:
 
 ```{r}
@@ -860,8 +852,7 @@ data <- data %>%
 #### Verteilung nach Tageszeit
 
 ```{r}
-#| label: fig-hour-distribution
-#| fig-cap: "Verteilung der Unfälle nach Tageszeit"
+# Verteilung der Unfälle nach Tageszeit
 
 data %>%
   filter(!is.na(crash_hour)) %>%
@@ -889,9 +880,7 @@ Nach einem leichten Rückgang am Vormittag steigen die Fallzahlen ab der Mittags
 #### Heatmap: Stunde × Wochentag
 
 ```{r}
-#| label: fig-hour-weekday-heatmap
-#| fig-cap: "Heatmap: Unfallhäufigkeit nach Stunde und Wochentag"
-#| fig-height: 5
+# Heatmap: Unfallhäufigkeit nach Stunde und Wochentag
 
 data %>%
   filter(!is.na(crash_hour), !is.na(crash_wday)) %>%
@@ -916,8 +905,7 @@ Die Grafik verdeutlicht signifikante strukturelle Unterschiede zwischen Werktage
 #### Verletzungsschwere nach Tageszeit
 
 ```{r}
-#| label: fig-severity-timeofday
-#| fig-cap: "Verletzungsschwere nach Tageszeit"
+# Verletzungsschwere nach Tageszeit
 
 data %>%
   filter(!is.na(crash_hour), !is.na(Injury.Severity)) %>%
@@ -975,8 +963,7 @@ severe_by_time
 #### Monatliche Trends
 
 ```{r}
-#| label: fig-monthly-trend
-#| fig-cap: "Monatliche Unfallzahlen über die Jahre"
+# Monatliche Unfallzahlen über die Jahre
 
 data %>%
   filter(!is.na(crash_month), !is.na(crash_year)) %>%
@@ -1039,7 +1026,7 @@ Die zeitliche Analyse bestätigt die aufgestellten Hypothesen weitgehend:
 
 **Wochentag-Unterschiede:** Die Heatmap offenbart klare Unterschiede zwischen Werktagen (klassisches Pendler-Muster) und Wochenenden (kein morgendlicher Peak, gleichmäßigerer Anstieg zur Tagesmitte). Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt statistisch, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.
 
-**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,38% gegenüber 0,78% am Morgen, 0,79% am Mittag und 0,72% am Abend – ein nahezu doppelt so hohes relatives Risiko. Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt diesen Zusammenhang statistisch.
+**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,38 % gegenüber 0,78 % am Morgen, 0,79% am Mittag und 0,72% am Abend – ein nahezu doppelt so hohes relatives Risiko. Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt diesen Zusammenhang statistisch.
 
 ---
 
@@ -1050,8 +1037,7 @@ Die zeitliche Analyse bestätigt die aufgestellten Hypothesen weitgehend:
 #### Verteilung der Wetterbedingungen
 
 ```{r}
-#| label: fig-weather-distribution
-#| fig-cap: "Verteilung der Unfälle nach Wetterbedingungen"
+# Verteilung der Unfälle nach Wetterbedingungen
 
 data %>%
   filter(!is.na(Weather)) %>%
@@ -1077,8 +1063,7 @@ Die Grafik zeigt eindeutig, dass die überwiegende Mehrheit der Unfälle (142.31
 #### Verletzungsschwere nach Wetterbedingungen
 
 ```{r}
-#| label: fig-weather-injury
-#| fig-cap: "Verletzungsschwere nach Wetterbedingungen"
+# Verletzungsschwere nach Wetterbedingungen
 
 data %>%
   filter(!is.na(Weather), !is.na(Injury.Severity)) %>%
@@ -1124,8 +1109,7 @@ Die tabellarische Auswertung offenbart, dass schlechte Sichtverhältnisse („FO
 #### Straßenbedingungen und Fahrzeugschaden
 
 ```{r}
-#| label: fig-surface-damage
-#| fig-cap: "Fahrzeugschaden nach Straßenbedingungen"
+# Fahrzeugschaden nach Straßenbedingungen
 
 data %>%
   filter(!is.na(Surface.Condition), !is.na(Vehicle.Damage.Extent)) %>%
@@ -1151,8 +1135,7 @@ Die Visualisierung verdeutlicht, dass über fast alle Straßenbedingungen hinweg
 #### Vergleich: Gutes vs. schlechtes Wetter
 
 ```{r}
-#| label: fig-weather-comparison
-#| fig-cap: "Verletzungsschwere bei gutem vs. schlechtem Wetter"
+# Verletzungsschwere bei gutem vs. schlechtem Wetter
 
 weather_comparison <- data %>%
   filter(!is.na(Weather), !is.na(Injury.Severity)) %>%
@@ -1242,9 +1225,9 @@ Das Testergebnis bestätigt mit einem p-Wert von < 2.2e-16 die statistische Sign
 
 Die Analyse der Wetterbedingungen bestätigt die kontraintuitive Hypothese vollständig:
 
-**Unfallhäufigkeit:** Die absolute Mehrheit der Unfälle (142.319 Fälle, ca. 73%) ereignet sich bei klarem Wetter. Widrige Witterungsbedingungen wie Schnee, Nebel oder starker Wind spielen quantitativ eine untergeordnete Rolle.
+**Unfallhäufigkeit:** Die absolute Mehrheit der Unfälle (142.319 Fälle, ca. 73 %) ereignet sich bei klarem Wetter. Widrige Witterungsbedingungen wie Schnee, Nebel oder starker Wind spielen quantitativ eine untergeordnete Rolle.
 
-**Verletzungsschwere:** Der Vergleich zeigt, dass Unfälle bei gutem Wetter tatsächlich einen höheren Anteil schwerer Verletzungen aufweisen (0,86%) als bei schlechtem Wetter (0,79%). Besonders auffällig: Bei Regen (0,67%) und Schnee (0,60%) ist das Risiko schwerer Verletzungen sogar niedriger als bei klarem Himmel. Die höchste Quote schwerer Verletzungen findet sich bei Nebel/schlechter Sicht (1,06%), wo die Gefahr offenbar unterschätzt wird.
+**Verletzungsschwere:** Der Vergleich zeigt, dass Unfälle bei gutem Wetter tatsächlich einen höheren Anteil schwerer Verletzungen aufweisen (0,86 %) als bei schlechtem Wetter (0,79 %). Besonders auffällig: Bei Regen (0,67 %) und Schnee (0,6 %) ist das Risiko schwerer Verletzungen sogar niedriger als bei klarem Himmel. Die höchste Quote schwerer Verletzungen findet sich bei Nebel/schlechter Sicht (1,06 %), wo die Gefahr offenbar unterschätzt wird.
 
 **Fahrzeugschäden:** Bei Straßenbedingungen mit Wasser (stehend/fließend) zeigt sich der höchste Anteil an Totalschäden, während bei Glätte (Eis, Schneematsch) Schäden dominieren, die das Fahrzeug fahruntüchtig machen.
 
@@ -1275,8 +1258,7 @@ alcohol_fault_table
 ```
 
 ```{r}
-#| label: fig-alcohol-fault
-#| fig-cap: "Anteil der schuldigen Fahrer nach Alkoholstatus"
+# Anteil der schuldigen Fahrer nach Alkoholstatus
 
 data %>%
   filter(!is.na(Driver.At.Fault), !is.na(Driver.Alcohol)) %>%
@@ -1304,13 +1286,12 @@ data %>%
 
 Für die Untersuchung des Einflusses von Alkohol auf die Unfallverantwortlichkeit wurde die Variable „Alkoholstatus“ als kategoriale Größe definiert und gegen den prozentualen Anteil der schuldigen Fahrer untersucht. Die Balken wurden absteigend sortiert, um die Korrelation zwischen Alkoholnachweis und Schuldfrage visuell hervorzuheben.
 
-Ein besonders deutlicher Zusammenhang zeigt sich bei den Ausprägungen „CONTRIBUTED“ und „PRESENT“. Diese Werte stehen für Fälle, in denen Alkohol als Unfallursache beitrug oder zumindest vorhanden war, und weisen mit 98,9% bzw. 97,6% die höchsten Schuldanteile auf. Bemerkenswert ist zudem die Kategorie „NO CLASSIFICATION“, die sich mit 94,4% auf einem ähnlich hohen Niveau bewegt. Da dieser Wert deutlich über dem Durchschnitt liegt, ist davon auszugehen, dass auch bei fehlender formeller Klassifizierung oft belastende Umstände vorlagen. Im Gegensatz dazu stehen die Kategorien „NONE DETECTED“ und „NOT SUSPECT“, wobei letztere mit 33,7% den geringsten Schuldanteil aufweist. Dies verdeutlicht, dass das explizite Ausschließen eines Alkoholvderachts („NOT SUSPECT“) die Wahrscheinlichkeit einer Schuldzuweisung signifikant stärker senkt als das bloße Nicht-Detektieren („NONE DETECTED“).
+Ein besonders deutlicher Zusammenhang zeigt sich bei den Ausprägungen „CONTRIBUTED“ und „PRESENT“. Diese Werte stehen für Fälle, in denen Alkohol als Unfallursache beitrug oder zumindest vorhanden war, und weisen mit 98,9 % bzw. 97,6 % die höchsten Schuldanteile auf. Bemerkenswert ist zudem die Kategorie „NO CLASSIFICATION“, die sich mit 94,4 % auf einem ähnlich hohen Niveau bewegt. Da dieser Wert deutlich über dem Durchschnitt liegt, ist davon auszugehen, dass auch bei fehlender formeller Klassifizierung oft belastende Umstände vorlagen. Im Gegensatz dazu stehen die Kategorien „NONE DETECTED“ und „NOT SUSPECT“, wobei letztere mit 33,7 % den geringsten Schuldanteil aufweist. Dies verdeutlicht, dass das explizite Ausschließen eines Alkoholverdachts („NOT SUSPECT“) die Wahrscheinlichkeit einer Schuldzuweisung signifikant stärker senkt als das bloße Nicht-Detektieren („NONE DETECTED“).
 
 #### Deskriptive Analyse: Drogeneinfluss und Schuld
 
 ```{r}
-#| label: fig-drugs-fault
-#| fig-cap: "Anteil der schuldigen Fahrer nach Drogenstatus"
+# Anteil der schuldigen Fahrer nach Drogenstatus
 
 data %>%
   filter(!is.na(Driver.At.Fault), !is.na(Driver.Drugs)) %>%
@@ -1387,8 +1368,7 @@ Die Ergebnisse bestätigen die vermuteten Zusammenhänge eindrucksvoll. Sowohl f
 #### Verletzungsschwere bei Substanzeinfluss
 
 ```{r}
-#| label: fig-alcohol-injury
-#| fig-cap: "Verletzungsschwere bei Unfällen mit und ohne Alkoholeinfluss"
+# Verletzungsschwere bei Unfällen mit und ohne Alkoholeinfluss
 
 data %>%
   filter(!is.na(Injury.Severity), !is.na(Driver.Alcohol)) %>%
@@ -1423,9 +1403,9 @@ Die Visualisierung offenbart ein differenziertes Risikoprofil. Zwar bildet die K
 
 Die Analyse bestätigt beide Teile der aufgestellten Hypothese eindeutig:
 
-**Substanzeinfluss und Schuld:** Die Daten zeigen einen dramatischen Unterschied in der Schuldzuweisung. Bei nachgewiesenem Alkoholeinfluss („CONTRIBUTED") liegt der Anteil schuldiger Fahrer bei 98,9%, bei „PRESENT" bei 97,6%. Im Vergleich dazu sind nur 33,7% der Fahrer mit Status „NOT SUSPECT" als schuldig eingestuft. Ähnliche Muster zeigen sich beim Drogeneinfluss (99,3% bei „CONTRIBUTED", 96,3% bei „PRESENT"). Die Chi-Quadrat-Tests bestätigen diese Zusammenhänge mit extrem hohen Teststatistiken (X² = 10.277 für Alkohol, X² = 9.801 für Drogen, jeweils p < 2.2e-16).
+**Substanzeinfluss und Schuld:** Die Daten zeigen einen dramatischen Unterschied in der Schuldzuweisung. Bei nachgewiesenem Alkoholeinfluss („CONTRIBUTED") liegt der Anteil schuldiger Fahrer bei 98,9 %, bei „PRESENT" bei 97,6 %. Im Vergleich dazu sind nur 33,7 % der Fahrer mit Status „NOT SUSPECT" als schuldig eingestuft. Ähnliche Muster zeigen sich beim Drogeneinfluss (99,3 % bei „CONTRIBUTED", 96,3 % bei „PRESENT"). Die Chi-Quadrat-Tests bestätigen diese Zusammenhänge mit extrem hohen Teststatistiken (X² = 10.277 für Alkohol, X² = 9.801 für Drogen, jeweils p < 2.2e-16).
 
-**Überlappung Alkohol/Drogen:** Die Kreuztabellierung zeigt, dass die Kategorien stark überlappen. Bei positivem Alkoholbefund wird der Drogenstatus häufig als „NO CLASSIFICATION" erfasst, was den hohen Schuldanteil dieser Kategorie (97,7%) erklärt.
+**Überlappung Alkohol/Drogen:** Die Kreuztabellierung zeigt, dass die Kategorien stark überlappen. Bei positivem Alkoholbefund wird der Drogenstatus häufig als „NO CLASSIFICATION" erfasst, was den hohen Schuldanteil dieser Kategorie (97,7 %) erklärt.
 
 **Verletzungsschwere:** Die Visualisierung bestätigt, dass Unfälle unter Alkoholeinfluss zu einer Verschiebung hin zu schwereren Verletzungsfolgen führen. Der Anteil an „SUSPECTED SERIOUS INJURY" und „FATAL INJURY" ist bei alkoholisierten Fahrern sichtbar erhöht, während die Kategorie „POSSIBLE INJURY" bei nüchternen Fahrern dominiert.
 
@@ -1440,8 +1420,7 @@ Die Analyse bestätigt beide Teile der aufgestellten Hypothese eindeutig:
 #### Häufigkeit der Ablenkungsarten
 
 ```{r}
-#| label: fig-distraction-freq
-#| fig-cap: "Häufigkeit der verschiedenen Ablenkungsarten"
+# Häufigkeit der verschiedenen Ablenkungsarten
 
 distraction_counts <- data %>%
   filter(!is.na(Driver.Distracted.By)) %>%
