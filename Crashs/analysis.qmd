@@ -462,17 +462,19 @@ data$Vehicle.First.Impact.Location <- as.factor(data$Vehicle.First.Impact.Locati
 sort(unique(data$Vehicle.Body.Type))
 
 data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^ALL")] <- "ALL TERRAIN VEHICLE"
+data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^AMBU")] <- "AMBULANCE"
 data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(BUS - CR|CR)")] <- "CROSS COUNTRY BUS"
 data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^FARM")] <- "FARM VEHICLE"
 data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^MOPED")] <- "MOPED"
 data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^MOTOR")] <- "MOTORCYCLE"
-data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(N/A|OTHER$|UNK)")] <- NA
-data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(BUS - OT|OTHER BUS)")] <- "OTHER BUS"
+data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(N/A|OTHER$|UNK)") | data$Vehicle.Body.Type == ""] <- "UNKNOWN"
 data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^PICK")] <- "PICKUP"
-data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(BUS - SCH|SCHOOL)")] <- "SCHOOL BUS"
-data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(SP|SP)")] <- "SPORT UTILITY VEHICLE"
-data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(BUS - TRA|TRA)")] <- "TRANSIT BUS"
-data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(CARG|VAN - CAR)")] <- "CARGO VAN"
+data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(BUS|SCHOOL|OTHER BUS|TRA|CROSS)")] <- "BUS"
+data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^\\(?SPOR")] <- "SPORT UTILITY VEHICLE"
+data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(CARG|VAN - CAR|VA)")] <- "VAN"
+data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^POL")] <- "POLICE VEHICLE"
+data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^FIRE")] <- "FIRE VEHICLE"
+data$Vehicle.Body.Type[str_detect(data$Vehicle.Body.Type, "^(OTHER LIGHT TRUCKS|MEDIUM/HEAVY TRUCKS|TRUCK|OTHER TRU|SINGLE-UNIT TRU)")] <- "TRUCK"
 
 data$Vehicle.Body.Type <- as.factor(data$Vehicle.Body.Type)
 
@@ -1788,13 +1790,11 @@ Die Analyse bestätigt die aufgestellte Hypothese bedingt:
 
 > *Wo konzentrieren sich Verkehrsunfälle geografisch, und unterscheiden sich die Hotspots je nach Unfallschwere?*
 
-[TODO: Einleitungstext zur räumlichen Analyse einfügen]
-
 #### Übersicht der geografischen Verteilung
 
 ```{r}
 # Geografische Verteilung aller Unfälle in Montgomery County
-
+str(data$Latitude)
 data %>%
   filter(!is.na(Latitude), !is.na(Longitude)) %>%
   filter(Latitude >= 38.9, Latitude <= 39.4, Longitude >= -77.6, Longitude <= -76.8) %>%
@@ -1809,7 +1809,7 @@ data %>%
   theme_minimal()
 ```
 
-[TODO: Beschreibung der Übersichtskarte einfügen]
+Die Visualisieurng zeigt die räumliche Verteilung der Verkehrsunfälle in Montgomery County. Dabei werden lineare Strukturen sichtbar, die den Verlauf von Straßen widerspiegeln. Straßenabschnitte mit einer hohen Punktedichte weisen auf Bereiche mit gehäuftem Unfallgeschehen hin und sind vermutlich zugleich stärker frquentierte Verkehrswege. 
 
 #### Dichtekarte der Unfallhotspots
 
@@ -1832,7 +1832,7 @@ data %>%
   theme(legend.position = "right")
 ```
 
-[TODO: Beschreibung der Dichtekarte einfügen]
+Die Dichtekarte macht räumliche Unfallhotspots besonders deutlich. Ein erhöhtes Unfallaufkommen ist vor allem im Bereich zwischen den Längengraden -77,3 und -76,9 sowie den Breitengraden 38,95 und 39,2 erkennbar. Dieser Bereich entspricht vermutlich den urbanen Teilen von Montgomery County, in denen eine höhere Verkehrs- und Bevölkerungsdichte vorliegt. 
 
 #### Hotspots schwerer Unfälle
 
@@ -1856,7 +1856,7 @@ data %>%
   theme_minimal()
 ```
 
-[TODO: Beschreibung der Hotspots schwerer Unfälle einfügen]
+Die räumliche Verteilung schwerer Unfälle zeigt ein ähnliches Muster wie die allgemeine Unfallverteilung. Auch hier konzentrieren sich die Hotspots in denselben Bereichen. Im Vergleich zu den allgemeinen Unfallhotspots erscheinen die schweren Unfälle etwas weiter gestreut zu sein. 
 
 #### Vergleich: Schwere vs. leichte Unfälle
 
@@ -1887,7 +1887,7 @@ data %>%
   theme_minimal()
 ```
 
-[TODO: Beschreibung des Vergleichs einfügen]
+Die Grafik vergleicht die räumliche Verteilung von schweren unfällen mit Unfällen ohne Verletzungen anhand von Dichtekonturen. Es wird deutlich, dass sich beide Unfallarten größtenteils in denselben geografischen Räumen bündeln. Gleichzeitig zeigt sich, dass die Dichtekonturen schwerer Unfälle räumlich etwas breiter gestreut sind als jene ohne Verletzungen. Schwere Unfälle treten somit nicht ausschließlich in den dichtesten Unfallhotspots auf, sondern auch in weniger stark frequentierten Bereichen.
 
 #### Top-Unfallstandorte
 
@@ -1897,28 +1897,29 @@ hotspot_locations <- data %>%
   filter(!is.na(Latitude), !is.na(Longitude)) %>%
   filter(Latitude >= 38.9, Latitude <= 39.4, Longitude >= -77.6, Longitude <= -76.8) %>%
   mutate(
-    lat_rounded = round(Latitude, 3),
-    lon_rounded = round(Longitude, 3)
+    lat_rounded = round(Latitude, 1),
+    lon_rounded = round(Longitude, 1)
   ) %>%
-  count(lat_rounded, lon_rounded, sort = TRUE) %>%
-  head(10)
+  group_by(lat_rounded, lon_rounded)%>%
+  summarise(n = n(), .groups = "drop")%>%
+  arrange(desc(n))%>%
+  slice_head(n=10)
 
 hotspot_locations
 ```
 
-[TODO: Beschreibung der Top-Standorte einfügen]
+Nach Aggregation der Daten auf gerundete Koordinaten lassen sich die Hotspots mit den meisten Unfällen identifizieren. Der Standort bei Breitengrad 39, Längengrad -77 weist mit 38.829 Unfällen die höchste Häufigkeit auf. Dicht darauf folgen die Standorte 39,1 / -77,1, 39,1 / -77,2 und 39 / -77,1, die jeweils ebenfalls über 30.000 Unfälle verzeichnen.
 
 #### Zwischenfazit Räumliche Analyse
 
-[TODO: Zwischenfazit zur räumlichen Analyse einfügen]
+Die räumliche Analyse der Verkehrsunfälle in Montgomery County zeigt, dass sich Unfälle geografisch entlang der Straßen verteilen. Besonders hohe Unfallhäufigkeiten treten zwischen den Längengraden -77,3 und -76,9, sowie den Breitengraden 38,95 und 39,2 auf, was auf die urbaneren Bereiche des Countys hindeutet. Ein konkreter Hotspots nach Aggregation gerundeter Koordinaten ist mit 38.829 Unfällen Breitengrad 39 und Längengrad -77.
 
+Die Verteilung schwerer Unfälle ähnelt weitgehend der allgemeinen Unfallverteilung, zeigt jedoch eine etwas größere Streuung, was darauf hindeutet, dass schwere Unfälle nicht allein in den Hotspots auftreten.
 ---
 
 ### Ergänzende Analyse: Fahrzeugtypen und Fahrer-Herkunft
 
 > *Unterscheiden sich Unfallschwere und Schuldquote je nach Fahrzeugtyp? Woher stammen die Fahrer?*
-
-[TODO: Einleitungstext zur Fahrzeug-/Herkunftsanalyse einfügen]
 
 #### Unfälle nach Fahrzeugtyp
 
@@ -1943,8 +1944,7 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-[TODO: Beschreibung der Fahrzeugtyp-Verteilung einfügen]
-
+Der Großteil der bei den Unfällen beteiligten Fahrzeuge waren **normale Pkw** (140.074). Darauf folgen **Sport Utility Vehicles** mit 21.196 Unfällen. **Busse, Pickups und Vans** machen jeweils deutlich geringere Anteile aus, jeweils rund 8.000 Unfälle.
 #### Verletzungsschwere nach Fahrzeugtyp
 
 ```{r}
@@ -1986,7 +1986,7 @@ vehicle_severity %>%
   head(10)
 ```
 
-[TODO: Beschreibung der Verletzungsschwere nach Fahrzeugtyp einfügen]
+Die Hyothese, dass Motorradfahrer häufiger schwerere Verletzungen erleiden, wird durch die Daten bestätigt. Bei Motorrädern liegt der Anteil schwerer Verletzungen bei 21,1 %, bei Mopeds bei 19,8 %. Darauf folgt mit deutlich geringerem Anteil Geländefahrzeuge mit nur 2,6 %, was den Abstand zu Motorrädern und Mopeds noch einmal verdeutlicht.
 
 #### Schuldquote nach Fahrzeugtyp
 
@@ -2022,7 +2022,7 @@ vehicle_fault %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-[TODO: Beschreibung der Schuldquote nach Fahrzeugtyp einfügen]
+Die höchste Schuldquote finden sich bei unbekannten Fahrzeugen, was jedoch wenig aussagekräftig ist. Unter den bekannten Fahrzeugtypen haben Feuerwehrfahrzeuge mit 69,9 % und Krankenwagen mit 64,5 % die höchsten Werte. Dies könnte darauf zurückzuführen sein, dass diese Einsatzfahrzeuge im Notfall schnell unterwegs sind und ihre Aufmerksamkeit auf das Retten von Leben richten müssen, wodurch sie im Straßenverkehr möglicherweise weniger vorsichtig agieren.
 
 #### Top Fahrzeugmarken
 
@@ -2047,7 +2047,7 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-[TODO: Beschreibung der Fahrzeugmarken-Verteilung einfügen]
+Die am häufigsten bei Unfällen in Montgomery County beteiligten Automarken sind Toyota, Honda und Ford. Da jedoch keine Informationen über die allgemeine Verteilung der Fahrzeugmarken im County vorliegen, lässt sich nicht automatisch darauf schließen, dass die Marke einen Einfluss auf die Unfallhäufigkeit hat. 
 
 #### Fahrzeugalter und Unfälle
 
@@ -2067,6 +2067,10 @@ data %>%
   ) +
   theme_minimal()
 ```
+
+Die meisten Unfälle treten bei Fahrzeugen auf, die ein bis fünf Jahre alt sind. Mit zunehmendem Alter der Fahrzeuge nimmt ab da die Unfallhäufigkeit kontinuierlich ab.
+Dies erscheint zunächst überraschend, da man erwarten könnte, dass ältere Autos durch Ausfälle oder technische Mängel ein höheres Unfallrisiko hätten. 
+Wahrscheinlich hängt die Statistik jedoch damit zusammen, dass nur wenige Fahrzeuge über einen sehr langen Zeitraum genutzt werden, da viele Menschen ihr Auto heute nur wenige Jahre besitzen oder leasen.
 
 ```{r}
 # Verletzungsschwere nach Fahrzeugalter (gruppiert)
@@ -2092,7 +2096,7 @@ data %>%
   arrange(age_group)
 ```
 
-[TODO: Beschreibung des Fahrzeugalters einfügen]
+Ab einem Fahrzeugalter von acht Jahren steigt der Anteil schwerer Unfälle. Fahrzeuge, die 21 Jahre oder älter sind, weisen mit 1,64 % den höchsten Anteil auf. Dies erscheint plausibel, da ältere Fahrzeuge meist schlechter ausgestattet und sicherheitstechnisch weniger modern sind. zudem nimmt die Funktionsfähigkeit des Fahrzeugs mit der Zeit ab, was das Risiko schwerer Unfälle erhöht.
 
 #### Herkunft der Fahrer (Führerschein-Staat)
 
@@ -2117,6 +2121,8 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
+Der größte Anteil der Fahrer stammt aus Maryland (168.860), dem Bundesstaat, in dem Montgomery County liegt. Mit jeweils knapp 6.000 Fahrern folgen Washington D.C. und Virginia, beide direkte Nachbarn von Montgomery County und geografisch sehr nah gelegen.
+
 ```{r}
 # Anteil lokaler vs. auswärtiger Fahrer
 data %>%
@@ -2132,7 +2138,8 @@ data %>%
   mutate(anteil = round(n / sum(n) * 100, 1))
 ```
 
-[TODO: Beschreibung der Fahrer-Herkunft einfügen]
+
+Der größte Anteil der Fahrer stammt aus Maryland (88,4 %), dem Bundesstaat, in dem Montgomery County liegt. Mit ungefähr 6,2 % folgen Washington D.C. und Virginia, beide direkte Nachbarn von Montgomery County und geografisch sehr nah gelegen. Nur 5,4 % der Fahrer kommen aus anderen Staaten.
 
 #### Schuldquote nach Herkunft
 
@@ -2166,7 +2173,7 @@ data %>%
   scale_y_continuous(limits = c(0, 70), expand = expansion(mult = c(0, 0.1)))
 ```
 
-[TODO: Beschreibung der Schuldquote nach Herkunft einfügen]
+Mit 59 % ist der Anteil schuldiger Fahrer aus anderen Bundesstaaten wie erwartet am höchsten, gefolgt von Fahrern aus Nachbarstaaten mit 51,4 % und einheimischen Fahrern mit 49,4 %. Die Unterschiede sind insgesamt nicht übermäßig groß, was darauf hindeutet, dass Ortskenntnis zwar eine Rolle spielt, sie jedoch nicht allein entscheidend für die Schuld an einem Unfall ist. 
 
 #### Zwischenfazit Fahrzeugtypen und Herkunft
 
@@ -2175,14 +2182,6 @@ data %>%
 ---
 
 ## 5. Zusammenfassung und Schlussfolgerung
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (10 Pkt.)
-
-Fassen Sie hier Ihre Fragestellung und Ihre Erkenntnisse aus Ihrer Analyse zusammen.
-
-Sind Ihre Erkenntnisse das, was Sie erwartet haben? Warum oder warum nicht?
-:::
 
 ### Überblick der Fragestellungen
 
