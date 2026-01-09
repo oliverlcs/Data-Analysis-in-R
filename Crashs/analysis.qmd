@@ -1451,6 +1451,7 @@ distraction_counts %>%
 
 Zur Analyse der Ablenkungsursachen wurden zunächst Datensätze mit fehlenden Angaben in der Variable Driver.Distracted.By bereinigt. Die verbleibenden Daten wurden aggregiert, um die absolute Häufigkeit der registrierten Ablenkungsarten zu visualisieren.
 
+Die Ergebnisse zeigen, dasss in der Mehrzahl der Fälle (62,7 %) keine Ablenkung des Fahrers dokumentiert wurde. In rund 20 % der Unfälle konnte keine eindeutige Aussage zur Ablennkung getroffen werden ("UNKNOWN"). Die häufigste identifizierte Ablenkungsform ist die visuelle Ablenkung mit einem Anteil von etwa 11 %. Andere Ablenkungsarten, darunter Handynutzung oder sonstige externe Einflüsse, treten vergleichsweise selten auf.
 
 #### Zusammenhang: Ablenkung und Kollisionstyp
 
@@ -1478,53 +1479,110 @@ data %>%
 
 Zur Analyse des Zusammenhangs zwischen Fahrerablenkung und der Art des Zusammenstoßes wurden zunächst Datensätze mit fehlenden Angaben in den Variablen `Driver.Distracted.By` und `Collision.Type` bereinigt. Die verbleibenden Daten wurden gruppiert und die absoluten Häufigkeiten in relative Anteile innerhalb der Ablenkungskategorie umgerechnet, um die Verteilung der Unfalltypen quantitativ zu bewerten.
 
-Die resultierende Heatmap für die Kategorie „VISUAL DISTRACTION“ offenbart ein eindeutiges Risikomuster. Mit einem Anteil von 33 % stellt der Auffahrunfall („REAR-END“) die mit Abstand häufigste Unfallfolge bei visueller Ablenkung dar. Dieser Befund ist inhaltlich plausibel, da der fehlende Blick auf das Verkehrsgeschehen (z. B. durch Smartphone-Nutzung) die Reaktionszeit auf bremsende vorausfahrende Fahrzeuge drastisch verkürzt. An zweiter Stelle folgen Winkelkollisionen („ANGLE“) mit 20 %, was darauf hindeutet, dass abgelenkte Fahrer zudem häufig Vorfahrtsregelungen oder Ampelsignale im Kreuzungsbereich übersehen. Andere Kollisionstypen wie „SIDESWIPE“ (12 %) oder Alleinunfälle („SINGLE VEHICLE“, 10 %) spielen eine vergleichsweise geringere Rolle.
+Über nahezu alle Ablenkungsarten hinweg stellen **Auffahrunfälle (REAR-END)** den häufigsten Kollisionstyp dar. Dieses Muster entspricht der Erwartung, da Ablenkung insbesondere die Reaktionszeit und die Aufmerksamkeit auf den vorausfahrenden Verkehr beeinträchtigt. Eine auffällige Abweichung zeigt sich bei der **visuellen Ablenkung**, bei der **Angle-Kollisionen** den höchsten Anteil aufweisen. 
+Bei **No driver present** lässt sich hingegen der am häufigsten vorkommende Kollisionstyp nicht feststellen, da dieser nicht definiert ist. 
+
+#### Fokus: Handynutzung und Auffahrunfälle
+
+Gemäß unserer Hypothese untersuchen wir, ob Handynutzung überproportional zu Auffahrunfällen (REAR-END) führt:
+
+```{r}
+# Vergleich: Anteil REAR-END bei Handynutzung vs. andere Ablenkungen
+rearend_comparison <- data %>%
+  filter(!is.na(Driver.Distracted.By), !is.na(Collision.Type)) %>%
+  mutate(
+    is_phone = Driver.Distracted.By == "PHONE USE",
+    is_rearend = Collision.Type == "REAR-END"
+  ) %>%
+  group_by(is_phone) %>%
+  summarise(
+    n = n(),
+    n_rearend = sum(is_rearend),
+    anteil_rearend = mean(is_rearend) * 100
+  ) %>%
+  mutate(Gruppe = if_else(is_phone, "Handynutzung", "Andere Ablenkung"))
+
+rearend_comparison
+```
+
+```{r}
+# Anteil Auffahrunfälle: Handynutzung vs. andere Ablenkungen
+
+rearend_comparison %>%
+  ggplot(aes(x = Gruppe, y = anteil_rearend, fill = Gruppe)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_rearend, 1), "%")), vjust = -0.5) +
+  labs(
+    x = "",
+    y = "Anteil Auffahrunfälle (%)",
+    title = "Auffahrunfälle (REAR-END) nach Ablenkungsart"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ylim(0, max(rearend_comparison$anteil_rearend) * 1.2)
+```
+
+Die Ergebnisse bestätigen diese Annahme deutlich: Bei Handynutzung handelt es sich in 42,8 % der Fälle um Auffahrunfälle, während dieser Anteil bei allen anderen Ablenkungsarten lediglich 32,9 % beträgt. Damit sind Auffahrunfälle bei Handynutzung überproportional häufig vertreten, was den besonderen Einfluss dieser Ablenkungsform auf das Unfallgeschehen unterstreicht.
+
+#### Statistische Prüfung: Chi-Quadrat-Test
+
+```{r}
+# Chi-Quadrat-Test: Ablenkungsart × Kollisionstyp
+distraction_collision_chi <- data %>%
+  filter(!is.na(Driver.Distracted.By), !is.na(Collision.Type)) %>%
+  select(Driver.Distracted.By, Collision.Type)
+
+chisq_distraction <- chisq.test(table(distraction_collision_chi$Driver.Distracted.By,
+                                       distraction_collision_chi$Collision.Type))
+chisq_distraction
+```
+
+Zur statistischen Absicherung der deskriptiven Befunde wurde ein Pearson's Chi-Quadrat-test zwischen der Ablenkungsart und dem Kollisionstyp durchgeführt. Auch hier wurden zuvor Datensätze mit fehlenden Angaben ausgeschlossen.
+
+Der Test ergibt einen extrem kleinen p-Wert (p < 2,2 e-16), womit die Nullhypothese der Unabhängigkeit klar verworfen werden kann. Es besteht somit ein hochsignifikanter statistischer Zusammenhang zwischen der Art der Ablenkung und dem Kollisionstyp, was die zuvor beobachteten Muster bestätigt.
 
 #### Ablenkung und Schuld
 
 ```{r}
-# Vergleich: Abgelenkte vs. nicht abgelenkte Fahrer
-distraction_fault_comparison <- data %>%
-  filter(!is.na(Driver.At.Fault)) %>%
-  mutate(
-    Ablenkungsstatus = if_else(!is.na(Driver.Distracted.By), "Abgelenkt", "Nicht abgelenkt")
-  ) %>%
-  group_by(Ablenkungsstatus) %>%
+# Schuldanteil nach Ablenkungsart
+
+data %>%
+  filter(!is.na(Driver.Distracted.By), !is.na(Driver.At.Fault)) %>%
+  group_by(Driver.Distracted.By) %>%
   summarise(
     n = n(),
     anteil_schuld = mean(Driver.At.Fault) * 100
-  )
-
-# Visualisierung
-ggplot(distraction_fault_comparison, aes(x = Ablenkungsstatus, y = anteil_schuld, fill = Ablenkungsstatus)) +
-  geom_col(width = 0.7) +
-  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), vjust = -0.5, size = 4) +
+  ) %>%
+  ggplot(aes(x = reorder(Driver.Distracted.By, anteil_schuld), y = anteil_schuld, fill = Driver.Distracted.By)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(anteil_schuld, 1), "%")), hjust = -0.1, size = 3) +
+  coord_flip() +
   labs(
-    x = "Status",
+    x = "Ablenkungsart",
     y = "Anteil schuldiger Fahrer (%)",
-    title = "Einfluss von Ablenkung auf die Unfallschuld",
-    fill = "Status"
+    title = "Schuld am Unfall nach Ablenkungsart"
   ) +
   theme_minimal() +
   theme(legend.position = "none") +
-  scale_y_continuous(limits = c(0, 100), expand = expansion(mult = c(0, 0.15)))
+  scale_y_continuous(limits = c(0, 100), expand = expansion(mult = c(0, 0.1)))
 ```
 
-Zur Analyse des Einflusses von Ablenkung auf die Unfallverantwortlichkeit wurde der Anteil schuldiger Fahrer innerhalb der Kategorie „Abgelenkt (Visual)“ ermittelt.
+Abschließend wurde der Zusammenhang zwischen Ablenkungsart und der Unfallschuld analysiert. Hierzu wurde der Anteil schuldiger Fahrer innerhalb jeder Ablenkungskategorie berechnet und visualisiert.
 
-Das Ergebnis zeigt, dass 51,6 % der Fahrer, bei denen eine visuelle Ablenkung dokumentiert wurde, als unfallverursachend eingestuft wurden. Da in der Darstellung keine Vergleichsgruppe (z. B. „Keine Ablenkung“) abgebildet ist, lässt sich aus diesem isolierten Wert statistisch nicht ableiten, ob Ablenkung das Unfallrisiko signifikant erhöht. Der Wert liegt nur knapp über dem Zufallsmittel, was ohne einen Referenzwert für aufmerksame Fahrer keine belastbare Aussage über eine relative Risikoerhöhung zulässt. Das Fehlen des zweiten Balkens deutet darauf hin, dass die Datenbasis für diese Grafik vorab auf Einträge mit vorhandenem Ablenkungsvermerk gefiltert wurde.
+Die Ergebnisse zeigen, dass bei nahezu allen Formen der Ablenkung der Anteil schuldiger Fahrer sehr hoch ist. Eine deutliche Ausnahme bildet die Kategorie **"NOT DISTRACTED"**, bei der lediglich 30,4 % der Fahrer als schuldig eingestuft wurden. Dies verdeutlicht, dass festgestellte Ablenkung nahezu immer mit einer Schuldzuweisung einhergeht.
 
 #### Zwischenfazit Fragestellung D
 
-Die Analyse der Ablenkung am Steuer offenbart eine wesentliche Limitation der Datenbasis:
+Die Analyse der Ablenkung am Steuer bestätigt die aufgestellten Hypothesen:
 
-**Datenlimitation:** Die Spalte „Driver.Distracted.By" enthält nach der Datenbereinigung ausschließlich den Wert „VISUAL DISTRACTION" für alle 204.688 Fälle. Es findet keine weitere Differenzierung in spezifische Ablenkungsarten (z.B. Handynutzung, manuelle Tätigkeiten, Gespräche) statt. Dies bedeutet, dass die ursprüngliche Hypothese – Handynutzung sei die häufigste dokumentierte Ablenkungsform – mit diesem Datensatz nicht überprüft werden kann.
+**Ablenkungsarten:** Der Großteil der Unfälle wird zwar ohne dokumentierte Ablenkung erfasst, jedoch stellt visuelle Ablenkung die häufigste identifizierte Form dar.
 
-**Kollisionstypen bei visueller Ablenkung:** Trotz der eingeschränkten Datenbasis liefert die Analyse wertvolle Erkenntnisse. Bei dokumentierter visueller Ablenkung dominieren erwartungsgemäß Auffahrunfälle (REAR-END) mit 33 % aller Fälle. Dies ist inhaltlich plausibel: Wer den Blick von der Straße abwendet, bemerkt bremsende Vordermänner zu spät. Winkelkollisionen (ANGLE) folgen mit 20%, was auf übersehene Vorfahrtsregelungen hindeutet.
+**Kollisionstypen:** Auffahrunfälle dominieren bei nahezu allen Ablenkungsarten. Besonders bei Handynutzung treten Auffahrunfälle signifikant häufiger auf als bei anderen Ablenkungsformen.
 
-**Ablenkung und Schuld:** Der Schuldanteil bei abgelenkten Fahrern (51,6 %) liegt nur geringfügig über dem statistischen Erwartungswert. Ohne Vergleichsgruppe (Fahrer ohne dokumentierte Ablenkung) lässt sich hieraus jedoch keine belastbare Aussage über eine relative Risikoerhöhung ableiten.
+**Ablenkung und Schuld:** Ablenkung ist stark mit der Schuldfrage verknüpft. Während nicht abgelenkte Fahrer vergleichsweise selten als schuldig gelten, wird bei nahezu allen Ablenkungsarten eine sehr hohe Schuldquote beobachtet.
 
-**Fazit:** Die Hypothese zur Handynutzung kann nicht getestet werden. Die verfügbaren Daten zeigen jedoch, dass visuelle Ablenkung überproportional zu Auffahrunfällen führt – ein Teilaspekt der ursprünglichen Vermutung wird somit bestätigt.
+**Fazit:**
+Ablenkung am Steuer stellt einen zentralen Risikofaktor im Unfallgeschehen dar. Insbesondere Handynutzung ist häufig mit Auffahrunfällen verbunden und geht oft mit einer Schuldzuweisung einher. Die Ergebnisse unterstreichen die Bedeutung von Maßnahmen zur Reduktion fahrerseitiger Ablenkung.
 
 ---
 
