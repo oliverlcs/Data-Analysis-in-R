@@ -802,7 +802,7 @@ Der bereinigte Datensatz enthält nun:
 - **Datum/Zeit-Objekte** für zeitliche Analysen (Crash.Date.Time)
 - **Numerische Variablen** mit bereinigten Wertebereichen (Vehicle.Year, Speed.Limit, Latitude, Longitude)
 - **Neue abgeleitete Variablen** für Substanzeinfluss (Driver.Alcohol, Driver.Drugs, Driver.Medication sowie die entsprechenden Non.Motorist-Variablen)
-- **Fuzzy-gematchte Fahrzeugdaten** (brands_final, models_matched)
+- **Näherungsweise zugeordnete Fahrzeugdaten** (brands_final, models_matched)
 
 ### Entsprechen die Daten unseren Erwartungen?
 
@@ -810,15 +810,15 @@ Die transformierten Daten entsprechen weitgehend unseren Erwartungen:
 
 **Positiv:**
 
-- Die Konvertierung der kategorialen Variablen in Faktoren war erfolgreich und reduziert die Anzahl der eindeutigen Werte durch sinnvolle Gruppierungen
-- Die Trennung der Substanzmissbrauchs-Spalten in separate Alkohol-, Drogen- und Medikamenten-Variablen ermöglicht gezieltere Analysen
-- Die Datumskonvertierung funktioniert korrekt und ermöglicht zeitliche Analysen über den gesamten Zeitraum 2015–2025
+- Die Konvertierung der kategorialen Variablen in Faktoren war erfolgreich und reduziert die Anzahl der eindeutigen Werte durch sinnvolle Gruppierungen.
+- Die Trennung der Substanzmissbrauchs-Spalten in separate Alkohol-, Drogen- und Medikamenten-Variablen ermöglicht gezieltere Analysen.
+- Die Datumskonvertierung funktioniert korrekt und ermöglicht zeitliche Analysen über den gesamten Zeitraum 2015–2025.
 
-**Unerwartet:**
+**Besonderheiten:**
 
-- Die hohe Anzahl an NA-Werten in einigen Spalten (z.B. Related.Non.Motorist, Off.Road.Description) war zu erwarten, da diese Informationen nur in spezifischen Unfallsituationen relevant sind
-- Die geografischen Ausreißer (214 Fälle außerhalb von Montgomery County) wurden bewusst beibehalten, da sie möglicherweise legitime Grenzfälle darstellen
-- Das Fuzzy-Matching der Fahrzeugmarken und -modelle konnte nicht alle Einträge zuordnen, was bei der hohen Variabilität der Originaleinträge jedoch zu erwarten war
+- Die hohe Anzahl an NA-Werten in einigen Spalten (z.B. Related.Non.Motorist, Off.Road.Description) war zu erwarten, da diese Informationen nur in spezifischen Unfallsituationen relevant sind.
+- Die geografischen Ausreißer (214 Fälle außerhalb von Montgomery County) wurden bewusst beibehalten, da sie möglicherweise legitime Grenzfälle darstellen.
+- Das Fuzzy-Matching der Fahrzeugmarken und -modelle konnte nicht alle Einträge zuordnen, was bei der hohen Variabilität der Originaleinträge jedoch zu erwarten war.
 
 ## 4. Geeignete Visualisierung und Aggregation der Daten
 
@@ -985,7 +985,7 @@ data %>%
 
 Für die Untersuchung der langfristigen Trends und saisonalen Effekte wurden zunächst Datensätze mit fehlenden Zeitangaben (Monat oder Jahr) ausgefiltert. Die verbleibenden Daten wurden aggregiert, um die absoluten Unfallzahlen pro Monat im Jahresvergleich darzustellen.
 
-Die Visualisierung offenbart ein relativ stabiles saisonales Grundmuster für die meisten Jahre, das durch Spitzen im Frühjahr (Mai) und Herbst (Oktober) sowie ein Minimum im Februar gekennzeichnet ist. Eine signifikante Anomalie stellt das Jahr 2020 (türkise Linie) dar: Hier ist ab April ein drastischer Einbruch der Fallzahlen zu verzeichnen, der das übliche Muster durchbricht. Dieser Verlauf korreliert eindeutig mit den Mobilitätseinschränkungen zu Beginn der COVID-19-Pandemie. Auch das Folgejahr 2021 beginnt auf diesem niedrigen Niveau, bevor eine langsame Annäherung an den langjährigen Durchschnitt (ca. 1.500 bis 2.000 Unfälle/Monat) stattfindet. Der starke Abfall der Kurve für 2025 gegen Jahresende ist hingegen auf eine noch unvollständige Datenerfassung für die letzten Monate zurückzuführen.
+Die Visualisierung offenbart ein relativ stabiles saisonales Grundmuster für die meisten Jahre, das durch Spitzen im Frühjahr (Mai) und Herbst (Oktober) sowie ein Minimum im Februar gekennzeichnet ist. Eine signifikante Anomalie stellt das Jahr 2020 (türkise Linie) dar: Hier ist ab April ein drastischer Einbruch der Fallzahlen zu verzeichnen, der das übliche Muster durchbricht. Dieser Verlauf korreliert eindeutig mit den Mobilitätseinschränkungen zu Beginn der Corona-Pandemie. Auch das Folgejahr 2021 beginnt auf diesem niedrigen Niveau, bevor eine langsame Annäherung an den langjährigen Durchschnitt (ca. 1.500 bis 2.000 Unfälle/Monat) stattfindet. Der starke Abfall der Kurve für 2025 gegen Jahresende ist hingegen auf eine noch unvollständige Datenerfassung für die letzten Monate zurückzuführen.
 
 #### Statistische Prüfung: Chi-Quadrat-Test
 
@@ -1060,7 +1060,7 @@ data %>%
 
 Für die Analyse des Einflusses der Witterung auf das Unfallgeschehen wurden zunächst Datensätze mit fehlenden Angaben in der Variable „Weather“ entfernt. Die verbleibenden Daten wurden nach der Häufigkeit der Wetterbedingungen aggregiert und absteigend sortiert visualisiert, um die dominierenden Umgebungsfaktoren zu identifizieren.
 
-Die Grafik zeigt eindeutig, dass die überwiegende Mehrheit der Unfälle (142.319 Fälle) bei klaren Wetterverhältnissen („CLEAR“) registriert wurde. Regen („RAIN“) und bewölkter Himmel („CLOUDY“) folgen mit deutlichem Abstand, weisen aber mit ca. 24.000 bzw. 20.000 Fällen noch relevante Anteile auf. Schwierige Sicht- oder Fahrbahnverhältnisse durch Schnee („SNOW/WINTRY“), Nebel („FOG/POOR VISIBILITY“) oder Wind spielen quantitativ eine untergeordnete Rolle. Dies legt nahe, dass die absolute Mehrheit der Verkehrsunfälle nicht durch extreme Wetterlagen verursacht wird, sondern bei normalen Standardbedingungen stattfindet. Dies kann auch darauf zurückzuführen sein, dass im Verhältnis auch mehr Tage klares Wetter aufwiesen als zum Beispiel Regen oder Schnee.
+Die Grafik zeigt eindeutig, dass die überwiegende Mehrheit der Unfälle (142.319 Fälle) bei klaren Wetterverhältnissen („CLEAR“) registriert wurde. Regen („RAIN“) und bewölkter Himmel („CLOUDY“) folgen mit deutlichem Abstand, weisen aber mit ca. 24.000 bzw. 20.000 Fällen noch relevante Anteile auf. Schwierige Sicht- oder Fahrbahnverhältnisse durch Schnee („SNOW/WINTRY“), Nebel („FOG/POOR VISIBILITY“) oder Wind spielen quantitativ eine untergeordnete Rolle. Dies legt nahe, dass die absolute Mehrheit der Verkehrsunfälle nicht durch extreme Wetterlagen verursacht wird, sondern bei normalen Standardbedingungen stattfindet. Dies kann auch darauf zurückzuführen sein, dass im Verhältnis mehr Tage klares Wetter aufwiesen als zum Beispiel Regen oder Schnee.
 
 #### Verletzungsschwere nach Wetterbedingungen
 
@@ -1191,7 +1191,7 @@ weather_severe_comparison
 
 Um die Hypothese zu überprüfen, ob widrige Witterung zu schwerwiegenderen Unfallfolgen führt, wurde eine binäre Vergleichsanalyse durchgeführt. Hierfür wurden die Wetterdaten in zwei Gruppen („Gutes Wetter“ vs. „Schlechtes Wetter“) klassifiziert und der Anteil schwerer Verletzungen (definiert als „FATAL“ oder „SUSPECTED SERIOUS INJURY“) berechnet.
 
-Die statistische Auswertung liefert ein auf den ersten Blick kontraintuitives Ergebnis: Der Anteil schwerer Verletzungen fällt bei „Gutem Wetter“ mit 0,860 % höher aus als bei „Schlechtem Wetter“ (0,789 %). Obwohl die absoluten Fallzahlen bei gutem Wetter deutlich höher liegen, ist das relative Risiko für schwerste Unfallfolgen bei widrigen Bedingungen geringer. Dies stützt die Annahme, dass Verkehrsteilnehmer bei Regen, Schnee oder Nebel durch angepasste Geschwindigkeit und erhöhte Vorsicht die Schwere der Aufprallenergie reduzieren, während bei optimalen Sicht- und Straßenverhältnissen tendenziell höhere Geschwindigkeiten gefahren werden, die im Unfallfall zu gravierenderen Verletzungen führen.
+Die statistische Auswertung liefert ein auf den ersten Blick unerwartetes Ergebnis: Der Anteil schwerer Verletzungen fällt bei „Gutem Wetter“ mit 0,860 % höher aus als bei „Schlechtem Wetter“ (0,789 %). Obwohl die absoluten Fallzahlen bei gutem Wetter deutlich höher liegen, ist das relative Risiko für schwerste Unfallfolgen bei widrigen Bedingungen geringer. Dies stützt die Annahme, dass Verkehrsteilnehmer bei Regen, Schnee oder Nebel durch angepasste Geschwindigkeit und erhöhte Vorsicht die Schwere der Aufprallenergie reduzieren, während bei optimalen Sicht- und Straßenverhältnissen tendenziell höhere Geschwindigkeiten gefahren werden, die im Unfall zu gravierenderen Verletzungen führen.
 
 #### Statistische Prüfung: Chi-Quadrat-Test
 
@@ -1233,7 +1233,7 @@ Die Analyse der Wetterbedingungen bestätigt die kontraintuitive Hypothese volls
 
 **Fahrzeugschäden:** Bei Straßenbedingungen mit Wasser (stehend/fließend) zeigt sich der höchste Anteil an Totalschäden, während bei Glätte (Eis, Schneematsch) Schäden dominieren, die das Fahrzeug fahruntüchtig machen.
 
-**Interpretation:** Diese Befunde stützen die Hypothese der Risikokompensation: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an (geringere Geschwindigkeit, erhöhte Aufmerksamkeit), während bei vermeintlich guten Verhältnissen tendenziell schneller und unvorsichtiger gefahren wird. Der Chi-Quadrat-Test (p = 3,0e-12) bestätigt den Zusammenhang statistisch.
+**Interpretation:** Diese Ergebnisse stützen die Hypothese: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an (geringere Geschwindigkeit, erhöhte Aufmerksamkeit), während bei vermeintlich guten Verhältnissen tendenziell schneller und unvorsichtiger gefahren wird. Der Chi-Quadrat-Test (p = 3,0e-12) bestätigt den Zusammenhang statistisch.
 
 ---
 
@@ -1451,7 +1451,6 @@ distraction_counts %>%
 
 Zur Analyse der Ablenkungsursachen wurden zunächst Datensätze mit fehlenden Angaben in der Variable Driver.Distracted.By bereinigt. Die verbleibenden Daten wurden aggregiert, um die absolute Häufigkeit der registrierten Ablenkungsarten zu visualisieren.
 
-Die Grafik verdeutlicht eine fundamentale Einschränkung der vorliegenden Datenbasis: Mit 204.688 erfassten Fällen stellt „VISUAL DISTRACTION“ die einzig verfügbare Kategorie dar. Es findet keine weitere Differenzierung statt (z. B. in auditiv, kognitiv oder spezifische Auslöser wie Handynutzung). Dies erklärt auch rückblickend das Ergebnis der vorangegangenen Hypothesenprüfung: Da der Datensatz sämtliche Formen der Ablenkung unter diesem generalisierten Oberbegriff subsumiert, ist eine isolierte statistische Auswertung spezifischer Störquellen (wie Mobiltelefonen) mit diesen Daten nicht möglich.
 
 #### Zusammenhang: Ablenkung und Kollisionstyp
 
