@@ -1612,9 +1612,8 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-Für die Analyse der Beteiligung nicht-motorisierter Verkehrsteilnehmer wurde die Spalte „Related.Non.Motorist“ herangezogen. Zunächst wurden sämtliche Datensätze, die in dieser Variable fehlende Werte (NA) aufwiesen, mittels einer Filterfunktion entfernt, um die Auswertung auf valide Einträge zu beschränken.
-
-Die verbleibenden Daten wurden anschließend nach Kategorien gruppiert und hinsichtlich ihrer Häufigkeit ausgezählt (`count`), wobei eine absteigende Sortierung vorgenommen wurde. Dies dient dazu, die relevantesten Gruppen unmittelbar hervorzuheben. Für die Visualisierung wurde ein Balkendiagramm gewählt, dessen Achsen mittels `coord_flip()` vertauscht wurden. Diese Darstellung gewährleistet, dass die teils langen Kategorienbezeichnungen (wie „OCCUPANT OF MOTOR VEHICLE NOT IN TRANSPORT“) auf der y-Achse gut lesbar bleiben. Zudem wurden die absoluten Fallzahlen direkt an den Balken beschriftet, um einen präzisen Vergleich der Häufigkeiten zu ermöglichen.
+Zur Einordnung der betrachteten Unfallgruppe wurde zunächst die Verteilung der nicht-motorisierten Verkehrsteilnehmer analysiert. Grundlage bildet die Variable "Related.Non.Motorist", wobei ausschließlich Datensätze mit gültigen Einträgen berücksichtigt wurden.
+Die Auswertung zeigt, dass Fußgänger den mit Abstand größten Anteil der nicht-motorisierten Unfallbeteiligten darstellen. Fahrradfahrer bilden die zweitgrößte Gruppe, ihr Anteil fällt jedoch deutlich geringer aus. Andere Formen nicht-motorisierter Verkehrsteilnehmer spielen im vorliegenden Datensatz nur eine untergeordnete Rolle. Damit fokussiert sich die weitere Anaylse inhaltlich primär auf das Unfallrisiko von Fußgängern und Radfahrern.
 
 #### Lichtverhältnisse bei Fußgänger-/Radfahrerunfällen
 
@@ -1642,9 +1641,9 @@ light_comparison %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Für den Vergleich der Lichtverhältnisse wurde zunächst die Spalte „Light“ bereinigt, indem Datensätze mit fehlenden Werten (NA) herausgefiltert wurden. Um eine Unterscheidung zwischen verschiedenen Unfallarten zu ermöglichen, wurde eine neue dichotome Variable generiert. Diese basiert auf der Spalte „Related.Non.Motorist“: Ist ein Eintrag vorhanden, wird der Unfall der Kategorie „Mit Fußgänger/Radfahrer“ zugeordnet; ist der Wert hingegen NA, fällt er in die Kategorie „Nur Fahrzeuge“.
+Zur Untersuchung der Lichtverhältnisse wurde eine binäre Variable erstellt, die zwischen Unfällen mit und ohne Beteiligung von Fußgängern oder Radfahrern unterscheidet. Diese Einteilung basiert darauf, ob in der Variable "Related.Non.Motorist" ein Eintrag vorhanden ist oder nicht.
 
-Ein wesentlicher Schritt in der Datenaufbereitung war die Berechnung der relativen Anteile innerhalb dieser beiden Gruppen. Da sich die absoluten Fallzahlen stark unterscheiden, wurden die Häufigkeiten prozentual normiert, um die Verteilung der Lichtverhältnisse vergleichbar zu machen. Die Visualisierung erfolgte anschließend als gruppiertes Balkendiagramm (`position = "dodge"`), wodurch die Unterschiede in den Lichtverhältnissen zwischen den beiden Unfallkategorien direkt gegenübergestellt werden können. Zur besseren Lesbarkeit wurden die Kategorien auf der x-Achse um 45 Grad rotiert.
+Die vergleichende Analyse zeigt, dass sich der relative Anteil der Lichtverhältnisse bei Unfällen mit nicht-motorisierten Beteiligten insgesamt nur geringfügig von reinen Fahrzeugunfällen unterscheidet. Tageslicht dominiert in beiden Gruppen deutlich.
 
 ```{r}
 # Anteil Dunkelheit bei Unfällen mit Non-Motorist
@@ -1665,11 +1664,9 @@ dark_rates <- data %>%
 dark_rates
 ```
 
-Für die spezifische Untersuchung des Anteils von Unfällen bei Dunkelheit wurde erneut auf die Spalte „Light“ zurückgegriffen. Zunächst wurden Datensätze mit fehlenden Werten (NA) ausgeschlossen, um eine bereinigte Basis für die Berechnung zu erhalten.
+Für eine präzisere Betrachtung wurde der Anteil von Unfällen bei Dunkelheit separat berechnet. Hierzu wurden alle Lichtkategorien, die den Begriff "DARK" enthalten, zusammengefasst. Dabei zeigt sich, dass der Anteil der Dunkelheit bei Unfällen mit Fußgängern oder Radfahrern leicht erhöht ist (30,2 % gegenüber 26,9 % bei reinen Fahrzeugunfällen).
 
-Ein vergleichbares Vorgehen wie in den vorangegangenen Schritten wurde bei der Klassifizierung der Unfallbeteiligten angewendet: Basierend auf der Spalte „Related.Non.Motorist“ wurde eine binäre Variable erstellt, die unterscheidet, ob nicht-motorisierte Verkehrsteilnehmer involviert waren oder ob es sich um reine Fahrzeugunfälle handelt.
-
-Zusätzlich wurde die Variable `is_dark` definiert. Hierbei wurden mittels Textmustererkennung (`str_detect`) alle Einträge in der Spalte „Light“, die das Wort „DARK“ enthalten, identifiziert und zusammengefasst. Diese Methode erlaubt es, sämtliche Abstufungen von Dunkelheit (z. B. mit oder ohne Straßenbeleuchtung) in einer einzigen logischen Kategorie zu bündeln. Anschließend wurden die Daten gruppiert, um den relativen Anteil der Unfälle bei Dunkelheit (`anteil_dark`) für beide Gruppen zu berechnen und quantitativ vergleichbar zu machen.
+Dieser Unterschied deutet darauf hin, dass nicht-motorisierte Verkehrsteilnehmer bei Dunkelheit einem leicht erhöhten Risiko ausgesetzt sind, etwa aufgrund eingeschränkter Sichtbarkeit. 
 
 #### Verletzungsschwere: Vergleich mit Fahrzeugunfällen
 
@@ -1695,11 +1692,9 @@ data %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Für die vergleichende Analyse der Verletzungsschwere diente die Spalte „Injury.Severity“ als Basis. In einem ersten Schritt wurden Datensätze mit fehlenden Werten (NA) aus dem Datensatz entfernt, um die Auswertung auf vollständig dokumentierte Fälle zu beschränken.
+Im nächsten Schritt wurde die Verletzungsschwere bei Unfällen mit und ohne nicht-motorisierte Beteiligung verglichen. Hierfür wurden die relativen Anteile der verschiedenen Kategorien der Variable "Injury.Severity" innerhalb der Gruppen berechnet. 
 
-Ein vergleichbares Vorgehen wie in den vorangegangenen Analysen wurde bei der Gruppierung der Unfälle angewendet. Basierend auf der Variable „Related.Non.Motorist“ wurde unterschieden, ob nicht-motorisierte Verkehrsteilnehmer involviert waren oder ob es sich ausschließlich um Fahrzeugunfälle handelte.
-
-Der entscheidende Schritt in der Datenaufbereitung lag in der Berechnung der relativen Anteile (`anteil`). Da die absolute Anzahl der reinen Fahrzeugunfälle deutlich höher ist als die der Unfälle mit Personenbeteiligung, war eine Normierung auf Prozentwerte notwendig, um die Verteilungen der Verletzungsschwere direkt gegenüberstellen zu können. Die grafische Darstellung als gruppiertes Balkendiagramm (`position = "dodge"`) verdeutlicht diese Unterschiede, wobei die Achsenbeschriftungen zur besseren Lesbarkeit der Kategorien erneut um 45 Grad rotiert wurden.
+In beiden Gruppen stellt die Kategorie **"NO APPARENT INJURY"** den größten Anteil dar. Auffällig ist jedoch, dass bei Unfällen mit ausschließlich motorisierten Fahrzeugen der Anteil unverletzter Beteiligter etwas geringer ausfällt, während mögliche oder leichte Verletzungen häufiger auftreten.
 
 ```{r}
 # Anteil schwerer Verletzungen (FATAL, SUSPECTED SERIOUS INJURY)
@@ -1720,11 +1715,7 @@ severe_rates <- data %>%
 severe_rates
 ```
 
-Für die spezifische Untersuchung des Risikos besonders schwerer Unfallfolgen wurde erneut auf die Spalte „Injury.Severity“ zurückgegriffen. Zunächst wurden Datensätze mit fehlenden Werten (NA) eliminiert, um die Analyse auf valide Einträge zu beschränken.
-
-Ein vergleichbares Vorgehen wie in den vorangegangenen Schritten wurde bei der Klassifizierung der Unfallbeteiligten angewendet: Basierend auf der Spalte „Related.Non.Motorist“ wurde differenziert, ob nicht-motorisierte Verkehrsteilnehmer involviert waren oder ob es sich um reine Fahrzeugunfälle handelt.
-
-Zusätzlich wurde die logische Variable `is_severe` definiert. Hierbei wurden die Ausprägungen „FATAL“ (tödlich) und „SUSPECTED SERIOUS INJURY“ (vermutlich schwere Verletzung) zusammengefasst. Diese Aggregation erlaubt es, den Fokus gezielt auf die schwerwiegendsten Unfallausgänge zu legen. Anschließend wurden die Daten gruppiert, um die absoluten Fallzahlen sowie den prozentualen Anteil dieser schweren Verletzungen (`anteil_severe`) innerhalb der beiden Vergleichsgruppen zu berechnen.
+Um den Fokus gezielt auf besonders gravierende Unfallfolgen zu legen, wurden zusätzlich die Kategorien **"FATAL"** und **"SUSPECTED SERIOUS INJURY"** zu einer gemeinsamen Gruppe schwerer Verletzungen zusammengefasst. Diese Analyse zeigt bei beiden Gruppierungen geringe Anteile mit unter einem Prozent. Bei reinen Fahrzeugunfällen ist hier der Wert mit 0,85 % der Wert höher als bei Unfällen mit Fußgängern oder Radfahrern mit 0,32 %.
 
 #### Tageszeit der Fußgänger-/Radfahrerunfälle
 
@@ -1747,11 +1738,8 @@ data %>%
   theme_minimal()
 ```
 
-Für die Analyse der zeitlichen Verteilung von Unfällen mit nicht-motorisierter Beteiligung wurden die Spalten „Related.Non.Motorist“ und „Crash.Date.Time“ herangezogen. Zunächst wurden Datensätze, die in einer dieser Variablen fehlende Werte (NA) aufwiesen, mittels einer Filterfunktion entfernt, um die Auswertung auf valide Fälle zu beschränken.
-
-Ein wesentlicher Schritt der Datenaufbereitung bestand darin, aus dem vorliegenden Zeitstempel mittels der Funktion `hour()` die volle Stunde des Unfallzeitpunkts zu extrahieren. Dies ermöglichte eine Aggregation der Daten, indem die absolute Anzahl der Unfälle pro Stunde ausgezählt wurde.
-
-Die Visualisierung erfolgte anschließend als Balkendiagramm, das die Häufigkeit der Unfälle über den 24-Stunden-Verlauf darstellt. Um den zugrunde liegenden Trend und die Verteilungsmuster – wie den sichtbaren Anstieg in den Nachmittagsstunden – deutlicher hervorzuheben, wurde zusätzlich eine Glättungslinie (`geom_smooth` mit der Methode „loess“) über die Balken gelegt. Zur besseren Orientierung wurde die x-Achse dabei in Zwei-Stunden-Schritten skaliert.
+Zur Analyse der zeitlichen Struktur der Unfälle wurde aus dem Zeitstempel "Crash.Date.Time" die jeweilige Stunde des Tages extrahiert. Anschließend wurden die absoluten Unfallzahlen pro Stunde aggregiert und visualisiert.
+Die Darstellung zeigt einen kontinuierlichen Anstieg der Unfallhäufigkeit im Tagesverlauf, mit einem klaren Maximum in den späten Nachmittagsstunden zwischen 17 und 18 Uhr. In den Nachtstunden, insbesondere zwischen 0 und 5 Uhr, treten hingegen die wenigsten Unfälle auf. Dieses Muster passt zu den typischen Zeiten von Fußgängern und Radfahrern.
 
 #### Statistische Prüfung: Chi-Quadrat-Test
 
@@ -1779,21 +1767,20 @@ chisq_nonmotorist_injury <- chisq.test(table(nonmotorist_injury_chi$has_nonmotor
 chisq_nonmotorist_injury
 ```
 
-Für die statistische Überprüfung der Zusammenhänge wurde der Pearson-Chi-Quadrat-Test angewendet. Im ersten Schritt wurde die Abhängigkeit zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und den Lichtverhältnissen untersucht. Hierfür wurden die Daten zunächst bereinigt, indem fehlende Werte in der Spalte „Light“ ausgefiltert wurden. Anschließend wurde eine Kontingenztabelle erstellt, welche die binäre Variable der Beteiligung (`has_nonmotorist`) den verschiedenen Kategorien der Lichtverhältnisse gegenüberstellt.
-
-Ein vergleichbares Vorgehen wurde bei der Analyse der Verletzungsschwere angewendet. Der Unterschied besteht darin, dass hier die Spalte „Injury.Severity“ als Basis diente und entsprechende fehlende Werte (NA) im Vorfeld entfernt wurden. Die Durchführung des Tests erfolgte analog über die Kreuztabellierung der Variablen. In beiden Analysen weisen die extrem niedrigen p-Werte (1.591e-09 bzw. < 2.2e-16) auf einen hochsignifikanten statistischen Zusammenhang zwischen der Unfallbeteiligung von Fußgängern/Radfahrern und den untersuchten Faktoren (Lichtverhältnisse sowie Verletzungsschwere) hin.
+Zur statistischen Absicherung der beobachteten Unterschiede wurden zwei Pearson-Chi-Quadrat-Tests durchgeführt. Im ersten Test wurde der Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und den Lichtverhältnissen untersucht. Im zweiten Test wurde geprüft, ob ein Zusammenhang zwischen der Beteiligung von Fußgängern/Radfahrern und der Verletzungsschwere besteht.
+Beide Tests ergebn extrem niedrige p-Werte (p = 1,59e-09 für Lichtverhältnisse bzw. p < 2,2e-16 für Verletzungsschwere). Damit kann die Nullhypothese der Unabhängigkeit in beiden Fällen klar verworfen werden. Es besteht somit ein statistisch signifikanter Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und sowohl den Lichtverhältnissen als auch der Verletzungsschwere.
 
 #### Zwischenfazit Fragestellung E
 
-Die Analyse bestätigt die aufgestellte Hypothese in wesentlichen Punkten:
+Die Analyse bestätigt die aufgestellte Hypothese bedingt:
 
-**Verletzungsschwere:** Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) bei Unfällen mit Fußgängern/Radfahrern (5,53 %) ist nahezu siebenmal höher als bei reinen Fahrzeugunfällen (0,79 %). Dies bestätigt eindeutig die Hypothese, dass der fehlende Schutz durch eine Karosserie diese Verkehrsteilnehmer besonders verwundbar macht.
+**Verletzungsschwere:** Schwere Verletzungen treten in beiden Unfallgruppen selten auf und liegen jeweils unter einem Prozent. Der Anteil ist bei reinen Fahrzeugunfällen (0,85 %) sogar leicht höher als bei Unfällen mit Fußgängern oder Radfahrern (0,32 %). 
 
-**Lichtverhältnisse:** Entgegen der ursprünglichen Vermutung ereignen sich Unfälle mit nicht-motorisierten Beteiligten nicht häufiger bei Dunkelheit. Der Dunkelheits-Anteil liegt bei Unfällen mit Fußgängern/Radfahrern (21,3 %) nur geringfügig höher als bei reinen Fahrzeugunfällen (19,7 %). Die Mehrheit dieser Unfälle findet bei Tageslicht statt. Der Chi-Quadrat-Test (p = 1,59e-09) zeigt dennoch einen signifikanten Zusammenhang.
+**Lichtverhältnisse:** Entgegen der ursprünglichen Vermutung ereignen sich Unfälle mit nicht-motorisierten Beteiligten nicht überwiegend bei Dunkelheit. Zwar ist der Dunkelheitsanteil leicht erhöht, der Großteil der Unfälle findet jedoch bei Tageslicht statt. Der Chi-Quadrat-Test (p = 1,59e-09) zeigt dennoch einen signifikanten Zusammenhang.
 
-**Zeitliche Verteilung:** Die Unfälle mit nicht-motorisierten Beteiligten zeigen ein deutliches Maximum in den Nachmittagsstunden (14–18 Uhr), was mit typischen Freizeit- und Pendelzeiten für Fußgänger und Radfahrer korreliert.
+**Zeitliche Verteilung:** Die Häufung der Unfälle in den Nachmittags- und frühen Abendstunden spricht für einen starken Zusammenhang mit alltäglichen Mustern wie Berufsverkehr, Schulwegen und Freizeitaktivitäten.
 
-**Fazit:** Die Hypothese zur erhöhten Verletzungsschwere ist vollständig bestätigt (fast 7-fach erhöhtes Risiko schwerer Verletzungen). Die Vermutung häufigerer Unfälle bei Dunkelheit trifft jedoch nicht zu – die Lichtverhältnisse unterscheiden sich nur geringfügig von reinen Fahrzeugunfällen.
+**Fazit:** Die Hypothese wird nur teilweise bestätigt. Unfälle mit Fußgängern und Radfahrern treten nicht deutlich häufiger bei schlechten Lichtverhältnissen auf und schwere Verletzungen sind insgesamt selten. Bestätigt wird jedoch die klare zeitliche Häufung dieser Unfälle in den Nachmittags- und frühen Abendstunden, was auf typische Alltagsmuster hinweist.
 
 ---
 
