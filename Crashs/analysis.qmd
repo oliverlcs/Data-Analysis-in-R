@@ -1030,7 +1030,7 @@ Die zeitliche Analyse bestätigt die aufgestellten Hypothesen weitgehend:
 
 **Wochentag-Unterschiede:** Die Heatmap offenbart klare Unterschiede zwischen Werktagen (klassisches Pendler-Muster) und Wochenenden (kein morgendlicher Peak, gleichmäßigerer Anstieg zur Tagesmitte). Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt statistisch, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.
 
-**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,38 % gegenüber 0,78 % am Morgen, 0,79% am Mittag und 0,72% am Abend – ein nahezu doppelt so hohes relatives Risiko. Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt diesen Zusammenhang statistisch.
+**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,15 % gegenüber 0,83 % am Morgen, 0,78 % am Mittag und 0,68 % am Abend – ein deutlich höheres Risiko. Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt diesen Zusammenhang statistisch.
 
 ---
 
@@ -1945,6 +1945,7 @@ data %>%
 ```
 
 Der Großteil der bei den Unfällen beteiligten Fahrzeuge waren **normale Pkw** (140.074). Darauf folgen **Sport Utility Vehicles** mit 21.196 Unfällen. **Busse, Pickups und Vans** machen jeweils deutlich geringere Anteile aus, jeweils rund 8.000 Unfälle.
+
 #### Verletzungsschwere nach Fahrzeugtyp
 
 ```{r}
@@ -2121,8 +2122,6 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-Der größte Anteil der Fahrer stammt aus Maryland (168.860), dem Bundesstaat, in dem Montgomery County liegt. Mit jeweils knapp 6.000 Fahrern folgen Washington D.C. und Virginia, beide direkte Nachbarn von Montgomery County und geografisch sehr nah gelegen.
-
 ```{r}
 # Anteil lokaler vs. auswärtiger Fahrer
 data %>%
@@ -2177,8 +2176,9 @@ Mit 59 % ist der Anteil schuldiger Fahrer aus anderen Bundesstaaten wie erwartet
 
 #### Zwischenfazit Fahrzeugtypen und Herkunft
 
-[TODO: Zwischenfazit zur Fahrzeug-/Herkunftsanalyse einfügen]
+Die Analyse bestätigt, dass sich Unfallschwere und Schuldquote je nach Fahrzeugtyp unterscheiden. Während Pkw den Großteil der Unfälle ausmachen, weisen insbesondere Motorräder und Mopeds den höchsten Anteil schwerer Verletzungen auf, was die Hypothese des fehlenden Karosserieschutzes stützt. Auch das Fahrzeugalter spielt eine Rolle. Ältere Fahrzeuge sind seltener in Unfällen verwickelt, zeigen jedoch einen höheren Anteil schwerer Verletzungen.
 
+Hinsichtlich der Herkunft der Fahrer stammen die meisten Unfallbeteiligten erwartungsgemäß aus Maryland. Auswärtige Fahrer sind zwar zahlenmäßig klar in der Minderheit, weisen jedoch eine etwas höhere Schuldquote auf als lokale Fahrer. Die Unterschiede sind insgesamt moderat, was darauf hindeutet, dass Ortskenntnis zwar einen Einfluss hat, jedoch nicht allein ausschlaggebend für die Schuld des Fahrers ist.
 ---
 
 ## 5. Zusammenfassung und Schlussfolgerung
@@ -2191,7 +2191,7 @@ Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2
 
 #### Fragestellung A: Zeitliche Muster
 
-**Ergebnis:** Die zeitliche Analyse zeigt klare, statistisch signifikante Muster. Die Rush-Hour-Peaks (7–9 Uhr und 16–18 Uhr) sind deutlich erkennbar, wobei der abendliche Peak ausgeprägter ist als der morgendliche. Werktage zeigen das klassische Pendler-Muster, während Wochenenden ein gleichmäßigeres Unfallaufkommen zur Tagesmitte aufweisen. Der Anteil schwerer Verletzungen ist nachts (20–6 Uhr) mit 1,38 % fast doppelt so hoch wie zu anderen Tageszeiten (0,72–0,79 %).
+**Ergebnis:** Die zeitliche Analyse zeigt klare, statistisch signifikante Muster. Die Rush-Hour-Peaks (7–9 Uhr und 16–18 Uhr) sind deutlich erkennbar, wobei der abendliche Peak ausgeprägter ist als der morgendliche. Werktage zeigen das klassische Pendler-Muster, während Wochenenden ein gleichmäßigeres Unfallaufkommen zur Tagesmitte aufweisen. Der Anteil schwerer Verletzungen ist nachts (20–6 Uhr) mit 1,15 % deutlich höher als zu anderen Tageszeiten (0,68–0,83 %).
 
 **Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Beide Teile der Hypothese wurden durch die Daten gestützt: Die Rush-Hour-Peaks treten wie erwartet auf, und nächtliche Unfälle verursachen trotz geringerer Häufigkeit signifikant schwerere Verletzungen.
 
@@ -2209,15 +2209,27 @@ Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2
 
 #### Fragestellung D: Ablenkung am Steuer
 
-**Ergebnis:** Die Datenbasis enthält nur die generische Kategorie „VISUAL DISTRACTION" für alle Fälle – eine Differenzierung nach spezifischen Ablenkungsarten (Handy, Gespräche etc.) ist nicht möglich. Bei visueller Ablenkung dominieren Auffahrunfälle (REAR-END) mit 33% aller Kollisionen, gefolgt von Winkelkollisionen (ANGLE) mit 20%.
+**Ergebnis:** Visuelle Ablenkung stellt die häufigste identifizierte Ablenkungsart dar. Insgesamt zeigt sich ein klarer Zusammenhang zwischen Ablenkung und Schuldfrage: Nicht abgelenkte Fahrer werden deutlich seltener als schuldig eingestuft, während nahezu alle Ablenkungsarten eine hohe Schuldquote aufweisen.
 
-**Vergleich mit Hypothese:** ⚠️ **Nicht testbar / Teilweise bestätigt** — Die spezifische Hypothese zur Handynutzung kann aufgrund der Datenlimitation nicht überprüft werden. Der Zusammenhang zwischen visueller Ablenkung und Auffahrunfällen (ein Teilaspekt der ursprünglichen Vermutung) wird jedoch bestätigt.
+**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — Entgegen der ursprünglichen Annahme ist nicht die Handynutzung, sondern die visuelle Ablenkung die häufigste Ablenkungsform. Die Hypothese bestätigt sich jedoch insofern, dass Handynutzung besonders häufig zu Auffahrunfällen führt.
 
 #### Fragestellung E: Fußgänger- und Radfahrerunfälle
 
-**Ergebnis:** Der Anteil schwerer Verletzungen bei Unfällen mit Fußgängern/Radfahrern (5,53 %) ist fast siebenmal höher als bei reinen Fahrzeugunfällen (0,79 %). Entgegen der Erwartung findet jedoch die Mehrheit dieser Unfälle bei Tageslicht statt; der Dunkelheits-Anteil (21,3 %) liegt nur geringfügig über dem bei Fahrzeugunfällen (19,7 %).
+**Ergebnis:** Entgegen der ursprünglichen Erwartung treten schwere Verletzungen bei reinen Fahrzeugunfällen mit 0,85 % etwas häufiger auf als bei Unfällen mit Fußgängern oder Radfahrern (0,32 %). Zudem ereignet sich die Mehrheit dieser Unfälle bei Tageslicht. Der Anteil der Unfälle bei Dunkelheit liegt bei 21,3 % und ist damit nur geringfügig höher als bei reinen Fahrzeugunfällen (19,7 %).
 
-**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — Die Hypothese zur erhöhten Verletzungsschwere ist vollständig bestätigt (7-fach erhöhtes Risiko). Die Vermutung, dass Unfälle mit Fußgängern/Radfahrern häufiger bei Dunkelheit auftreten, trifft jedoch nicht zu.
+**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — Die Annahme, dass Unfälle mit Fußgängern oder Radfahrern häufiger bei Dunkelheit auftreten und zu schwereren Verletzungen führen, konnte nicht bestätigt werden. Lediglich die Vermutung einer Häufung während der Stoßzeiten am Morgen und am Abend hat sich bewahrheitet.
+
+#### Fragestellung F: Fußgänger- und Radfahrerunfälle
+
+**Ergebnis:** 
+
+**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — 
+
+#### Fragestellung G: Fußgänger- und Radfahrerunfälle
+
+**Ergebnis:** 
+
+**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — 
 
 ### Gesamtfazit
 
@@ -2225,20 +2237,15 @@ Die Analyse der 204.688 Verkehrsunfälle aus Montgomery County (2015–2025) lie
 
 1. **Menschliches Verhalten ist der stärkste Risikofaktor:** Bei nachgewiesenem Substanzeinfluss liegt die Schuldquote bei über 97%, verglichen mit nur 34 % bei unverdächtigen Fahrern. Dieser Zusammenhang ist statistisch hochsignifikant (Chi² > 10.000, p < 2.2e-16) und zeigt die zentrale Rolle menschlichen Fehlverhaltens.
 
-2. **Vulnerable Verkehrsteilnehmer sind massiv gefährdet:** Das Risiko schwerer Verletzungen für Fußgänger und Radfahrer ist fast siebenmal höher als bei Fahrzeuginsassen (5,53 % vs. 0,79 %). Infrastrukturmaßnahmen wie geschützte Radwege und Fußgängerüberwege könnten hier Leben retten.
+2. **Zeitliche Muster ermöglichen gezielte Prävention:** Das höhere Risiko schwerer Verletzungen in der Nacht (1,15 % vs. 0,68-0,83 %) sowie die Rush-Hour-Peaks bieten Ansatzpunkte für verstärkte Polizeipräsenz und Aufklärungskampagnen zu spezifischen Zeiten.
 
-3. **Zeitliche Muster ermöglichen gezielte Prävention:** Das doppelt so hohe Risiko schwerer Verletzungen in der Nacht (1,38 % vs. 0,72-0,79 %) sowie die Rush-Hour-Peaks bieten Ansatzpunkte für verstärkte Polizeipräsenz und Aufklärungskampagnen zu spezifischen Zeiten.
-
-4. **Risikokompensation funktioniert – meist:** Bei Regen und Schnee ist das Risiko schwerer Verletzungen niedriger als bei klarem Wetter, was auf angepasstes Fahrverhalten hindeutet. Bei Nebel versagt dieser Mechanismus jedoch (höchste Verletzungsquote mit 1,06 %).
-
-5. **Datenlimitationen schränken manche Analysen ein:** Die fehlende Differenzierung der Ablenkungsarten verhinderte die Überprüfung der Handy-Hypothese – ein Hinweis auf Verbesserungspotenzial bei der polizeilichen Datenerfassung.
+3. **Risikokompensation funktioniert – meist:** Bei Regen und Schnee ist das Risiko schwerer Verletzungen niedriger als bei klarem Wetter, was auf angepasstes Fahrverhalten hindeutet. Bei Nebel versagt dieser Mechanismus jedoch (höchste Verletzungsquote mit 1,06 %).
 
 ### Limitationen
 
 Diese Analyse unterliegt einigen Einschränkungen:
 
 - **Beobachtungsdaten:** Es handelt sich um Beobachtungsdaten, die keine kausalen Schlüsse erlauben. Die identifizierten Zusammenhänge können durch Drittvariablen beeinflusst sein.
-- **Fehlende Differenzierung:** Die Variable „Driver.Distracted.By" enthält nur die generische Kategorie „VISUAL DISTRACTION" – spezifische Ablenkungsarten wie Handynutzung konnten daher nicht analysiert werden.
 - **Fehlende Werte:** Einige Variablen weisen hohe NA-Anteile auf (z.B. Related.Non.Motorist bei 96% der Fälle), was die Generalisierbarkeit einschränken kann.
 - **Regionale Beschränkung:** Die Daten stammen ausschließlich aus Montgomery County, Maryland (Vorort von Washington D.C.). Die Ergebnisse sind möglicherweise nicht auf ländliche Gebiete oder andere Bundesstaaten übertragbar.
 - **Dokumentationsqualität:** Die Qualität der Daten hängt von der Dokumentation durch die Polizeibehörden ab. Systematische Verzerrungen in der Erfassung (z.B. Untererfassung von Substanzverdacht) können nicht ausgeschlossen werden.
@@ -2247,9 +2254,7 @@ Diese Analyse unterliegt einigen Einschränkungen:
 
 Weiterführende Analysen könnten folgende Aspekte vertiefen:
 
-- Räumliche Analyse der Unfallhotspots mittels der vorhandenen Koordinaten
 - Zeitreihenanalyse zur Identifikation langfristiger Trends
-- Vertiefende Untersuchung spezifischer Fahrzeugtypen oder Altersgruppen
 
 ## Quellenverzeichnis
 
