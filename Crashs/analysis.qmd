@@ -2219,17 +2219,17 @@ Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2
 
 **Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — Die Annahme, dass Unfälle mit Fußgängern oder Radfahrern häufiger bei Dunkelheit auftreten und zu schwereren Verletzungen führen, konnte nicht bestätigt werden. Lediglich die Vermutung einer Häufung während der Stoßzeiten am Morgen und am Abend hat sich bewahrheitet.
 
-#### Fragestellung F: Fußgänger- und Radfahrerunfälle
+#### Fragestellung F: Räumliche Unfallhotspots
 
-**Ergebnis:** 
+**Ergebnis:** Besonders hohe Unfallhäufigkeiten treten im Bereich zwischen den Längengraden -77,3 und -76,9 sowie den Breitengraden 38,95 und 39,2 auf, was auf die urbaneren Bereiche des Countys hindeutet. Die räumliche Verteilung schwerer Unfälle ähnelt dabei weitgehend der allgemeinen Unfallverteilung, ist jedoch etwas breiter gestreut, was darauf schließt, dass schwere Unfälle nicht ausschließlich in den größten Unfallhotspots auftreten.
 
-**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — 
+**Vergleich mit Hypothese:** ⚠️ **Nicht vollständig testbar** — Da keine detaillierten geografischen Informationen zu Hauptverkehrsachsen, Knotenpunkten oder Schnellstraßen vorlagen, konnte die Hypothese, dass sich Unfälle gezielt an diesen Orten konzentrieren, nicht eindeutig überprüft werden. Auf Basis der räumlichen Analyse konnten jedoch potenzielle Hotspots identifiziert werden, die vermutlich stark frequentierte Verkehrsbereiche abbilden.
 
-#### Fragestellung G: Fußgänger- und Radfahrerunfälle
+#### Fragestellung G: Fahrzeugtypen und Fahrer-Herkunft
 
-**Ergebnis:** 
+**Ergebnis:** Ältere Fahrzeuge sind insgesamt seltener an Unfällen beteiligt, weisen jedoch einen höheren Anteil schwerer Verletzungen auf. Zudem zeigen Motorräder und Mopeds im Vergleich zu anderen Fahrzeugtypen einen deutlich erhöhten Anteil schwerer Unfallfolgen. Fahrer aus anderen Staaten weisen eine leicht höhere Schuldquote auf, was darauf hindeutet, dass Ortskenntnis einen Einfluss auf das Unfallgeschehen haben kann.
 
-**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — 
+**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Wie vermutet weisen Motorrad- und Mopedfahrer den höchsten Anteil schwerer Verletzungen auf, was sich durch den fehlenden Karosserieschutz erklären lässt. Ebenso bestätigt sich die Annahme, dass eine geringere Ortskenntnis mit einer höheren Schuldquote einhergeht.
 
 ### Gesamtfazit
 
