@@ -251,7 +251,7 @@ data$Agency.Name[str_detect(data$Agency.Name, "^(MCP|MARY)")] <- "Maryland-Natio
 data$Agency.Name <- as.factor(data$Agency.Name)
 ```
 
-Auch die Spalte "Route.Type" wurde bereinigt. Leere Werte und Platzhalter wie "unknown" in NA umgewandelt. Da jeder Unfall auf einer Route stattfindet, der konkrete Routentyp in diesen Fällen jedoch nicht bestimmbar ist, gehen durch diese Konvertierung keine relevanten Informationen verloren.
+Auch die Spalte "Route.Type" wurde bereinigt. Leere Werte und Platzhalter wie "unknown" wurden in NA umgewandelt. Da jeder Unfall auf einer Route stattfindet, der konkrete Routentyp in diesen Fällen jedoch nicht bestimmbar ist, gehen durch diese Konvertierung keine relevanten Informationen verloren.
 
 ```{r}
 sort(unique(data$Route.Type))
