@@ -14,13 +14,14 @@ execute:
 
 ### Was interessiert uns an dem Datensatz?
 
-Der Datensatz dokumentiert Verkehrsunfälle in Montgomery County, Maryland, über einen Zeitraum von etwa 10 Jahren (2015–2025). Besonders interessant ist die Möglichkeit, menschliche Verhaltensfaktoren wie Alkohol- und Drogeneinfluss, Ablenkung am Steuer sowie die Interaktion mit vulnerablen Verkehrsteilnehmern systematisch zu untersuchen.
+Der Datensatz dokumentiert Verkehrsunfälle in Montgomery County, Maryland, über einen Zeitraum von etwa 10 Jahren (2015–2025). 
+Besonders interessant ist die Möglichkeit, menschliche Verhaltensfaktoren wie Alkohol- und Drogeneinfluss, Ablenkung am Steuer sowie die Interaktion mit vulnerablen Verkehrsteilnehmern zu untersuchen.
 
-Verkehrsunfälle sind keine rein zufälligen Ereignisse: Sie entstehen durch das Zusammenspiel von menschlichem Verhalten, Umweltbedingungen und infrastrukturellen Faktoren. Unser Ziel ist es, Muster und Zusammenhänge zu identifizieren, die zur Unfallprävention beitragen könnten.
+Verkehrsunfälle sind keine rein zufälligen Ereignisse, sondern entstehen durch das Zusammenspiel von menschlichem Verhalten, Umweltbedingungen und infrastrukturellen Faktoren. Unser Ziel ist es, Muster und Zusammenhänge zu identifizieren, die zur Unfallprävention beitragen könnten.
 
 ### Fragestellungen
 
-Im Rahmen dieser Analyse werden fünf zusammenhängende Fragestellungen untersucht, die verschiedene Aspekte des Unfallgeschehens beleuchten.
+Im Rahmen dieser Analyse werden sieben zusammenhängende Fragestellungen untersucht, die verschiedene Aspekte des Unfallgeschehens beleuchten.
 
 #### Deskriptive Fragestellungen
 
@@ -48,7 +49,7 @@ Diese Fragestellung untersucht den oft vermuteten Zusammenhang zwischen Wetterbe
 
 Diese Fragestellung untersucht den Zusammenhang zwischen Substanzkonsum und der Unfallverantwortung. Verwendet werden die Variablen `Driver.Alcohol`, `Driver.Drugs`, `Driver.At.Fault` und `Injury.Severity`.
 
-**Hypothese:** Wir erwarten, dass Fahrer mit Alkohol- oder Drogeneinfluss (Kategorien CONTRIBUTED, PRESENT, SUSPECT) signifikant häufiger als schuldig eingestuft werden als nüchterne Fahrer. Zudem vermuten wir, dass Unfälle unter Substanzeinfluss schwerere Verletzungen nach sich ziehen, da die Reaktionsfähigkeit und das Urteilsvermögen beeinträchtigt sind.
+**Hypothese:** Wir erwarten, dass Fahrer mit Alkohol- oder Drogeneinfluss signifikant häufiger als schuldig eingestuft werden als nüchterne Fahrer. Zudem vermuten wir, dass Unfälle unter Substanzeinfluss schwerere Verletzungen nach sich ziehen, da die Reaktionsfähigkeit und das Urteilsvermögen beeinträchtigt sind.
 
 **Fragestellung D: Ablenkung am Steuer**
 
@@ -64,7 +65,7 @@ Ablenkung ist eine der Hauptursachen für Verkehrsunfälle. Diese Analyse unters
 
 Fußgänger und Radfahrer sind im Straßenverkehr besonders gefährdet. Diese Fragestellung analysiert, unter welchen Lichtverhältnissen und zu welchen Tageszeiten solche Unfälle auftreten und wie schwer die resultierenden Verletzungen sind. Verwendet werden `Related.Non.Motorist`, `Light`, `Injury.Severity` und `Crash.Date.Time`.
 
-**Hypothese:** Wir erwarten, dass Unfälle mit Fußgängern und Radfahrern häufiger bei schlechten Lichtverhältnissen (DARK) auftreten und deutlich schwerere Verletzungen verursachen als Unfälle zwischen Fahrzeugen. Der fehlende Schutz durch eine Karosserie macht diese Verkehrsteilnehmer besonders verwundbar.
+**Hypothese:** Wir erwarten, dass Unfälle mit Fußgängern und Radfahrern häufiger bei schlechten Lichtverhältnissen auftreten und deutlich schwerere Verletzungen verursachen als Unfälle zwischen Fahrzeugen. Der fehlende Schutz durch eine Karosserie macht diese Verkehrsteilnehmer besonders verwundbar.
 
 #### Ergänzende Fragestellungen
 
@@ -74,7 +75,7 @@ Fußgänger und Radfahrer sind im Straßenverkehr besonders gefährdet. Diese Fr
 
 Neben den zeitlichen und verhaltensbezogenen Faktoren ist auch die räumliche Verteilung von Unfällen relevant für die Verkehrssicherheit. Diese Fragestellung untersucht, ob sich Unfälle an bestimmten geografischen Punkten häufen und ob schwere Unfälle andere räumliche Muster aufweisen als leichte. Verwendet werden `Latitude`, `Longitude` und `Injury.Severity`.
 
-**Hypothese:** Wir erwarten, dass sich Unfälle entlang von Hauptverkehrsachsen und an Knotenpunkten konzentrieren. Zudem vermuten wir, dass schwere Unfälle (FATAL, SUSPECTED SERIOUS INJURY) ein anderes räumliches Muster zeigen könnten – etwa häufiger auf Schnellstraßen mit höheren Geschwindigkeiten.
+**Hypothese:** Wir erwarten, dass sich Unfälle entlang von Hauptverkehrsachsen und an Knotenpunkten konzentrieren. Zudem vermuten wir, dass schwere Unfälle ein anderes räumliches Muster zeigen könnten. Beispielsweise könnten sie häufiger auf Schnellstraßen mit höheren Geschwindigkeiten auftreten.
 
 **Fragestellung G: Fahrzeugtypen und Fahrer-Herkunft**
 
@@ -82,7 +83,7 @@ Neben den zeitlichen und verhaltensbezogenen Faktoren ist auch die räumliche Ve
 
 Der Fahrzeugtyp kann sowohl das Unfallrisiko als auch die Verletzungsschwere beeinflussen. Zudem ist interessant, ob lokale Fahrer andere Unfallmuster zeigen als auswärtige. Diese Fragestellung analysiert die Verteilung nach Fahrzeugtyp, Fahrzeugalter und geografischer Herkunft der Fahrer. Verwendet werden `Vehicle.Body.Type`, `Vehicle.Year`, `brands_final`, `Drivers.License.State`, `Driver.At.Fault` und `Injury.Severity`.
 
-**Hypothese:** Wir erwarten, dass Motorradfahrer die höchste Rate schwerer Verletzungen aufweisen, da sie – ähnlich wie Fußgänger und Radfahrer – keinen Karosserieschutz haben. Bei der Fahrer-Herkunft vermuten wir, dass auswärtige Fahrer (nicht aus Maryland) eine leicht höhere Schuldquote aufweisen könnten, da ihnen die Ortskenntnis fehlt.
+**Hypothese:** Wir erwarten, dass Motorradfahrer die höchste Rate schwerer Verletzungen aufweisen, da sie wie Fußgänger und Radfahrer keinen Karosserieschutz haben. Bei der Fahrer-Herkunft vermuten wir, dass auswärtige Fahrer (nicht aus Maryland) eine leicht höhere Schuldquote aufweisen könnten, da ihnen die Ortskenntnis fehlt.
 
 ## 2. Laden der Daten
 
@@ -118,7 +119,7 @@ Um einen ersten Überblick über den Datensatz zu erhalten, wurde die folgende F
 skim(data)  
 ```
 
-Der Datensatz umfasst **39 Variablen** und **204.688 Beobachtungen**. Von den 39 Variablen sind **35 vom Typ "character"**, während die übrigen **4 numerische Werte** enthalten. Bereits auf den ersten Blick fällt auf, dass in mehreren Spalten **fehlende Werte** vorhanden sind. Zudem weisen einige Variablen eine sehr große Anzahl unterschiedlicher Werte auf, was auf eine hohe Individualität innerhalb der Daten hindeutet.
+Der Datensatz umfasst 39 Variablen und 204.688 Beobachtungen. Von den 39 Variablen sind 35 vom Typ "character", während die übrigen 4 numerische Werte enthalten. Bereits auf den ersten Blick fällt auf, dass in mehreren Spalten fehlende Werte vorhanden sind. Zudem weisen einige Variablen eine sehr große Anzahl unterschiedlicher Werte auf, was auf eine hohe Individualität innerhalb der Daten hindeutet.
 
 Einen ersten Blick auf die Inhalte des Datensatzes ermöglicht die folgende Funktion:
 
@@ -142,7 +143,7 @@ summary(data) %>%
   scroll_box(width = "100%")
 ```
 
-Hierbei fällt insbesondere die Variable "Vehicle.Year" auf, da deren Minimum bei **0** und Maximum bei **9999** liegt. Diese Werte sind offensichtlich **unrealistisch für ein Fahrzeugmodelljahr** und müssen daher im nächsten Schritt bereinigt werden.
+Hierbei fällt insbesondere die Variable "Vehicle.Year" auf, da deren Minimum bei 0 und Maximum bei 9999 liegt. Diese Werte sind offensichtlich unrealistisch für ein Fahrzeugmodelljahr und müssen daher im nächsten Schritt bereinigt werden.
 
 Zur detaillierten Analyse der Datenstruktur wurde anschließend folgende Funktion eingesetzt:
 
@@ -213,14 +214,14 @@ date_time_counts %>%
   filter(report_count > 1)
 ```
 
-Die Auswertung zeigt, dass in **2.714 Fällen** mindestens zwei Unfälle denselben Zeitstempel aufweisen. Das Maximum liegt bei fünf gleichzeitig erfassten Unfällen.
+Die Auswertung zeigt, dass in 2.714 Fällen mindestens zwei Unfälle denselben Zeitstempel aufweisen. Das Maximum liegt bei fünf gleichzeitig erfassten Unfällen.
 
 Ein weiterer relevanter Aspekt ist die Region, aus der die Daten stammen. Hierfür wurde die Variable Agency.Name analysiert, die die verschiedenen Polizeibehörden erfasst:
 ```{r}
 unique(data$Agency.Name)
 ```
 
-Die Auswertung zeigt, dass die Daten aus **Montgomery County, Maryland, USA** stammen. Bei den Einträgen treten jedoch mehrfach Schreibvarianten derselben Polizeibehörde auf, weshalb die Spalte vor der weiteren Analyse noch bereinigt werden muss, um konsistente Kategorien zu gewährleisten.
+Die Auswertung zeigt, dass die Daten aus Montgomery County, Maryland, USA stammen. Bei den Einträgen treten jedoch mehrfach Schreibvarianten derselben Polizeibehörde auf, weshalb die Spalte vor der weiteren Analyse noch bereinigt werden muss, um konsistente Kategorien zu gewährleisten.
 
 ## 3. Bearbeiten/Transformieren der Daten
 
@@ -271,7 +272,7 @@ Die Spalte "Crash.Date.Time" war ursprünglich als character abgespeichert und e
 
 Da sich die Daten auf Montgomery County, Maryland, USA beziehen, wurde die Zeitzone "EST" angegeben.
 
-Das Minimum und Maximum der Datumswerte erfassen den Zeitraum der Daten: **vom 01.01.2015 bis zum 21.10.2025**, also die letzten 10 Jahre.
+Das Minimum und Maximum der Datumswerte erfassen den Zeitraum der Daten vom 01.01.2015 bis zum 21.10.2025, also die letzten 10 Jahre.
 ```{r}
 head(data$Crash.Date.Time, 10)
 
@@ -875,7 +876,7 @@ data %>%
 
 Zur Analyse der zeitlichen Verteilung der Unfälle wurden zunächst Datensätze mit fehlenden Angaben in der Spalte crash_hour bereinigt. Die verbleibenden Daten wurden nach Stunden aggregiert, um die absolute Unfallhäufigkeit im Tagesverlauf zu visualisieren.
 
-Das resultierende Histogramm zeigt ein charakteristisches zweigipfliges Muster, das stark mit den typischen Hauptverkehrszeiten korreliert. Während das Unfallaufkommen in den Nachtstunden (0 bis 4 Uhr) sein Minimum erreicht, ist ab 6 Uhr ein steiler Anstieg zu verzeichnen. Dieser mündet in ein erstes lokales Maximum zwischen 7 und 9 Uhr, welches im Diagramm als morgendliche „Rush Hour“ gekennzeichnet ist.
+Das resultierende Histogramm zeigt zwei deutliche Maxima, die mit den Hauptverkehrszeiten zusammenfallen. Während das Unfallaufkommen in den Nachtstunden (0 bis 4 Uhr) sein Minimum erreicht, ist ab 6 Uhr ein steiler Anstieg zu verzeichnen. Dieser mündet in ein erstes lokales Maximum zwischen 7 und 9 Uhr, welches im Diagramm als morgendliche „Rush Hour“ gekennzeichnet ist.
 
 Nach einem leichten Rückgang am Vormittag steigen die Fallzahlen ab der Mittagszeit erneut kontinuierlich an und erreichen zwischen 16 und 18 Uhr („Evening Rush Hour“) ihren absoluten Tageshöchstwert. Auffällig ist, dass der abendliche Peak signifikant höher ausfällt als der morgendliche, bevor die Kurve in den Abendstunden wieder stetig abfällt.
 
@@ -1020,7 +1021,7 @@ Zur statistischen Absicherung der beobachteten Muster wurden Chi-Quadrat-Tests d
 
 Für die vertiefende Analyse des Zusammenhangs zwischen Tageszeit und Verletzungsschwere wurde ein weiteres Verfahren angewendet. Im ersten Schritt wurden Datensätze mit fehlenden Werten in den Spalten „crash_hour“ und „Injury.Severity“ entfernt. Die stundenbasierten Zeitangaben wurden anschließend in die vier diskreten Kategorien „Morgen“ (6–10 Uhr), „Mittag“ (10–16 Uhr), „Abend“ (16–20 Uhr) und „Nacht“ (übrige Zeiten) aggregiert, um die Fallzahlen für den Test zu bündeln.
 
-Der darauf folgende Pearson’s Chi-Squared Test lieferte ebenfalls einen extrem niedrigen p-Wert (< 2.2e-16). Dieses Ergebnis belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Tageszeit und der Schwere der Verletzungen. Dies bedeutet, dass die Verteilung der Verletzungsgrade nicht zufällig ist, sondern signifikant von der Tageszeit abhängt – ein Befund, der die zuvor visuell nur leicht erkennbaren Unterschiede (z. B. nachts) statistisch validiert.
+Der darauf folgende Pearson’s Chi-Squared Test lieferte ebenfalls einen extrem niedrigen p-Wert (< 2.2e-16). Dieses Ergebnis belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Tageszeit und der Schwere der Verletzungen. Dies bedeutet, dass die Verteilung der Verletzungsgrade nicht zufällig ist, sondern signifikant von der Tageszeit abhängt. Damit können die zuvor nur visuell leicht erkennbaren Unterschiede (z. B. nachts) statistisch validiert werden.
 
 #### Zwischenfazit Fragestellung A
 
@@ -1030,7 +1031,7 @@ Die zeitliche Analyse bestätigt die aufgestellten Hypothesen weitgehend:
 
 **Wochentag-Unterschiede:** Die Heatmap offenbart klare Unterschiede zwischen Werktagen (klassisches Pendler-Muster) und Wochenenden (kein morgendlicher Peak, gleichmäßigerer Anstieg zur Tagesmitte). Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt statistisch, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.
 
-**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,15 % gegenüber 0,83 % am Morgen, 0,78 % am Mittag und 0,68 % am Abend – ein deutlich höheres Risiko. Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt diesen Zusammenhang statistisch.
+**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,15 % gegenüber 0,83 % am Morgen, 0,78 % am Mittag und 0,68 % am Abend. Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt diesen Zusammenhang statistisch.
 
 ---
 
@@ -1209,7 +1210,7 @@ chisq_weather_injury
 
 Zur statistischen Absicherung der visuellen Befunde wurde ein Pearson’s Chi-Quadrat-Test durchgeführt. Zuvor wurden die Daten gefiltert, um Einträge mit fehlenden Werten in den Variablen `Weather` und `Injury.Severity` explizit auszuschließen und so eine saubere Datenbasis für die Kreuztabellierung zu schaffen.
 
-Das Testergebnis liefert einen p-Wert von 3,002 · 10⁻¹², der weit unter dem üblichen Signifikanzniveau von 0,05 liegt. Dies belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Wetterlage und der Verletzungsschwere. Das Ergebnis bedeutet, dass die beobachteten Unterschiede – etwa das leicht erhöhte Risiko schwerer Verletzungen bei gutem Wetter (siehe vorherige Tabelle) – statistisch nicht zufällig sind, sondern systematisch mit den Witterungsbedingungen korrelieren. Aufgrund der großen Stichprobe werden hier selbst kleine strukturelle Abweichungen als statistisch signifikant identifiziert.
+Das Testergebnis liefert einen p-Wert von 3,002 · 10⁻¹², der weit unter dem üblichen Signifikanzniveau von 0,05 liegt. Dies belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Wetterlage und der Verletzungsschwere. Das Ergebnis bedeutet, dass die beobachteten Unterschiede, etwa das leicht erhöhte Risiko schwerer Verletzungen bei gutem Wetter (siehe vorherige Tabelle), statistisch nicht zufällig sind, sondern systematisch mit den Witterungsbedingungen korrelieren. Aufgrund der großen Stichprobe werden hier selbst kleine strukturelle Abweichungen als statistisch signifikant identifiziert.
 
 ```{r}
 # Chi-Quadrat-Test: Straßenbedingung × Fahrzeugschaden
@@ -1223,7 +1224,7 @@ chisq_surface_damage
 
 Zur statistischen Überprüfung des Zusammenhangs zwischen der Straßenbeschaffenheit und dem Ausmaß des Fahrzeugschadens wurde ein weiterer Chi-Quadrat-Test durchgeführt. Im Vorfeld wurden die Daten erneut bereinigt, indem alle Datensätze mit fehlenden Einträgen in den Variablen `Surface.Condition` und `Vehicle.Damage.Extent` entfernt wurden, um eine valide Kreuztabelle zu erstellen.
 
-Das Testergebnis bestätigt mit einem p-Wert von < 2.2e-16 die statistische Signifikanz auf höchstem Niveau. Damit lässt sich die Nullhypothese, dass Straßenzustand und Schadenshöhe voneinander unabhängig seien, eindeutig verwerfen. Dies untermauert die Erkenntnisse aus der vorangegangenen Visualisierung statistisch: Die beobachteten Auffälligkeiten – etwa die gehäuften Totalschäden bei Wasser oder spezifische Schadensbilder bei Glätte – sind nicht zufällig, sondern es besteht ein systematischer Zusammenhang zwischen dem Untergrund und der Schwere des Sachschadens.
+Das Testergebnis bestätigt mit einem p-Wert von < 2.2e-16 die statistische Signifikanz auf höchstem Niveau. Damit lässt sich die Nullhypothese, dass Straßenzustand und Schadenshöhe voneinander unabhängig seien, eindeutig verwerfen. Dies untermauert die Erkenntnisse aus der vorangegangenen Visualisierung statistisch: Die beobachteten Auffälligkeiten, etwa die gehäuften Totalschäden bei Wasser oder spezifische Schadensbilder bei Glätte, sind nicht zufällig, sondern es besteht ein systematischer Zusammenhang zwischen dem Untergrund und der Schwere des Sachschadens.
 
 #### Zwischenfazit Fragestellung B
 
@@ -1413,7 +1414,7 @@ Die Analyse bestätigt beide Teile der aufgestellten Hypothese eindeutig:
 
 **Verletzungsschwere:** Die Visualisierung bestätigt, dass Unfälle unter Alkoholeinfluss zu einer Verschiebung hin zu schwereren Verletzungsfolgen führen. Der Anteil an „SUSPECTED SERIOUS INJURY" und „FATAL INJURY" ist bei alkoholisierten Fahrern sichtbar erhöht, während die Kategorie „POSSIBLE INJURY" bei nüchternen Fahrern dominiert.
 
-**Fazit:** Die Hypothese ist vollständig bestätigt – Substanzeinfluss ist sowohl mit signifikant höherer Unfallschuld als auch mit schwereren Verletzungen assoziiert.
+**Fazit:** Die Hypothese ist vollständig bestätigt. Substanzeinfluss ist sowohl mit signifikant höherer Unfallschuld als auch mit schwereren Verletzungen assoziiert.
 
 ---
 
@@ -1453,7 +1454,7 @@ distraction_counts %>%
 
 Zur Analyse der Ablenkungsursachen wurden zunächst Datensätze mit fehlenden Angaben in der Variable Driver.Distracted.By bereinigt. Die verbleibenden Daten wurden aggregiert, um die absolute Häufigkeit der registrierten Ablenkungsarten zu visualisieren.
 
-Die Ergebnisse zeigen, dasss in der Mehrzahl der Fälle (62,7 %) keine Ablenkung des Fahrers dokumentiert wurde. In rund 20 % der Unfälle konnte keine eindeutige Aussage zur Ablennkung getroffen werden ("UNKNOWN"). Die häufigste identifizierte Ablenkungsform ist die visuelle Ablenkung mit einem Anteil von etwa 11 %. Andere Ablenkungsarten, darunter Handynutzung oder sonstige externe Einflüsse, treten vergleichsweise selten auf.
+Die Ergebnisse zeigen, dass in der Mehrzahl der Fälle (62,7 %) keine Ablenkung des Fahrers dokumentiert wurde. In rund 20 % der Unfälle konnte keine eindeutige Aussage zur Ablenkung getroffen werden ("UNKNOWN"). Die häufigste identifizierte Ablenkungsform ist die visuelle Ablenkung mit einem Anteil von etwa 11 %. Andere Ablenkungsarten, darunter Handynutzung oder sonstige externe Einflüsse, treten vergleichsweise selten auf.
 
 #### Zusammenhang: Ablenkung und Kollisionstyp
 
@@ -1539,7 +1540,7 @@ chisq_distraction <- chisq.test(table(distraction_collision_chi$Driver.Distracte
 chisq_distraction
 ```
 
-Zur statistischen Absicherung der deskriptiven Befunde wurde ein Pearson's Chi-Quadrat-test zwischen der Ablenkungsart und dem Kollisionstyp durchgeführt. Auch hier wurden zuvor Datensätze mit fehlenden Angaben ausgeschlossen.
+Zur statistischen Absicherung der deskriptiven Befunde wurde ein Pearson's Chi-Quadrat-Test zwischen der Ablenkungsart und dem Kollisionstyp durchgeführt. Auch hier wurden zuvor Datensätze mit fehlenden Angaben ausgeschlossen.
 
 Der Test ergibt einen extrem kleinen p-Wert (p < 2,2 e-16), womit die Nullhypothese der Unabhängigkeit klar verworfen werden kann. Es besteht somit ein hochsignifikanter statistischer Zusammenhang zwischen der Art der Ablenkung und dem Kollisionstyp, was die zuvor beobachteten Muster bestätigt.
 
@@ -1615,7 +1616,7 @@ data %>%
 ```
 
 Zur Einordnung der betrachteten Unfallgruppe wurde zunächst die Verteilung der nicht-motorisierten Verkehrsteilnehmer analysiert. Grundlage bildet die Variable "Related.Non.Motorist", wobei ausschließlich Datensätze mit gültigen Einträgen berücksichtigt wurden.
-Die Auswertung zeigt, dass Fußgänger den mit Abstand größten Anteil der nicht-motorisierten Unfallbeteiligten darstellen. Fahrradfahrer bilden die zweitgrößte Gruppe, ihr Anteil fällt jedoch deutlich geringer aus. Andere Formen nicht-motorisierter Verkehrsteilnehmer spielen im vorliegenden Datensatz nur eine untergeordnete Rolle. Damit fokussiert sich die weitere Anaylse inhaltlich primär auf das Unfallrisiko von Fußgängern und Radfahrern.
+Die Auswertung zeigt, dass Fußgänger den mit Abstand größten Anteil der nicht-motorisierten Unfallbeteiligten darstellen. Fahrradfahrer bilden die zweitgrößte Gruppe, ihr Anteil fällt jedoch deutlich geringer aus. Andere Formen nicht-motorisierter Verkehrsteilnehmer spielen im vorliegenden Datensatz nur eine untergeordnete Rolle. Damit fokussiert sich die weitere Analyse inhaltlich primär auf das Unfallrisiko von Fußgängern und Radfahrern.
 
 #### Lichtverhältnisse bei Fußgänger-/Radfahrerunfällen
 
@@ -1770,7 +1771,7 @@ chisq_nonmotorist_injury
 ```
 
 Zur statistischen Absicherung der beobachteten Unterschiede wurden zwei Pearson-Chi-Quadrat-Tests durchgeführt. Im ersten Test wurde der Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und den Lichtverhältnissen untersucht. Im zweiten Test wurde geprüft, ob ein Zusammenhang zwischen der Beteiligung von Fußgängern/Radfahrern und der Verletzungsschwere besteht.
-Beide Tests ergebn extrem niedrige p-Werte (p = 1,59e-09 für Lichtverhältnisse bzw. p < 2,2e-16 für Verletzungsschwere). Damit kann die Nullhypothese der Unabhängigkeit in beiden Fällen klar verworfen werden. Es besteht somit ein statistisch signifikanter Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und sowohl den Lichtverhältnissen als auch der Verletzungsschwere.
+Beide Tests ergeben extrem niedrige p-Werte (p = 1,59e-09 für Lichtverhältnisse bzw. p < 2,2e-16 für Verletzungsschwere). Damit kann die Nullhypothese der Unabhängigkeit in beiden Fällen klar verworfen werden. Es besteht somit ein statistisch signifikanter Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und sowohl den Lichtverhältnissen als auch der Verletzungsschwere.
 
 #### Zwischenfazit Fragestellung E
 
@@ -1809,7 +1810,7 @@ data %>%
   theme_minimal()
 ```
 
-Die Visualisieurng zeigt die räumliche Verteilung der Verkehrsunfälle in Montgomery County. Dabei werden lineare Strukturen sichtbar, die den Verlauf von Straßen widerspiegeln. Straßenabschnitte mit einer hohen Punktedichte weisen auf Bereiche mit gehäuftem Unfallgeschehen hin und sind vermutlich zugleich stärker frquentierte Verkehrswege. 
+Die Visualisierung zeigt die räumliche Verteilung der Verkehrsunfälle in Montgomery County. Dabei werden lineare Strukturen sichtbar, die den Verlauf von Straßen widerspiegeln. Straßenabschnitte mit einer hohen Punktedichte weisen auf Bereiche mit gehäuftem Unfallgeschehen hin und sind vermutlich zugleich stärker frequentierte Verkehrswege. 
 
 #### Dichtekarte der Unfallhotspots
 
@@ -1887,7 +1888,7 @@ data %>%
   theme_minimal()
 ```
 
-Die Grafik vergleicht die räumliche Verteilung von schweren unfällen mit Unfällen ohne Verletzungen anhand von Dichtekonturen. Es wird deutlich, dass sich beide Unfallarten größtenteils in denselben geografischen Räumen bündeln. Gleichzeitig zeigt sich, dass die Dichtekonturen schwerer Unfälle räumlich etwas breiter gestreut sind als jene ohne Verletzungen. Schwere Unfälle treten somit nicht ausschließlich in den dichtesten Unfallhotspots auf, sondern auch in weniger stark frequentierten Bereichen.
+Die Grafik vergleicht die räumliche Verteilung von schweren Unfällen mit Unfällen ohne Verletzungen anhand von Dichtekonturen. Es wird deutlich, dass sich beide Unfallarten größtenteils in denselben geografischen Räumen bündeln. Gleichzeitig zeigt sich, dass die Dichtekonturen schwerer Unfälle räumlich etwas breiter gestreut sind als jene ohne Verletzungen. Schwere Unfälle treten somit nicht ausschließlich in den dichtesten Unfallhotspots auf, sondern auch in weniger stark frequentierten Bereichen.
 
 #### Top-Unfallstandorte
 
@@ -1915,7 +1916,6 @@ Nach Aggregation der Daten auf gerundete Koordinaten lassen sich die Hotspots mi
 Die räumliche Analyse der Verkehrsunfälle in Montgomery County zeigt, dass sich Unfälle geografisch entlang der Straßen verteilen. Besonders hohe Unfallhäufigkeiten treten zwischen den Längengraden -77,3 und -76,9, sowie den Breitengraden 38,95 und 39,2 auf, was auf die urbaneren Bereiche des Countys hindeutet. Ein konkreter Hotspots nach Aggregation gerundeter Koordinaten ist mit 38.829 Unfällen Breitengrad 39 und Längengrad -77.
 
 Die Verteilung schwerer Unfälle ähnelt weitgehend der allgemeinen Unfallverteilung, zeigt jedoch eine etwas größere Streuung, was darauf hindeutet, dass schwere Unfälle nicht allein in den Hotspots auftreten.
----
 
 ### Ergänzende Analyse: Fahrzeugtypen und Fahrer-Herkunft
 
@@ -1944,7 +1944,7 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-Der Großteil der bei den Unfällen beteiligten Fahrzeuge waren **normale Pkw** (140.074). Darauf folgen **Sport Utility Vehicles** mit 21.196 Unfällen. **Busse, Pickups und Vans** machen jeweils deutlich geringere Anteile aus, jeweils rund 8.000 Unfälle.
+Der Großteil der bei den Unfällen beteiligten Fahrzeuge waren normale Pkw (140.074). Darauf folgen Sport Utility Vehicles mit 21.196 Unfällen. Busse, Pickups und Vans machen jeweils deutlich geringere Anteile aus, jeweils rund 8.000 Unfälle.
 
 #### Verletzungsschwere nach Fahrzeugtyp
 
@@ -1987,7 +1987,7 @@ vehicle_severity %>%
   head(10)
 ```
 
-Die Hyothese, dass Motorradfahrer häufiger schwerere Verletzungen erleiden, wird durch die Daten bestätigt. Bei Motorrädern liegt der Anteil schwerer Verletzungen bei 21,1 %, bei Mopeds bei 19,8 %. Darauf folgt mit deutlich geringerem Anteil Geländefahrzeuge mit nur 2,6 %, was den Abstand zu Motorrädern und Mopeds noch einmal verdeutlicht.
+Die Hypothese, dass Motorradfahrer häufiger schwerere Verletzungen erleiden, wird durch die Daten bestätigt. Bei Motorrädern liegt der Anteil schwerer Verletzungen bei 21,1 %, bei Mopeds bei 19,8 %. Darauf folgt mit deutlich geringerem Anteil Geländefahrzeuge mit nur 2,6 %, was den Abstand zu Motorrädern und Mopeds noch einmal verdeutlicht.
 
 #### Schuldquote nach Fahrzeugtyp
 
@@ -2023,7 +2023,7 @@ vehicle_fault %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-Die höchste Schuldquote finden sich bei unbekannten Fahrzeugen, was jedoch wenig aussagekräftig ist. Unter den bekannten Fahrzeugtypen haben Feuerwehrfahrzeuge mit 69,9 % und Krankenwagen mit 64,5 % die höchsten Werte. Dies könnte darauf zurückzuführen sein, dass diese Einsatzfahrzeuge im Notfall schnell unterwegs sind und ihre Aufmerksamkeit auf das Retten von Leben richten müssen, wodurch sie im Straßenverkehr möglicherweise weniger vorsichtig agieren.
+Die höchste Schuldquote findet sich bei unbekannten Fahrzeugen, was jedoch wenig aussagekräftig ist. Unter den bekannten Fahrzeugtypen haben Feuerwehrfahrzeuge mit 69,9 % und Krankenwagen mit 64,5 % die höchsten Werte. Dies könnte darauf zurückzuführen sein, dass diese Einsatzfahrzeuge im Notfall schnell unterwegs sind und ihre Aufmerksamkeit auf das Retten von Leben richten müssen, wodurch sie im Straßenverkehr möglicherweise weniger vorsichtig agieren.
 
 #### Top Fahrzeugmarken
 
@@ -2097,7 +2097,7 @@ data %>%
   arrange(age_group)
 ```
 
-Ab einem Fahrzeugalter von acht Jahren steigt der Anteil schwerer Unfälle. Fahrzeuge, die 21 Jahre oder älter sind, weisen mit 1,64 % den höchsten Anteil auf. Dies erscheint plausibel, da ältere Fahrzeuge meist schlechter ausgestattet und sicherheitstechnisch weniger modern sind. zudem nimmt die Funktionsfähigkeit des Fahrzeugs mit der Zeit ab, was das Risiko schwerer Unfälle erhöht.
+Ab einem Fahrzeugalter von acht Jahren steigt der Anteil schwerer Unfälle. Fahrzeuge, die 21 Jahre oder älter sind, weisen mit 1,64 % den höchsten Anteil auf. Dies erscheint plausibel, da ältere Fahrzeuge meist schlechter ausgestattet und sicherheitstechnisch weniger modern sind. Zudem nimmt die Funktionsfähigkeit des Fahrzeugs mit der Zeit ab, was das Risiko schwerer Unfälle erhöht.
 
 #### Herkunft der Fahrer (Führerschein-Staat)
 
@@ -2179,7 +2179,6 @@ Mit 59 % ist der Anteil schuldiger Fahrer aus anderen Bundesstaaten wie erwartet
 Die Analyse bestätigt, dass sich Unfallschwere und Schuldquote je nach Fahrzeugtyp unterscheiden. Während Pkw den Großteil der Unfälle ausmachen, weisen insbesondere Motorräder und Mopeds den höchsten Anteil schwerer Verletzungen auf, was die Hypothese des fehlenden Karosserieschutzes stützt. Auch das Fahrzeugalter spielt eine Rolle. Ältere Fahrzeuge sind seltener in Unfällen verwickelt, zeigen jedoch einen höheren Anteil schwerer Verletzungen.
 
 Hinsichtlich der Herkunft der Fahrer stammen die meisten Unfallbeteiligten erwartungsgemäß aus Maryland. Auswärtige Fahrer sind zwar zahlenmäßig klar in der Minderheit, weisen jedoch eine etwas höhere Schuldquote auf als lokale Fahrer. Die Unterschiede sind insgesamt moderat, was darauf hindeutet, dass Ortskenntnis zwar einen Einfluss hat, jedoch nicht allein ausschlaggebend für die Schuld des Fahrers ist.
----
 
 ## 5. Zusammenfassung und Schlussfolgerung
 
@@ -2193,43 +2192,43 @@ Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2
 
 **Ergebnis:** Die zeitliche Analyse zeigt klare, statistisch signifikante Muster. Die Rush-Hour-Peaks (7–9 Uhr und 16–18 Uhr) sind deutlich erkennbar, wobei der abendliche Peak ausgeprägter ist als der morgendliche. Werktage zeigen das klassische Pendler-Muster, während Wochenenden ein gleichmäßigeres Unfallaufkommen zur Tagesmitte aufweisen. Der Anteil schwerer Verletzungen ist nachts (20–6 Uhr) mit 1,15 % deutlich höher als zu anderen Tageszeiten (0,68–0,83 %).
 
-**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Beide Teile der Hypothese wurden durch die Daten gestützt: Die Rush-Hour-Peaks treten wie erwartet auf, und nächtliche Unfälle verursachen trotz geringerer Häufigkeit signifikant schwerere Verletzungen.
+**Vergleich mit Hypothese:** Wir hatten erwartet, dass (1) Unfälle sich auf die Rush Hours konzentrieren und (2) nächtliche Unfälle zwar seltener, aber schwerer ausfallen. Beides bestätigt sich: Die Peaks morgens und abends sind deutlich sichtbar, und die Nachtunfälle zeigen trotz geringerer Zahl schwerere Verletzungen.
 
 #### Fragestellung B: Wetter und Straßenbedingungen
 
 **Ergebnis:** Bei klarem Wetter liegt der Anteil schwerer Verletzungen (0,86 %) höher als bei schlechtem Wetter (0,79 %). Besonders niedrig ist das Risiko bei Regen (0,67 %) und Schnee (0,60 %). Die höchste Quote findet sich bei Nebel (1,06 %), wo die Gefahr unterschätzt zu werden scheint. Bei Straßenbedingungen mit Wasser treten die meisten Totalschäden auf.
 
-**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Die kontraintuitive Hypothese der Risikokompensation wird durch die Daten gestützt: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an und fahren langsamer, was die Unfallschwere reduziert.
+**Vergleich mit Hypothese:** Die Vermutung lautete, dass schlechtes Wetter nicht zwangsläufig zu schwereren Unfällen führt, weil Fahrer ihr Verhalten anpassen. Das bestätigen die Daten: Bei Regen, Schnee oder Eis sinkt die Unfallschwere, was auf vorsichtigeres Fahren hindeutet.
 
 #### Fragestellung C: Substanzeinfluss und Schuldfrage
 
 **Ergebnis:** Bei nachgewiesenem Alkoholeinfluss liegt der Schuldanteil bei 97,6–98,9 %, bei Drogeneinfluss bei 96,3–99,3 %. Im Vergleich dazu sind nur 33,7 % der Fahrer mit Status „NOT SUSPECT" als schuldig eingestuft. Unfälle unter Alkoholeinfluss zeigen zudem eine Verschiebung hin zu schwereren Verletzungsfolgen (erhöhter Anteil FATAL und SUSPECTED SERIOUS INJURY).
 
-**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Beide Hypothesenteile (höhere Schuldquote und schwerere Verletzungen bei Substanzeinfluss) werden durch die Daten eindeutig gestützt.
+**Vergleich mit Hypothese:** Erwartet hatten wir, dass Fahrer unter Substanzeinfluss häufiger als schuldig eingestuft werden und dass solche Unfälle schwerer ausfallen. Beides zeigt sich deutlich in den Daten: Sowohl die Schuldquote als auch die Verletzungsschwere liegen bei Alkohol- oder Drogeneinfluss klar über dem Durchschnitt.
 
 #### Fragestellung D: Ablenkung am Steuer
 
 **Ergebnis:** Visuelle Ablenkung stellt die häufigste identifizierte Ablenkungsart dar. Insgesamt zeigt sich ein klarer Zusammenhang zwischen Ablenkung und Schuldfrage: Nicht abgelenkte Fahrer werden deutlich seltener als schuldig eingestuft, während nahezu alle Ablenkungsarten eine hohe Schuldquote aufweisen.
 
-**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — Entgegen der ursprünglichen Annahme ist nicht die Handynutzung, sondern die visuelle Ablenkung die häufigste Ablenkungsform. Die Hypothese bestätigt sich jedoch insofern, dass Handynutzung besonders häufig zu Auffahrunfällen führt.
+**Vergleich mit Hypothese:** Wir erwarteten, dass Handynutzung die häufigste Ablenkungsform ist und besonders oft zu Auffahrunfällen führt. Das stimmt nur teilweise: Am häufigsten ist tatsächlich visuelle Ablenkung allgemein, nicht speziell Handynutzung. Der zweite Teil bestätigt sich aber: Wer am Handy ist, verursacht überproportional viele Auffahrunfälle.
 
 #### Fragestellung E: Fußgänger- und Radfahrerunfälle
 
 **Ergebnis:** Entgegen der ursprünglichen Erwartung treten schwere Verletzungen bei reinen Fahrzeugunfällen mit 0,85 % etwas häufiger auf als bei Unfällen mit Fußgängern oder Radfahrern (0,32 %). Zudem ereignet sich die Mehrheit dieser Unfälle bei Tageslicht. Der Anteil der Unfälle bei Dunkelheit liegt bei 21,3 % und ist damit nur geringfügig höher als bei reinen Fahrzeugunfällen (19,7 %).
 
-**Vergleich mit Hypothese:** ✅ **Teilweise bestätigt** — Die Annahme, dass Unfälle mit Fußgängern oder Radfahrern häufiger bei Dunkelheit auftreten und zu schwereren Verletzungen führen, konnte nicht bestätigt werden. Lediglich die Vermutung einer Häufung während der Stoßzeiten am Morgen und am Abend hat sich bewahrheitet.
+**Vergleich mit Hypothese:** Unsere These war, dass Unfälle mit Fußgängern und Radfahrern häufiger bei Dunkelheit passieren und schwerer ausfallen als Fahrzeug-Fahrzeug-Unfälle. Das lässt sich so nicht bestätigen. Was sich allerdings zeigt, ist, dass sich diese Unfälle während der Stoßzeiten morgens und abends häufen.
 
 #### Fragestellung F: Räumliche Unfallhotspots
 
 **Ergebnis:** Besonders hohe Unfallhäufigkeiten treten im Bereich zwischen den Längengraden -77,3 und -76,9 sowie den Breitengraden 38,95 und 39,2 auf, was auf die urbaneren Bereiche des Countys hindeutet. Die räumliche Verteilung schwerer Unfälle ähnelt dabei weitgehend der allgemeinen Unfallverteilung, ist jedoch etwas breiter gestreut, was darauf schließt, dass schwere Unfälle nicht ausschließlich in den größten Unfallhotspots auftreten.
 
-**Vergleich mit Hypothese:** ⚠️ **Nicht vollständig testbar** — Da keine detaillierten geografischen Informationen zu Hauptverkehrsachsen, Knotenpunkten oder Schnellstraßen vorlagen, konnte die Hypothese, dass sich Unfälle gezielt an diesen Orten konzentrieren, nicht eindeutig überprüft werden. Auf Basis der räumlichen Analyse konnten jedoch potenzielle Hotspots identifiziert werden, die vermutlich stark frequentierte Verkehrsbereiche abbilden.
+**Vergleich mit Hypothese:** Wir hatten angenommen, dass Unfälle sich entlang von Hauptverkehrsachsen und an Knotenpunkten konzentrieren, während schwere Unfälle eher auf Schnellstraßen auftreten. Das ließ sich nicht vollständig prüfen, da der Datensatz keine Informationen zu Straßentypen enthält. Die räumliche Analyse zeigt allerdings klare Hotspots, die vermutlich stark befahrene Bereiche widerspiegeln.
 
 #### Fragestellung G: Fahrzeugtypen und Fahrer-Herkunft
 
 **Ergebnis:** Ältere Fahrzeuge sind insgesamt seltener an Unfällen beteiligt, weisen jedoch einen höheren Anteil schwerer Verletzungen auf. Zudem zeigen Motorräder und Mopeds im Vergleich zu anderen Fahrzeugtypen einen deutlich erhöhten Anteil schwerer Unfallfolgen. Fahrer aus anderen Staaten weisen eine leicht höhere Schuldquote auf, was darauf hindeutet, dass Ortskenntnis einen Einfluss auf das Unfallgeschehen haben kann.
 
-**Vergleich mit Hypothese:** ✅ **Vollständig bestätigt** — Wie vermutet weisen Motorrad- und Mopedfahrer den höchsten Anteil schwerer Verletzungen auf, was sich durch den fehlenden Karosserieschutz erklären lässt. Ebenso bestätigt sich die Annahme, dass eine geringere Ortskenntnis mit einer höheren Schuldquote einhergeht.
+**Vergleich mit Hypothese:** Die Annahme war, dass Motorradfahrer die höchste Rate schwerer Verletzungen haben und dass auswärtige Fahrer häufiger als schuldig eingestuft werden. Beides trifft zu. Motorrad- und Mopedfahrer sind am stärksten von schweren Verletzungen betroffen, was am fehlenden Karosserieschutz liegt. Fahrer von außerhalb Marylands weisen ebenfalls eine höhere Schuldquote auf, vermutlich wegen mangelnder Ortskenntnis.
 
 ### Gesamtfazit
 
@@ -2239,7 +2238,7 @@ Die Analyse der 204.688 Verkehrsunfälle aus Montgomery County (2015–2025) lie
 
 2. **Zeitliche Muster ermöglichen gezielte Prävention:** Das höhere Risiko schwerer Verletzungen in der Nacht (1,15 % vs. 0,68-0,83 %) sowie die Rush-Hour-Peaks bieten Ansatzpunkte für verstärkte Polizeipräsenz und Aufklärungskampagnen zu spezifischen Zeiten.
 
-3. **Risikokompensation funktioniert – meist:** Bei Regen und Schnee ist das Risiko schwerer Verletzungen niedriger als bei klarem Wetter, was auf angepasstes Fahrverhalten hindeutet. Bei Nebel versagt dieser Mechanismus jedoch (höchste Verletzungsquote mit 1,06 %).
+3. **Risikokompensation funktioniert meist:** Bei Regen und Schnee ist das Risiko schwerer Verletzungen niedriger als bei klarem Wetter, was auf angepasstes Fahrverhalten hindeutet. Bei Nebel versagt dieser Mechanismus jedoch (höchste Verletzungsquote mit 1,06 %).
 
 ### Limitationen
 
