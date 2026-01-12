@@ -99,6 +99,7 @@ Die Ergebnisse verdeutlichen, dass ein relevanter Anteil der untersuchten Person
 ```{r}
 library(treemap)
 library(dplyr)
+library(forcats)
 
 data <- read.csv("data/Final_data.csv")
 

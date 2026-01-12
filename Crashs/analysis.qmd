@@ -14,8 +14,7 @@ execute:
 
 ### Was interessiert uns an dem Datensatz?
 
-Der Datensatz dokumentiert Verkehrsunfälle in Montgomery County, Maryland, über einen Zeitraum von etwa 10 Jahren (2015–2025). 
-Besonders interessant ist die Möglichkeit, menschliche Verhaltensfaktoren wie Alkohol- und Drogeneinfluss, Ablenkung am Steuer sowie die Interaktion mit vulnerablen Verkehrsteilnehmern zu untersuchen.
+Der Datensatz dokumentiert Verkehrsunfälle in Montgomery County, Maryland, über einen Zeitraum von etwa 10 Jahren (2015–2025). Besonders interessant ist die Möglichkeit, menschliche Verhaltensfaktoren wie Alkohol- und Drogeneinfluss, Ablenkung am Steuer sowie die Interaktion mit vulnerablen Verkehrsteilnehmern zu untersuchen.
 
 Verkehrsunfälle sind keine rein zufälligen Ereignisse, sondern entstehen durch das Zusammenspiel von menschlichem Verhalten, Umweltbedingungen und infrastrukturellen Faktoren. Unser Ziel ist es, Muster und Zusammenhänge zu identifizieren, die zur Unfallprävention beitragen könnten.
 
@@ -156,6 +155,7 @@ Die Ausgabe zeigt, welche Datentypen den einzelnen Spalten zugeordnet sind und w
 Ein weiterer interessanter Aspekt ist die Betrachtung des Zeitraums, den die Daten abdecken. Dieser lässt sich über die Variable Crash.Date.Time ermitteln, die jedoch zunächst in ein Datumsobjekt konvertiert werden muss.
 
 ### ID-Werte & Duplikate
+
 Die Variablen Person.ID und Vehicle.ID enthalten für den gesamten Datensatz eindeutige Werte. Demnach war keine Person und kein Fahrzeug innerhalb des betrachteten Zeitraums an mehreren Unfällen beteiligt.
 
 Die Variable Report.Number weist hingegen nur 115.360 eindeutige Werte bei insgesamt 204.688 Dateneinträgen auf. Dies deutet darauf hin, dass zu einem einzelnen Unfall mehrere Datensätze existieren können. Dies kann der Fall sein, wenn mehrere Personen oder Fahrzeuge in einem Unfall beteiligt waren. Dies wird im Folgenden näher untersucht:
@@ -177,9 +177,10 @@ duplicate_reports %>%
   )
 ```
 
-Aus dem Tabellenausschnitt wird deutlich, dass pro Person ein eigener Dateneintrag für jeden Crash Report existiert. Wenn mehrere Personen an einem Unfall beteiligt sind, erscheinen entsprechend mehrere Datensätze für denselben Crash Report. Beispielsweise sind im Crash Report "DD5502000M" zwei verschiedene Personen erfasst, was zu zwei separaten Dateneinträgen für diesen Bericht führt. 
+Aus dem Tabellenausschnitt wird deutlich, dass pro Person ein eigener Dateneintrag für jeden Crash Report existiert. Wenn mehrere Personen an einem Unfall beteiligt sind, erscheinen entsprechend mehrere Datensätze für denselben Crash Report. Beispielsweise sind im Crash Report "DD5502000M" zwei verschiedene Personen erfasst, was zu zwei separaten Dateneinträgen für diesen Bericht führt.
 
 Weitergehend wird untersucht, wie viele Personen maximal an einem einzelnen Unfall beteiligt sind:
+
 ```{r}
 duplicate_reports %>%
   arrange(desc(dupe_count)) %>%
@@ -217,6 +218,7 @@ date_time_counts %>%
 Die Auswertung zeigt, dass in 2.714 Fällen mindestens zwei Unfälle denselben Zeitstempel aufweisen. Das Maximum liegt bei fünf gleichzeitig erfassten Unfällen.
 
 Ein weiterer relevanter Aspekt ist die Region, aus der die Daten stammen. Hierfür wurde die Variable Agency.Name analysiert, die die verschiedenen Polizeibehörden erfasst:
+
 ```{r}
 unique(data$Agency.Name)
 ```
@@ -225,9 +227,10 @@ Die Auswertung zeigt, dass die Daten aus Montgomery County, Maryland, USA stamme
 
 ## 3. Bearbeiten/Transformieren der Daten
 
-Für die Datenbereinigung wurde jede Spalte systematisch auf fehlende Werte, fehlerhafte Einträge, Inkonsistenzen und Redundanzen geprüft. Bei Bedarf wurden die Variablen anschließend in die passenden Datentypen konvertiert. 
+Für die Datenbereinigung wurde jede Spalte systematisch auf fehlende Werte, fehlerhafte Einträge, Inkonsistenzen und Redundanzen geprüft. Bei Bedarf wurden die Variablen anschließend in die passenden Datentypen konvertiert.
 
 Da viele Spalten sowohl klein- als auch großgeschriebene Einträge enthalten, wurden zunächst alle Character-Werte in Großbuchstaben konvertiert und führende sowie nachgestellte Leerzeichen entfernt. Dadurch lassen sich Werte, die sich lediglich in der Groß-/Kleinschreibung unterscheiden, direkt zusammenfassen.
+
 ```{r}
 data <- data %>%
   mutate(across(where(is.character), ~ str_to_upper(str_trim(.)))
@@ -235,6 +238,7 @@ data <- data %>%
 ```
 
 Anschließend wurden die eindeutigen Werte jeder Spalte überprüft, um inkonsistente Schreibweisen zusammenzuführen und potenziell kategoriale Variablen zu identifizieren. Dabei wurden zusammengehörige Einträge mithilfe der Funktion "str_detect()" aus der Bibliothek stringr vereinheitlicht:
+
 ```{r}
 sort(unique(data$Agency.Name)
 )
@@ -247,7 +251,8 @@ data$Agency.Name[str_detect(data$Agency.Name, "^(MCP|MARY)")] <- "Maryland-Natio
 data$Agency.Name <- as.factor(data$Agency.Name)
 ```
 
-Auch die Spalte "Route.Type" wurde bereinigt. Leere Werte und Platzhalter wie "unknown" in NA umgewandelt. Da jeder Unfall auf einer Route stattfindet, der konkrete Routentyp in diesen Fällen jedoch nicht bestimmbar ist, gehen durch diese Konvertierung keine relevanten Informationen verloren. 
+Auch die Spalte "Route.Type" wurde bereinigt. Leere Werte und Platzhalter wie "unknown" in NA umgewandelt. Da jeder Unfall auf einer Route stattfindet, der konkrete Routentyp in diesen Fällen jedoch nicht bestimmbar ist, gehen durch diese Konvertierung keine relevanten Informationen verloren.
+
 ```{r}
 sort(unique(data$Route.Type))
 
@@ -260,7 +265,8 @@ data$Route.Type[str_detect(data$Route.Type, "^UNK") | data$Route.Type==""] <- NA
 data$Route.Type <- as.factor(data$Route.Type)
 ```
 
-Die Variable "ACRS.Report.Type" enthielt bereits drei eindeutige Werte mit eigenen Bedeutungen. Daher war keine weitere Zusammenführung oder Behandlung fehlender Werte notwendig: 
+Die Variable "ACRS.Report.Type" enthielt bereits drei eindeutige Werte mit eigenen Bedeutungen. Daher war keine weitere Zusammenführung oder Behandlung fehlender Werte notwendig:
+
 ```{r}
 sort(unique(data$ACRS.Report.Type))
 
@@ -273,6 +279,7 @@ Die Spalte "Crash.Date.Time" war ursprünglich als character abgespeichert und e
 Da sich die Daten auf Montgomery County, Maryland, USA beziehen, wurde die Zeitzone "EST" angegeben.
 
 Das Minimum und Maximum der Datumswerte erfassen den Zeitraum der Daten vom 01.01.2015 bis zum 21.10.2025, also die letzten 10 Jahre.
+
 ```{r}
 head(data$Crash.Date.Time, 10)
 
@@ -286,6 +293,7 @@ skim(data)
 Die Spalte "Road.Name" enthält 4673 verschiedene Straßennamen, sodass eine vollständige Überprüfung aller Einträge nicht praktikabel ist. Aus dem Ergebnis von skim(data) geht jedoch hervor, dass keine Werte NA sind, während 23.510 Werte leer vorliegen. Diese leeren Einträge wurden in NA konvertiert, da sie keine inhaltliche Bedeutung besitzen.
 
 Dasselbe Vorgehen wurde für die Spalten "Cross.Street.Name", "Off.Road.Description", "Circumstance" und "Drivers.License.State" angewendet, die ebenfalls eine große Anzahl eindeutiger Werte sowie zahlreiche leere Werte enthalten.
+
 ```{r}
 # sort(unique(data$Road.Name))
 road_names <- sort(unique(data$Road.Name))
@@ -348,9 +356,9 @@ Da ein Unfall in den Daten mehrere Zeilen umfassen kann - jeweils für die unter
 
 Zur Überprüfung der Datenkonsistenz wurde untersucht, ob sich die Inhalte der Spalte "Related.Non.Motorist" innerhalb eines Unfalls unterscheiden. Dies war nicht der Fall, was bedeutet, dass die Einträge für nicht motorisierte Beteiligte innerhalb desselben Unfalls konsistent sind.
 
-Anschließend wurde die Spalte "Related Non-Motorist" inhaltlich bereinigt und zusammengefasst, um Inkonsistenzen und redundante Schreibweisen zu reduzieren. Eine Unterscheidung zwischen elektrischen und nicht-elektrischen Fortbewegungsmitteln wurde bewusst nicht vorgenommen, da zwar einige Kategorien eine solche Differenzierung ermöglichen (z.B. "Scooter", "Wheelchair"), andere jedoch keine klare Einteilung enthalten (z.B. "BICYCLIST", "Other Conveyance"). 
+Anschließend wurde die Spalte "Related Non-Motorist" inhaltlich bereinigt und zusammengefasst, um Inkonsistenzen und redundante Schreibweisen zu reduzieren. Eine Unterscheidung zwischen elektrischen und nicht-elektrischen Fortbewegungsmitteln wurde bewusst nicht vorgenommen, da zwar einige Kategorien eine solche Differenzierung ermöglichen (z.B. "Scooter", "Wheelchair"), andere jedoch keine klare Einteilung enthalten (z.B. "BICYCLIST", "Other Conveyance").
 
-Die Entscheidung auf diese Kategorie zu verzichten, beruht darauf, dass eine teilweise Zuordnung die Realität unvollständig abbilden würde. Da nicht alle Werte einer elektrischen oder nicht-elektrischen Klasse zugeordnet werden können, wäre eine Analyse auf Basis dieser Klassifizierung nicht verlässlich. 
+Die Entscheidung auf diese Kategorie zu verzichten, beruht darauf, dass eine teilweise Zuordnung die Realität unvollständig abbilden würde. Da nicht alle Werte einer elektrischen oder nicht-elektrischen Klasse zugeordnet werden können, wäre eine Analyse auf Basis dieser Klassifizierung nicht verlässlich.
 
 ```{r}
 data %>%
@@ -614,9 +622,9 @@ data <- data %>%
 str(data$Parked.Vehicle)
 ```
 
-In der Spalte "Injury.Severity" wurden leere Einträge in fehlende Werte (NA) umgewandelt. Die verbleibenden eindeutigen Werte wurden anschließend als kategoriale Variablen definiert, um sie für die weitere Analyse nutzbar zu machen. 
+In der Spalte "Injury.Severity" wurden leere Einträge in fehlende Werte (NA) umgewandelt. Die verbleibenden eindeutigen Werte wurden anschließend als kategoriale Variablen definiert, um sie für die weitere Analyse nutzbar zu machen.
 
-Ein vergleichbares Vorgehen wurde bei der Spalte "Vehicle.Damage.Extent" angewendet. Der Unterschied besteht darin, dass hier keine leeren Einträge, sondern die Werte "N/A", "OTHER" und "UNKNOWN" in NA umgewandelt wurden. Diese Werte stehen für Fälle, in denen das genaue Schadensausmaß nicht bekannt oder nicht spezifizierbar ist. Da andere Ausprägungen wie "NO DAMAGE" oder "VEHICLE NOT AT SCENE" vorhanden sind, ist davon auszugehen, dass bei den Fällen ein Schadensgrad existiert, jedoch nicht eindeutig zugeordnet werden konnte. 
+Ein vergleichbares Vorgehen wurde bei der Spalte "Vehicle.Damage.Extent" angewendet. Der Unterschied besteht darin, dass hier keine leeren Einträge, sondern die Werte "N/A", "OTHER" und "UNKNOWN" in NA umgewandelt wurden. Diese Werte stehen für Fälle, in denen das genaue Schadensausmaß nicht bekannt oder nicht spezifizierbar ist. Da andere Ausprägungen wie "NO DAMAGE" oder "VEHICLE NOT AT SCENE" vorhanden sind, ist davon auszugehen, dass bei den Fällen ein Schadensgrad existiert, jedoch nicht eindeutig zugeordnet werden konnte.
 
 ```{r}
 sort(unique(data$Injury.Severity))
@@ -633,9 +641,10 @@ data$Vehicle.Damage.Extent[str_detect(data$Vehicle.Damage.Extent, "^(N/A|OTH|UNK
 data$Vehicle.Damage.Extent <- as.factor(data$Vehicle.Damage.Extent)
 ```
 
-Die numerische Spalte "Speed Limit" enthält Werte von 0 bis 75  in 5er-Schritten. Dabei fällt der Wert 0 auf. Da ein Fahrzeug mit einer Geschwindigkeit von 0 nicht fahren kann, ist dieser Wert als gültiges Geschwindigkeitslimit nicht sinnvoll. Denkbar wäre, dass dieser Wert nur für parkende Fahrzeuge zutrifft.
+Die numerische Spalte "Speed Limit" enthält Werte von 0 bis 75 in 5er-Schritten. Dabei fällt der Wert 0 auf. Da ein Fahrzeug mit einer Geschwindigkeit von 0 nicht fahren kann, ist dieser Wert als gültiges Geschwindigkeitslimit nicht sinnvoll. Denkbar wäre, dass dieser Wert nur für parkende Fahrzeuge zutrifft.
 
 Bei einer näheren Betrachtung der Fälle, in denen das Geschwindigkeitslimit scheinbar 0 beträgt, zeigt sich jedoch, dass 85% dieser Fälle nicht auf parkende Fahrzeuge entfallen. Daher liegt die Vermutung nahe, dass der Wert 0 als Platzhalter für fehlende Werte verwendet wurde.
+
 ```{r}
 sort(unique(data$Speed.Limit))
 
@@ -661,15 +670,16 @@ data$Vehicle.Year[data$Vehicle.Year < 1900] <- NA
 data$Vehicle.Year[data$Vehicle.Year > 2025] <- NA
 ```
 
-Die Spalten "Vehicle.Make" und "Vehicle.Model" enthalten die Hersteller- und Modellbezeichnungen der Fahrzeuge. In den Rohdaten treten jedoch zahlreiche unterschiedliche Schreibweisen, Abkürzungen und Varianten derselben Bezeichnung auf. Eine manuelle Vereinheitlichung wäre daher sehr zeitaufwendig. 
+Die Spalten "Vehicle.Make" und "Vehicle.Model" enthalten die Hersteller- und Modellbezeichnungen der Fahrzeuge. In den Rohdaten treten jedoch zahlreiche unterschiedliche Schreibweisen, Abkürzungen und Varianten derselben Bezeichnung auf. Eine manuelle Vereinheitlichung wäre daher sehr zeitaufwendig.
 
-Um eine automatisierte Zuordnung zu ermöglichen, wurden zunächst die 200 am häufigsten vorkommenden Begriffe extrahiert. Diese dienen als Referenzliste, anhand derer jedes Vorkommnis aus den Spalten Vehicle.Make und Vehicle.Model abgeglichen wird. Da es jedoch Bezeichnungen gibt, die nicht direkt über den Namen einer Marke oder eines Modells zugeordnet werden können, wurde diese Liste manuell um bekannte Alternativ- und Alias-Bezeichnungen erweitert. So wurde beispielsweise der Begriff "DAIMLER" ergänzt, um ihn später mit den Einträgen von Mercedes-Benz zusammenführen zu können. 
+Um eine automatisierte Zuordnung zu ermöglichen, wurden zunächst die 200 am häufigsten vorkommenden Begriffe extrahiert. Diese dienen als Referenzliste, anhand derer jedes Vorkommnis aus den Spalten Vehicle.Make und Vehicle.Model abgeglichen wird. Da es jedoch Bezeichnungen gibt, die nicht direkt über den Namen einer Marke oder eines Modells zugeordnet werden können, wurde diese Liste manuell um bekannte Alternativ- und Alias-Bezeichnungen erweitert. So wurde beispielsweise der Begriff "DAIMLER" ergänzt, um ihn später mit den Einträgen von Mercedes-Benz zusammenführen zu können.
 
 Die Zuordnung erfolgt mithilfe der Jaro-Winkler-Distanz, die die Unähnlichkeit zweier Zeichenketten misst. Für jeden Eintrag wird ein Distanzvektor zu allen 200 Referenzbegriffen berechnet. Anschließend wird der kleinste Distanzwert ausgewählt, da er die größte Ähnlichkeit zwischen dem ursprünglichen Begriff und der Referenz darstellt.
 
 Nicht jeder Eintrag lässt sich sinnvoll zuordnen. Deshalb wird nicht automatisch einfach der nächstbeste Treffer übernommen. Stattdessen wurde ein Threshold definiert, der eine Mindestähnlichkeit gewährleisten soll. Nach exemplarischen Tests verschiedener Kombinationen wurde ein Schwellwert von 0.2 festgelegt. Nur wenn der ursprüngliche Wert nicht leer ist und die berechnete Jaro-Winkler-Distanz unterhalb von 0.2 liegt, wird der entsprechende Referenzbegriff übernommen. Ist dies nicht der Fall, wird der Wert als NA gesetzt, um falsche Zuordnungen zu vermeiden.
 
-Da es Bezeichnungen gibt, die nicht durch den Namen direkt zugeordnet werden können, wurde die Liste der 200 Bezeichnungen manuell um bekannte Bezeichnungen ergänzt. Beispielsweise wurde DAIMLER hinzugefügt, um es später mit den Begriffen von Mercedes-Benz zu vereinen. 
+Da es Bezeichnungen gibt, die nicht durch den Namen direkt zugeordnet werden können, wurde die Liste der 200 Bezeichnungen manuell um bekannte Bezeichnungen ergänzt. Beispielsweise wurde DAIMLER hinzugefügt, um es später mit den Begriffen von Mercedes-Benz zu vereinen.
+
 ```{r}
 # sort(unique(data$Vehicle.Make))
 vehicle_makes <- sort(unique(data$Vehicle.Make))
@@ -768,13 +778,14 @@ data <- data %>%
 table(data$models_matched)
 ```
 
-Die Spalte "Location" enthält die Breiten- und Längengrade der Unfallorte als Zeichenketten. Daneben existieren die numerischen Spalten "Latitude" und "Longitude", die jeweils nur den Breiten- bzw. Längengrad enthalten. 
+Die Spalte "Location" enthält die Breiten- und Längengrade der Unfallorte als Zeichenketten. Daneben existieren die numerischen Spalten "Latitude" und "Longitude", die jeweils nur den Breiten- bzw. Längengrad enthalten.
 
 Für Montgomery County liegen die gültigen Werte typischerweise zwischen 38.94 und 39.35 für die Breiten und zwischen -77.52 und -76.89 für die Längengrade. Betrachtet man jedoch die Minima und Maxima der Spalten Latitude und Longitude, so liegen einige Werte außerhalb dieses Bereichs. Insgesamt betrifft dies 214 Fälle.
 
 Eine erste Sichtung zeigt, dass diese Orte weder auf anderen Kontinenten noch auf der anderen Seite der USA liegen, sondern teilweise in benachbarten Bundesstaaten liegen. Es ist daher möglich, dass es sich um falsche Werte handelt, aber auch potenzielle Ausnahmen sein könnten. Eine genaue Klärung würde den Kontakt zu den zuständigen Polizeibehörden erfordern.
 
 Da die wertvolle Zeit der Polizeibehörden in Montgomery County nicht für eine rein lehrreiche Analyse der Daten beansprucht werden soll, wurde entschieden, die vorhandenen Werte im Datensatz unverändert zu belassen.
+
 ```{r}
 min(data$Latitude)
 max(data$Latitude)
@@ -800,28 +811,26 @@ skim(data)
 
 Der bereinigte Datensatz enthält nun:
 
-- **Faktorvariablen** für alle kategorialen Merkmale (Agency.Name, Route.Type, Weather, etc.)
-- **Logische Variablen** für binäre Merkmale (Driver.At.Fault, Driverless.Vehicle, Parked.Vehicle)
-- **Datum/Zeit-Objekte** für zeitliche Analysen (Crash.Date.Time)
-- **Numerische Variablen** mit bereinigten Wertebereichen (Vehicle.Year, Speed.Limit, Latitude, Longitude)
-- **Neue abgeleitete Variablen** für Substanzeinfluss (Driver.Alcohol, Driver.Drugs, Driver.Medication sowie die entsprechenden Non.Motorist-Variablen)
-- **Näherungsweise zugeordnete Fahrzeugdaten** (brands_final, models_matched)
+-   **Faktorvariablen** für alle kategorialen Merkmale (Agency.Name, Route.Type, Weather, etc.)
+-   **Logische Variablen** für binäre Merkmale (Driver.At.Fault, Driverless.Vehicle, Parked.Vehicle)
+-   **Datum/Zeit-Objekte** für zeitliche Analysen (Crash.Date.Time)
+-   **Numerische Variablen** mit bereinigten Wertebereichen (Vehicle.Year, Speed.Limit, Latitude, Longitude)
+-   **Neue abgeleitete Variablen** für Substanzeinfluss (Driver.Alcohol, Driver.Drugs, Driver.Medication sowie die entsprechenden Non.Motorist-Variablen)
+-   **Näherungsweise zugeordnete Fahrzeugdaten** (brands_final, models_matched)
 
 ### Entsprechen die Daten unseren Erwartungen?
 
 Die transformierten Daten entsprechen weitgehend unseren Erwartungen:
 
-**Positiv:**
-
-- Die Konvertierung der kategorialen Variablen in Faktoren war erfolgreich und reduziert die Anzahl der eindeutigen Werte durch sinnvolle Gruppierungen.
-- Die Trennung der Substanzmissbrauchs-Spalten in separate Alkohol-, Drogen- und Medikamenten-Variablen ermöglicht gezieltere Analysen.
-- Die Datumskonvertierung funktioniert korrekt und ermöglicht zeitliche Analysen über den gesamten Zeitraum 2015–2025.
+-   Die Konvertierung der kategorialen Variablen in Faktoren war erfolgreich und reduziert die Anzahl der eindeutigen Werte durch sinnvolle Gruppierungen.
+-   Die Trennung der Substanzmissbrauchs-Spalten in separate Alkohol-, Drogen- und Medikamenten-Variablen ermöglicht gezieltere Analysen.
+-   Die Datumskonvertierung funktioniert korrekt und ermöglicht zeitliche Analysen über den gesamten Zeitraum 2015–2025.
+-   Die hohe Anzahl an NA-Werten in einigen Spalten (z.B. Related.Non.Motorist, Off.Road.Description) war zu erwarten, da diese Informationen nur in spezifischen Unfallsituationen relevant sind.
 
 **Besonderheiten:**
 
-- Die hohe Anzahl an NA-Werten in einigen Spalten (z.B. Related.Non.Motorist, Off.Road.Description) war zu erwarten, da diese Informationen nur in spezifischen Unfallsituationen relevant sind.
-- Die geografischen Ausreißer (214 Fälle außerhalb von Montgomery County) wurden bewusst beibehalten, da sie möglicherweise legitime Grenzfälle darstellen.
-- Das Fuzzy-Matching der Fahrzeugmarken und -modelle konnte nicht alle Einträge zuordnen, was bei der hohen Variabilität der Originaleinträge jedoch zu erwarten war.
+-   Die geografischen Ausreißer (214 Fälle außerhalb von Montgomery County) wurden bewusst beibehalten, da sie möglicherweise legitime Grenzfälle darstellen.
+-   Das Fuzzy-Matching der Fahrzeugmarken und -modelle konnte nicht alle Einträge zuordnen, was bei der hohen Variabilität der Originaleinträge jedoch zu erwarten war.
 
 ## 4. Geeignete Visualisierung und Aggregation der Daten
 
@@ -1017,11 +1026,11 @@ chisq_time_severity <- chisq.test(table(time_severity_chi$time_of_day, time_seve
 chisq_time_severity
 ```
 
-Zur statistischen Absicherung der beobachteten Muster wurden Chi-Quadrat-Tests durchgeführt. Zunächst bestätigte der Test für die Wochentage (weekday_counts) mit einem p-Wert von < 2.2e-16, dass die Unfallhäufigkeit signifikant ungleich über die Woche verteilt ist, was die visuellen Ergebnisse der Heatmap statistisch untermauert.
+Zur statistischen Absicherung der beobachteten Muster wurden Chi-Quadrat-Tests durchgeführt. Zunächst bestätigte der Test für die Wochentage (weekday_counts) mit einem p-Wert von \< 2,2 · e⁻¹⁶, dass die Unfallhäufigkeit signifikant ungleich über die Woche verteilt ist, was die visuellen Ergebnisse der Heatmap statistisch untermauert.
 
 Für die vertiefende Analyse des Zusammenhangs zwischen Tageszeit und Verletzungsschwere wurde ein weiteres Verfahren angewendet. Im ersten Schritt wurden Datensätze mit fehlenden Werten in den Spalten „crash_hour“ und „Injury.Severity“ entfernt. Die stundenbasierten Zeitangaben wurden anschließend in die vier diskreten Kategorien „Morgen“ (6–10 Uhr), „Mittag“ (10–16 Uhr), „Abend“ (16–20 Uhr) und „Nacht“ (übrige Zeiten) aggregiert, um die Fallzahlen für den Test zu bündeln.
 
-Der darauf folgende Pearson’s Chi-Squared Test lieferte ebenfalls einen extrem niedrigen p-Wert (< 2.2e-16). Dieses Ergebnis belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Tageszeit und der Schwere der Verletzungen. Dies bedeutet, dass die Verteilung der Verletzungsgrade nicht zufällig ist, sondern signifikant von der Tageszeit abhängt. Damit können die zuvor nur visuell leicht erkennbaren Unterschiede (z. B. nachts) statistisch validiert werden.
+Der darauf folgende Pearson’s Chi-Squared Test lieferte ebenfalls einen extrem niedrigen p-Wert (\< 2,2 · e⁻¹⁶). Dieses Ergebnis belegt einen hochsignifikanten stochastischen Zusammenhang zwischen der Tageszeit und der Schwere der Verletzungen. Dies bedeutet, dass die Verteilung der Verletzungsgrade nicht zufällig ist, sondern signifikant von der Tageszeit abhängt. Damit können die zuvor nur visuell leicht erkennbaren Unterschiede (z. B. nachts) statistisch validiert werden.
 
 #### Zwischenfazit Fragestellung A
 
@@ -1029,11 +1038,11 @@ Die zeitliche Analyse bestätigt die aufgestellten Hypothesen weitgehend:
 
 **Rush-Hour-Peaks:** Die Daten zeigen eindeutig das erwartete zweigipflige Muster mit Spitzen am Morgen (7–9 Uhr) und einem noch ausgeprägteren Maximum am Nachmittag (16–18 Uhr). Der abendliche Peak ist signifikant höher als der morgendliche, was mit dem höheren Verkehrsaufkommen während der Feierabendzeit korreliert.
 
-**Wochentag-Unterschiede:** Die Heatmap offenbart klare Unterschiede zwischen Werktagen (klassisches Pendler-Muster) und Wochenenden (kein morgendlicher Peak, gleichmäßigerer Anstieg zur Tagesmitte). Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt statistisch, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.
+**Wochentag-Unterschiede:** Die Heatmap offenbart klare Unterschiede zwischen Werktagen (klassisches Pendler-Muster) und Wochenenden (kein morgendlicher Peak, gleichmäßigerer Anstieg zur Tagesmitte). Der Chi-Quadrat-Test (p \< 2,2 · e⁻¹⁶) bestätigt statistisch, dass Unfälle nicht gleichmäßig über die Wochentage verteilt sind.
 
-**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,15 % gegenüber 0,83 % am Morgen, 0,78 % am Mittag und 0,68 % am Abend. Der Chi-Quadrat-Test (p < 2.2e-16) bestätigt diesen Zusammenhang statistisch.
+**Nächtliche Unfallschwere:** Die Hypothese, dass nächtliche Unfälle trotz geringerer Häufigkeit schwerere Verletzungen verursachen, wird durch die Daten gestützt. Der Anteil schwerer Verletzungen (FATAL + SUSPECTED SERIOUS INJURY) liegt nachts (20–6 Uhr) bei 1,15 % gegenüber 0,83 % am Morgen, 0,78 % am Mittag und 0,68 % am Abend. Der Chi-Quadrat-Test (p \< 2,2 · e⁻¹⁶) bestätigt diesen Zusammenhang statistisch.
 
----
+------------------------------------------------------------------------
 
 ### Fragestellung B: Wetter und Straßenbedingungen
 
@@ -1135,7 +1144,7 @@ data %>%
 
 Zur Analyse der Wechselwirkung zwischen Straßenbeschaffenheit und Fahrzeugschäden wurden Datensätze mit fehlenden Angaben in den Variablen Surface.Condition und Vehicle.Damage.Extent bereinigt. Um die stark variierenden absoluten Fallzahlen der verschiedenen Straßenzustände vergleichbar zu machen, wurden die Daten gruppiert und die absoluten Häufigkeiten in relative Anteile innerhalb der jeweiligen Kategorie umgerechnet.
 
-Die Visualisierung verdeutlicht, dass über fast alle Straßenbedingungen hinweg die Schadensarten „DISABLING“ (fahruntüchtig) und „SUPERFICIAL“ (oberflächlich) dominieren. Dennoch zeigen sich bei genauerer Betrachtung spezifische Risikoprofile: Während auf losen Untergründen wie „MUD, DIRT, GRAVEL“ oberflächliche Schäden mit über 40 % überproportional häufig auftreten (olivgrüner Balken), führen glatte Verhältnisse (z. B. „ICE“, „SLUSH“) besonders oft zu Schäden, die das Fahrzeug fahruntüchtig machen. Auffällig ist die Kategorie „WATER (STANDING/MOVING)". Hier liegt der Anteil an Totalschäden („DESTROYED“) deutlich über allen anderen Bedingungen (lila Balken), was auf die fatalen Auswirkungen von Wasser auf Motor und Elektronik hindeutet.
+Die Visualisierung verdeutlicht, dass über fast alle Straßenbedingungen hinweg die Schadensarten „DISABLING“ (fahruntüchtig) und „SUPERFICIAL“ (oberflächlich) dominieren. Dennoch zeigen sich bei genauerer Betrachtung spezifische Risikoprofile: Während auf verschmutzen Untergründen wie „SAND“ oberflächliche Schäden mit über 40 % überproportional häufig auftreten (türkisener Balken), führen glatte Verhältnisse (z. B. "OIL") besonders oft zu Schäden, die das Fahrzeug fahruntüchtig machen. Auffällig ist die Kategorie „WATER (STANDING/MOVING)". Hier liegt der Anteil an Totalschäden („DESTROYED“) deutlich über allen anderen Bedingungen (lila Balken), was auf die fatalen Auswirkungen von Wasser auf Motor und Elektronik hindeutet.
 
 #### Vergleich: Gutes vs. schlechtes Wetter
 
@@ -1224,7 +1233,7 @@ chisq_surface_damage
 
 Zur statistischen Überprüfung des Zusammenhangs zwischen der Straßenbeschaffenheit und dem Ausmaß des Fahrzeugschadens wurde ein weiterer Chi-Quadrat-Test durchgeführt. Im Vorfeld wurden die Daten erneut bereinigt, indem alle Datensätze mit fehlenden Einträgen in den Variablen `Surface.Condition` und `Vehicle.Damage.Extent` entfernt wurden, um eine valide Kreuztabelle zu erstellen.
 
-Das Testergebnis bestätigt mit einem p-Wert von < 2.2e-16 die statistische Signifikanz auf höchstem Niveau. Damit lässt sich die Nullhypothese, dass Straßenzustand und Schadenshöhe voneinander unabhängig seien, eindeutig verwerfen. Dies untermauert die Erkenntnisse aus der vorangegangenen Visualisierung statistisch. Die beobachteten Auffälligkeiten, etwa die gehäuften Totalschäden bei Wasser oder spezifische Schadensbilder bei Glätte, sind nicht zufällig, sondern es besteht ein systematischer Zusammenhang zwischen dem Untergrund und der Schwere des Sachschadens.
+Das Testergebnis bestätigt mit einem p-Wert von \< 2,2 · e⁻¹⁶ die statistische Signifikanz auf höchstem Niveau. Damit lässt sich die Nullhypothese, dass Straßenzustand und Schadenshöhe voneinander unabhängig seien, eindeutig verwerfen. Dies untermauert die Erkenntnisse aus der vorangegangenen Visualisierung statistisch. Die beobachteten Auffälligkeiten, etwa die gehäuften Totalschäden bei Wasser oder spezifische Schadensbilder bei Glätte, sind nicht zufällig, sondern es besteht ein systematischer Zusammenhang zwischen dem Untergrund und der Schwere des Sachschadens.
 
 #### Zwischenfazit Fragestellung B
 
@@ -1236,9 +1245,9 @@ Die Analyse der Wetterbedingungen bestätigt die kontraintuitive Hypothese volls
 
 **Fahrzeugschäden:** Bei Straßenbedingungen mit Wasser (stehend/fließend) zeigt sich der höchste Anteil an Totalschäden, während bei Glätte (Eis, Schneematsch) Schäden dominieren, die das Fahrzeug fahruntüchtig machen.
 
-**Interpretation:** Diese Ergebnisse stützen die Hypothese: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an (geringere Geschwindigkeit, erhöhte Aufmerksamkeit), während bei vermeintlich guten Verhältnissen tendenziell schneller und unvorsichtiger gefahren wird. Der Chi-Quadrat-Test (p = 3,0e-12) bestätigt den Zusammenhang statistisch.
+**Interpretation:** Diese Ergebnisse stützen die Hypothese: Fahrer passen ihr Verhalten bei offensichtlich widrigen Bedingungen an (geringere Geschwindigkeit, erhöhte Aufmerksamkeit), während bei vermeintlich guten Verhältnissen tendenziell schneller und unvorsichtiger gefahren wird. Der Chi-Quadrat-Test (p = 3,0 · e⁻¹²) bestätigt den Zusammenhang statistisch.
 
----
+------------------------------------------------------------------------
 
 ### Fragestellung C: Substanzeinfluss und Schuldfrage
 
@@ -1340,7 +1349,7 @@ Analog zur Untersuchung des Alkoholeinflusses wurde der Zusammenhang zwischen de
 
 Eine Kreuztabellierung der beiden Variablen offenbart eine starke Überlappung der Kategorien. Insbesondere bei den unauffälligen Befunden („NONE DETECTED“, „NOT SUSPECT“) sowie den fehlenden Werten („UNKNOWN“) decken sich die Einträge fast vollständig. Auffällig ist die Kategorie „NO CLASSIFICATION“ beim Drogenstatus, die stark mit einem positiven Alkoholbefund („PRESENT“ oder „CONTRIBUTED“) korreliert.
 
-Dies lässt darauf schließen, dass bei festgestelltem Alkoholeinfluss häufig auf eine spezifische Klassifizierung des Drogenstatus verzichtet wurde bzw. dieser als „nicht klassifiziert“ eingetragen blieb. Der hohe Schuldanteil in der Kategorie „NO CLASSIFICATION“ (97,7 %) ist somit primär als Effekt des Alkoholeinflusses zu interpretieren und nicht isoliert auf den Drogenstatus zurückzuführen. Echte positive Drogenbefunde („CONTRIBUTED“, „PRESENT“) sind in den Daten deutlich seltener als Alkoholbefunde, weisen aber bei Vorliegen eine ebenso eindeutige Schuldzuweisung (>96 %) auf.
+Dies lässt darauf schließen, dass bei festgestelltem Alkoholeinfluss häufig auf eine spezifische Klassifizierung des Drogenstatus verzichtet wurde bzw. dieser als „nicht klassifiziert“ eingetragen blieb. Der hohe Schuldanteil in der Kategorie „NO CLASSIFICATION“ (97,7 %) ist somit primär als Effekt des Alkoholeinflusses zu interpretieren und nicht isoliert auf den Drogenstatus zurückzuführen. Echte positive Drogenbefunde („CONTRIBUTED“, „PRESENT“) sind in den Daten deutlich seltener als Alkoholbefunde, weisen aber bei Vorliegen eine ebenso eindeutige Schuldzuweisung (\>96 %) auf.
 
 #### Statistische Prüfung: Chi-Quadrat-Test
 
@@ -1368,7 +1377,7 @@ chisq_drugs
 
 Zur statistischen Absicherung der visuellen Befunde wurde für beide Einflussfaktoren (Alkohol und Drogen) jeweils ein Pearson’s Chi-Quadrat-Test durchgeführt. Im ersten Schritt wurde die Datenbasis bereinigt, indem Einträge mit fehlenden Werten (NA) in der Zielvariable `Driver.At.Fault` sowie den jeweiligen Prädiktoren `Driver.Alcohol` und `Driver.Drugs` entfernt wurden.
 
-Die Ergebnisse bestätigen die vermuteten Zusammenhänge eindrucksvoll. Sowohl für den Alkoholstatus (`X-squared = 10277`) als auch für den Drogenstatus (`X-squared = 9801`) liegen die p-Werte weit unter der rechnerischen Nachweisgrenze (< 2.2e-16). Dies belegt statistisch hochsignifikant, dass die Unfallschuld nicht unabhängig vom Konsumstatus ist. Die extrem hohen Teststatistiken verdeutlichen zudem die Stärke des Zusammenhangs, was die vorangegangene Analyse zur Überlappung der beiden Variablen und deren massiven Einfluss auf die Unfallverantwortlichkeit quantitativ bestätigt.
+Die Ergebnisse bestätigen die vermuteten Zusammenhänge eindrucksvoll. Sowohl für den Alkoholstatus (`X-squared = 10277`) als auch für den Drogenstatus (`X-squared = 9801`) liegen die p-Werte weit unter der rechnerischen Nachweisgrenze (\< 2,2 · e⁻¹⁶). Dies belegt statistisch hochsignifikant, dass die Unfallschuld nicht unabhängig vom Konsumstatus ist. Die extrem hohen Teststatistiken verdeutlichen zudem die Stärke des Zusammenhangs, was die vorangegangene Analyse zur Überlappung der beiden Variablen und deren massiven Einfluss auf die Unfallverantwortlichkeit quantitativ bestätigt.
 
 #### Verletzungsschwere bei Substanzeinfluss
 
@@ -1408,7 +1417,7 @@ Die Visualisierung offenbart ein differenziertes Risikoprofil. Zwar bildet die K
 
 Die Analyse bestätigt beide Teile der aufgestellten Hypothese eindeutig:
 
-**Substanzeinfluss und Schuld:** Die Daten zeigen einen dramatischen Unterschied in der Schuldzuweisung. Bei nachgewiesenem Alkoholeinfluss („CONTRIBUTED") liegt der Anteil schuldiger Fahrer bei 98,9 %, bei „PRESENT" bei 97,6 %. Im Vergleich dazu sind nur 33,7 % der Fahrer mit Status „NOT SUSPECT" als schuldig eingestuft. Ähnliche Muster zeigen sich beim Drogeneinfluss (99,3 % bei „CONTRIBUTED", 96,3 % bei „PRESENT"). Die Chi-Quadrat-Tests bestätigen diese Zusammenhänge mit extrem hohen Teststatistiken (X² = 10.277 für Alkohol, X² = 9.801 für Drogen, jeweils p < 2.2e-16).
+**Substanzeinfluss und Schuld:** Die Daten zeigen einen dramatischen Unterschied in der Schuldzuweisung. Bei nachgewiesenem Alkoholeinfluss („CONTRIBUTED") liegt der Anteil schuldiger Fahrer bei 98,9 %, bei „PRESENT" bei 97,6 %. Im Vergleich dazu sind nur 33,7 % der Fahrer mit Status „NOT SUSPECT" als schuldig eingestuft. Ähnliche Muster zeigen sich beim Drogeneinfluss (99,3 % bei „CONTRIBUTED", 96,3 % bei „PRESENT"). Die Chi-Quadrat-Tests bestätigen diese Zusammenhänge mit extrem hohen Teststatistiken (X² = 10.277 für Alkohol, X² = 9.801 für Drogen, jeweils p \< 2,2 · e⁻¹⁶).
 
 **Überlappung Alkohol/Drogen:** Die Kreuztabellierung zeigt, dass die Kategorien stark überlappen. Bei positivem Alkoholbefund wird der Drogenstatus häufig als „NO CLASSIFICATION" erfasst, was den hohen Schuldanteil dieser Kategorie (97,7 %) erklärt.
 
@@ -1416,7 +1425,7 @@ Die Analyse bestätigt beide Teile der aufgestellten Hypothese eindeutig:
 
 **Fazit:** Die Hypothese ist vollständig bestätigt. Substanzeinfluss ist sowohl mit signifikant höherer Unfallschuld als auch mit schwereren Verletzungen assoziiert.
 
----
+------------------------------------------------------------------------
 
 ### Fragestellung D: Ablenkung am Steuer
 
@@ -1482,8 +1491,7 @@ data %>%
 
 Zur Analyse des Zusammenhangs zwischen Fahrerablenkung und der Art des Zusammenstoßes wurden zunächst Datensätze mit fehlenden Angaben in den Variablen `Driver.Distracted.By` und `Collision.Type` bereinigt. Die verbleibenden Daten wurden gruppiert und die absoluten Häufigkeiten in relative Anteile innerhalb der Ablenkungskategorie umgerechnet, um die Verteilung der Unfalltypen quantitativ zu bewerten.
 
-Über nahezu alle Ablenkungsarten hinweg stellen **Auffahrunfälle (REAR-END)** den häufigsten Kollisionstyp dar. Dieses Muster entspricht der Erwartung, da Ablenkung insbesondere die Reaktionszeit und die Aufmerksamkeit auf den vorausfahrenden Verkehr beeinträchtigt. Eine auffällige Abweichung zeigt sich bei der **visuellen Ablenkung**, bei der **Angle-Kollisionen** den höchsten Anteil aufweisen. 
-Bei **No driver present** lässt sich hingegen der am häufigsten vorkommende Kollisionstyp nicht feststellen, da dieser nicht definiert ist. 
+Über nahezu alle Ablenkungsarten hinweg stellen Auffahrunfälle (REAR-END) den häufigsten Kollisionstyp dar. Dieses Muster entspricht der Erwartung, da Ablenkung insbesondere die Reaktionszeit und die Aufmerksamkeit auf den vorausfahrenden Verkehr beeinträchtigt. Eine auffällige Abweichung zeigt sich bei der visuellen Ablenkung, bei der Angle-Kollisionen den höchsten Anteil aufweisen. Bei No driver present lässt sich hingegen der am häufigsten vorkommende Kollisionstyp nicht feststellen, da dieser nicht definiert ist.
 
 #### Fokus: Handynutzung und Auffahrunfälle
 
@@ -1517,15 +1525,15 @@ rearend_comparison %>%
   geom_text(aes(label = paste0(round(anteil_rearend, 1), "%")), vjust = -0.5) +
   labs(
     x = "",
-    y = "Anteil Auffahrunfälle (%)",
-    title = "Auffahrunfälle (REAR-END) nach Ablenkungsart"
+    y = "Anteil Auffahrunfälle innerhalb der Gruppe (%)",
+    title = "Anteil der Auffahrunfälle (REAR-END) innerhalb jeder Ablenkungsart"
   ) +
   theme_minimal() +
   theme(legend.position = "none") +
   ylim(0, max(rearend_comparison$anteil_rearend) * 1.2)
 ```
 
-Die Ergebnisse bestätigen diese Annahme deutlich: Bei Handynutzung handelt es sich in 42,8 % der Fälle um Auffahrunfälle, während dieser Anteil bei allen anderen Ablenkungsarten lediglich 32,9 % beträgt. Damit sind Auffahrunfälle bei Handynutzung überproportional häufig vertreten, was den besonderen Einfluss dieser Ablenkungsform auf das Unfallgeschehen unterstreicht.
+Die Ergebnisse bestätigen diese Annahme deutlich: Bei Unfällen mit Handynutzung handelt es sich in 42,8 % der Fälle um Auffahrunfälle, während dieser Anteil bei allen anderen Ablenkungsarten lediglich 32,9 % beträgt. Damit sind Auffahrunfälle bei Handynutzung überproportional häufig vertreten, was den besonderen Einfluss dieser Ablenkungsform auf das Unfallgeschehen unterstreicht.
 
 #### Statistische Prüfung: Chi-Quadrat-Test
 
@@ -1542,7 +1550,7 @@ chisq_distraction
 
 Zur statistischen Absicherung der deskriptiven Befunde wurde ein Pearson's Chi-Quadrat-Test zwischen der Ablenkungsart und dem Kollisionstyp durchgeführt. Auch hier wurden zuvor Datensätze mit fehlenden Angaben ausgeschlossen.
 
-Der Test ergibt einen extrem kleinen p-Wert (p < 2,2 e-16), womit die Nullhypothese der Unabhängigkeit klar verworfen werden kann. Es besteht somit ein hochsignifikanter statistischer Zusammenhang zwischen der Art der Ablenkung und dem Kollisionstyp, was die zuvor beobachteten Muster bestätigt.
+Der Test ergibt einen extrem kleinen p-Wert (p \< 2,2 · e⁻¹⁶), womit die Nullhypothese der Unabhängigkeit klar verworfen werden kann. Es besteht somit ein hochsignifikanter statistischer Zusammenhang zwischen der Art der Ablenkung und dem Kollisionstyp, was die zuvor beobachteten Muster bestätigt.
 
 #### Ablenkung und Schuld
 
@@ -1572,7 +1580,7 @@ data %>%
 
 Abschließend wurde der Zusammenhang zwischen Ablenkungsart und der Unfallschuld analysiert. Hierzu wurde der Anteil schuldiger Fahrer innerhalb jeder Ablenkungskategorie berechnet und visualisiert.
 
-Die Ergebnisse zeigen, dass bei nahezu allen Formen der Ablenkung der Anteil schuldiger Fahrer sehr hoch ist. Eine deutliche Ausnahme bildet die Kategorie **"NOT DISTRACTED"**, bei der lediglich 30,4 % der Fahrer als schuldig eingestuft wurden. Dies verdeutlicht, dass festgestellte Ablenkung nahezu immer mit einer Schuldzuweisung einhergeht.
+Die Ergebnisse zeigen, dass bei nahezu allen Formen der Ablenkung der Anteil schuldiger Fahrer sehr hoch ist. Eine deutliche Ausnahme bildet die Kategorie "NOT DISTRACTED", bei der lediglich 30,4 % der Fahrer als schuldig eingestuft wurden. Dies verdeutlicht, dass festgestellte Ablenkung nahezu immer mit einer Schuldzuweisung einhergeht.
 
 #### Zwischenfazit Fragestellung D
 
@@ -1584,10 +1592,9 @@ Die Analyse der Ablenkung am Steuer bestätigt die aufgestellten Hypothesen:
 
 **Ablenkung und Schuld:** Ablenkung ist stark mit der Schuldfrage verknüpft. Während nicht abgelenkte Fahrer vergleichsweise selten als schuldig gelten, wird bei nahezu allen Ablenkungsarten eine sehr hohe Schuldquote beobachtet.
 
-**Fazit:**
-Ablenkung am Steuer stellt einen zentralen Risikofaktor im Unfallgeschehen dar. Insbesondere Handynutzung ist häufig mit Auffahrunfällen verbunden und geht oft mit einer Schuldzuweisung einher. Die Ergebnisse unterstreichen die Bedeutung von Maßnahmen zur Reduktion fahrerseitiger Ablenkung.
+**Fazit:** Ablenkung am Steuer stellt einen zentralen Risikofaktor im Unfallgeschehen dar. Insbesondere Handynutzung ist häufig mit Auffahrunfällen verbunden und geht oft mit einer Schuldzuweisung einher. Die Ergebnisse unterstreichen die Bedeutung von Maßnahmen zur Reduktion fahrerseitiger Ablenkung.
 
----
+------------------------------------------------------------------------
 
 ### Fragestellung E: Fußgänger- und Radfahrerunfälle
 
@@ -1615,8 +1622,7 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-Zur Einordnung der betrachteten Unfallgruppe wurde zunächst die Verteilung der nicht-motorisierten Verkehrsteilnehmer analysiert. Grundlage bildet die Variable "Related.Non.Motorist", wobei ausschließlich Datensätze mit gültigen Einträgen berücksichtigt wurden.
-Die Auswertung zeigt, dass Fußgänger den mit Abstand größten Anteil der nicht-motorisierten Unfallbeteiligten darstellen. Fahrradfahrer bilden die zweitgrößte Gruppe, ihr Anteil fällt jedoch deutlich geringer aus. Andere Formen nicht-motorisierter Verkehrsteilnehmer spielen im vorliegenden Datensatz nur eine untergeordnete Rolle. Damit fokussiert sich die weitere Analyse inhaltlich primär auf das Unfallrisiko von Fußgängern und Radfahrern.
+Zur Einordnung der betrachteten Unfallgruppe wurde zunächst die Verteilung der nicht-motorisierten Verkehrsteilnehmer analysiert. Grundlage bildet die Variable "Related.Non.Motorist", wobei ausschließlich Datensätze mit gültigen Einträgen berücksichtigt wurden. Die Auswertung zeigt, dass Fußgänger den mit Abstand größten Anteil der nicht-motorisierten Unfallbeteiligten darstellen. Fahrradfahrer bilden die zweitgrößte Gruppe, ihr Anteil fällt jedoch deutlich geringer aus. Andere Formen nicht-motorisierter Verkehrsteilnehmer spielen im vorliegenden Datensatz nur eine untergeordnete Rolle. Damit fokussiert sich die weitere Analyse inhaltlich primär auf das Unfallrisiko von Fußgängern und Radfahrern.
 
 #### Lichtverhältnisse bei Fußgänger-/Radfahrerunfällen
 
@@ -1669,7 +1675,7 @@ dark_rates
 
 Für eine präzisere Betrachtung wurde der Anteil von Unfällen bei Dunkelheit separat berechnet. Hierzu wurden alle Lichtkategorien, die den Begriff "DARK" enthalten, zusammengefasst. Dabei zeigt sich, dass der Anteil der Dunkelheit bei Unfällen mit Fußgängern oder Radfahrern leicht erhöht ist (30,2 % gegenüber 26,9 % bei reinen Fahrzeugunfällen).
 
-Dieser Unterschied deutet darauf hin, dass nicht-motorisierte Verkehrsteilnehmer bei Dunkelheit einem leicht erhöhten Risiko ausgesetzt sind, etwa aufgrund eingeschränkter Sichtbarkeit. 
+Dieser Unterschied deutet darauf hin, dass nicht-motorisierte Verkehrsteilnehmer bei Dunkelheit einem leicht erhöhten Risiko ausgesetzt sind, etwa aufgrund eingeschränkter Sichtbarkeit.
 
 #### Verletzungsschwere: Vergleich mit Fahrzeugunfällen
 
@@ -1695,9 +1701,9 @@ data %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Im nächsten Schritt wurde die Verletzungsschwere bei Unfällen mit und ohne nicht-motorisierte Beteiligung verglichen. Hierfür wurden die relativen Anteile der verschiedenen Kategorien der Variable "Injury.Severity" innerhalb der Gruppen berechnet. 
+Im nächsten Schritt wurde die Verletzungsschwere bei Unfällen mit und ohne nicht-motorisierte Beteiligung verglichen. Hierfür wurden die relativen Anteile der verschiedenen Kategorien der Variable "Injury.Severity" innerhalb der Gruppen berechnet.
 
-In beiden Gruppen stellt die Kategorie **"NO APPARENT INJURY"** den größten Anteil dar. Auffällig ist jedoch, dass bei Unfällen mit ausschließlich motorisierten Fahrzeugen der Anteil unverletzter Beteiligter etwas geringer ausfällt, während mögliche oder leichte Verletzungen häufiger auftreten.
+In beiden Gruppen stellt die Kategorie "NO APPARENT INJURY" den größten Anteil dar. Auffällig ist jedoch, dass bei Unfällen mit ausschließlich motorisierten Fahrzeugen der Anteil unverletzter Beteiligter etwas geringer ausfällt, während mögliche oder leichte Verletzungen häufiger auftreten.
 
 ```{r}
 # Anteil schwerer Verletzungen (FATAL, SUSPECTED SERIOUS INJURY)
@@ -1718,7 +1724,7 @@ severe_rates <- data %>%
 severe_rates
 ```
 
-Um den Fokus gezielt auf besonders gravierende Unfallfolgen zu legen, wurden zusätzlich die Kategorien **"FATAL"** und **"SUSPECTED SERIOUS INJURY"** zu einer gemeinsamen Gruppe schwerer Verletzungen zusammengefasst. Diese Analyse zeigt bei beiden Gruppierungen geringe Anteile mit unter einem Prozent. Bei reinen Fahrzeugunfällen ist hier der Wert mit 0,85 % der Wert höher als bei Unfällen mit Fußgängern oder Radfahrern mit 0,32 %.
+Um den Fokus gezielt auf besonders gravierende Unfallfolgen zu legen, wurden zusätzlich die Kategorien "FATAL" und "SUSPECTED SERIOUS INJURY" zu einer gemeinsamen Gruppe schwerer Verletzungen zusammengefasst. Diese Analyse zeigt bei beiden Gruppierungen geringe Anteile mit unter einem Prozent. Bei reinen Fahrzeugunfällen ist hier der Wert mit 0,85 % der Wert höher als bei Unfällen mit Fußgängern oder Radfahrern mit 0,32 %.
 
 #### Tageszeit der Fußgänger-/Radfahrerunfälle
 
@@ -1741,8 +1747,7 @@ data %>%
   theme_minimal()
 ```
 
-Zur Analyse der zeitlichen Struktur der Unfälle wurde aus dem Zeitstempel "Crash.Date.Time" die jeweilige Stunde des Tages extrahiert. Anschließend wurden die absoluten Unfallzahlen pro Stunde aggregiert und visualisiert.
-Die Darstellung zeigt einen kontinuierlichen Anstieg der Unfallhäufigkeit im Tagesverlauf, mit einem klaren Maximum in den späten Nachmittagsstunden zwischen 17 und 18 Uhr. In den Nachtstunden, insbesondere zwischen 0 und 5 Uhr, treten hingegen die wenigsten Unfälle auf. Dieses Muster passt zu den typischen Zeiten von Fußgängern und Radfahrern.
+Zur Analyse der zeitlichen Struktur der Unfälle wurde aus dem Zeitstempel "Crash.Date.Time" die jeweilige Stunde des Tages extrahiert. Anschließend wurden die absoluten Unfallzahlen pro Stunde aggregiert und visualisiert. Die Darstellung zeigt einen kontinuierlichen Anstieg der Unfallhäufigkeit im Tagesverlauf, mit einem klaren Maximum in den späten Nachmittagsstunden zwischen 17 und 18 Uhr. In den Nachtstunden, insbesondere zwischen 0 und 5 Uhr, treten hingegen die wenigsten Unfälle auf. Dieses Muster passt zu den typischen Zeiten von Fußgängern und Radfahrern.
 
 #### Statistische Prüfung: Chi-Quadrat-Test
 
@@ -1770,22 +1775,21 @@ chisq_nonmotorist_injury <- chisq.test(table(nonmotorist_injury_chi$has_nonmotor
 chisq_nonmotorist_injury
 ```
 
-Zur statistischen Absicherung der beobachteten Unterschiede wurden zwei Pearson-Chi-Quadrat-Tests durchgeführt. Im ersten Test wurde der Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und den Lichtverhältnissen untersucht. Im zweiten Test wurde geprüft, ob ein Zusammenhang zwischen der Beteiligung von Fußgängern/Radfahrern und der Verletzungsschwere besteht.
-Beide Tests ergeben extrem niedrige p-Werte (p = 1,59e-09 für Lichtverhältnisse bzw. p < 2,2e-16 für Verletzungsschwere). Damit kann die Nullhypothese der Unabhängigkeit in beiden Fällen klar verworfen werden. Es besteht somit ein statistisch signifikanter Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und sowohl den Lichtverhältnissen als auch der Verletzungsschwere.
+Zur statistischen Absicherung der beobachteten Unterschiede wurden zwei Pearson-Chi-Quadrat-Tests durchgeführt. Im ersten Test wurde der Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und den Lichtverhältnissen untersucht. Im zweiten Test wurde geprüft, ob ein Zusammenhang zwischen der Beteiligung von Fußgängern/Radfahrern und der Verletzungsschwere besteht. Beide Tests ergeben extrem niedrige p-Werte (p = 1,59 · e⁻⁹ für Lichtverhältnisse bzw. p \< 2,2 · e⁻¹⁶ für Verletzungsschwere). Damit kann die Nullhypothese der Unabhängigkeit in beiden Fällen klar verworfen werden. Es besteht somit ein statistisch signifikanter Zusammenhang zwischen der Beteiligung nicht-motorisierter Verkehrsteilnehmer und sowohl den Lichtverhältnissen als auch der Verletzungsschwere.
 
 #### Zwischenfazit Fragestellung E
 
 Die Analyse bestätigt die aufgestellte Hypothese bedingt:
 
-**Verletzungsschwere:** Schwere Verletzungen treten in beiden Unfallgruppen selten auf und liegen jeweils unter einem Prozent. Der Anteil ist bei reinen Fahrzeugunfällen (0,85 %) sogar leicht höher als bei Unfällen mit Fußgängern oder Radfahrern (0,32 %). 
+**Verletzungsschwere:** Schwere Verletzungen treten in beiden Unfallgruppen selten auf und liegen jeweils unter einem Prozent. Der Anteil ist bei reinen Fahrzeugunfällen (0,85 %) sogar leicht höher als bei Unfällen mit Fußgängern oder Radfahrern (0,32 %).
 
-**Lichtverhältnisse:** Entgegen der ursprünglichen Vermutung ereignen sich Unfälle mit nicht-motorisierten Beteiligten nicht überwiegend bei Dunkelheit. Zwar ist der Dunkelheitsanteil leicht erhöht, der Großteil der Unfälle findet jedoch bei Tageslicht statt. Der Chi-Quadrat-Test (p = 1,59e-09) zeigt dennoch einen signifikanten Zusammenhang.
+**Lichtverhältnisse:** Entgegen der ursprünglichen Vermutung ereignen sich Unfälle mit nicht-motorisierten Beteiligten nicht überwiegend bei Dunkelheit. Zwar ist der Dunkelheitsanteil leicht erhöht, der Großteil der Unfälle findet jedoch bei Tageslicht statt. Der Chi-Quadrat-Test (p = 1,59 · e⁻⁹) zeigt dennoch einen signifikanten Zusammenhang.
 
 **Zeitliche Verteilung:** Die Häufung der Unfälle in den Nachmittags- und frühen Abendstunden spricht für einen starken Zusammenhang mit alltäglichen Mustern wie Berufsverkehr, Schulwegen und Freizeitaktivitäten.
 
 **Fazit:** Die Hypothese wird nur teilweise bestätigt. Unfälle mit Fußgängern und Radfahrern treten nicht deutlich häufiger bei schlechten Lichtverhältnissen auf und schwere Verletzungen sind insgesamt selten. Bestätigt wird jedoch die klare zeitliche Häufung dieser Unfälle in den Nachmittags- und frühen Abendstunden, was auf typische Alltagsmuster hinweist.
 
----
+------------------------------------------------------------------------
 
 ### Ergänzende Analyse: Räumliche Unfallhotspots
 
@@ -1810,7 +1814,7 @@ data %>%
   theme_minimal()
 ```
 
-Die Visualisierung zeigt die räumliche Verteilung der Verkehrsunfälle in Montgomery County. Dabei werden lineare Strukturen sichtbar, die den Verlauf von Straßen widerspiegeln. Straßenabschnitte mit einer hohen Punktedichte weisen auf Bereiche mit gehäuftem Unfallgeschehen hin und sind vermutlich zugleich stärker frequentierte Verkehrswege. 
+Die Visualisierung zeigt die räumliche Verteilung der Verkehrsunfälle in Montgomery County. Dabei werden lineare Strukturen sichtbar, die den Verlauf von Straßen widerspiegeln. Straßenabschnitte mit einer hohen Punktedichte weisen auf Bereiche mit gehäuftem Unfallgeschehen hin und sind vermutlich zugleich stärker frequentierte Verkehrswege.
 
 #### Dichtekarte der Unfallhotspots
 
@@ -1833,7 +1837,7 @@ data %>%
   theme(legend.position = "right")
 ```
 
-Die Dichtekarte macht räumliche Unfallhotspots besonders deutlich. Ein erhöhtes Unfallaufkommen ist vor allem im Bereich zwischen den Längengraden -77,3 und -76,9 sowie den Breitengraden 38,95 und 39,2 erkennbar. Dieser Bereich entspricht vermutlich den urbanen Teilen von Montgomery County, in denen eine höhere Verkehrs- und Bevölkerungsdichte vorliegt. 
+Die Dichtekarte macht räumliche Unfallhotspots besonders deutlich. Ein erhöhtes Unfallaufkommen ist vor allem im Bereich zwischen den Längengraden -77,3 und -76,9 sowie den Breitengraden 38,95 und 39,2 erkennbar. Dieser Bereich entspricht vermutlich den urbanen Teilen von Montgomery County, in denen eine höhere Verkehrs- und Bevölkerungsdichte vorliegt.
 
 #### Hotspots schwerer Unfälle
 
@@ -1857,7 +1861,7 @@ data %>%
   theme_minimal()
 ```
 
-Die räumliche Verteilung schwerer Unfälle zeigt ein ähnliches Muster wie die allgemeine Unfallverteilung. Auch hier konzentrieren sich die Hotspots in denselben Bereichen. Im Vergleich zu den allgemeinen Unfallhotspots erscheinen die schweren Unfälle etwas weiter gestreut zu sein. 
+Die räumliche Verteilung schwerer Unfälle zeigt ein ähnliches Muster wie die allgemeine Unfallverteilung. Auch hier konzentrieren sich die Hotspots in denselben Bereichen. Im Vergleich zu den allgemeinen Unfallhotspots erscheinen die schweren Unfälle etwas weiter gestreut zu sein.
 
 #### Vergleich: Schwere vs. leichte Unfälle
 
@@ -2048,7 +2052,7 @@ data %>%
   scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
 ```
 
-Die am häufigsten bei Unfällen in Montgomery County beteiligten Automarken sind Toyota, Honda und Ford. Da jedoch keine Informationen über die allgemeine Verteilung der Fahrzeugmarken im County vorliegen, lässt sich nicht automatisch darauf schließen, dass die Marke einen Einfluss auf die Unfallhäufigkeit hat. 
+Die am häufigsten bei Unfällen in Montgomery County beteiligten Automarken sind Toyota, Honda und Ford. Da jedoch keine Informationen über die allgemeine Verteilung der Fahrzeugmarken im County vorliegen, lässt sich nicht automatisch darauf schließen, dass die Marke einen Einfluss auf die Unfallhäufigkeit hat.
 
 #### Fahrzeugalter und Unfälle
 
@@ -2069,9 +2073,7 @@ data %>%
   theme_minimal()
 ```
 
-Die meisten Unfälle treten bei Fahrzeugen auf, die ein bis fünf Jahre alt sind. Mit zunehmendem Alter der Fahrzeuge nimmt ab da die Unfallhäufigkeit kontinuierlich ab.
-Dies erscheint zunächst überraschend, da man erwarten könnte, dass ältere Autos durch Ausfälle oder technische Mängel ein höheres Unfallrisiko hätten. 
-Wahrscheinlich hängt die Statistik jedoch damit zusammen, dass nur wenige Fahrzeuge über einen sehr langen Zeitraum genutzt werden, da viele Menschen ihr Auto heute nur wenige Jahre besitzen oder leasen.
+Die meisten Unfälle treten bei Fahrzeugen auf, die ein bis fünf Jahre alt sind. Mit zunehmendem Alter der Fahrzeuge nimmt ab da die Unfallhäufigkeit kontinuierlich ab. Dies erscheint zunächst überraschend, da man erwarten könnte, dass ältere Autos durch Ausfälle oder technische Mängel ein höheres Unfallrisiko hätten. Wahrscheinlich hängt die Statistik jedoch damit zusammen, dass nur wenige Fahrzeuge über einen sehr langen Zeitraum genutzt werden, da viele Menschen ihr Auto heute nur wenige Jahre besitzen oder leasen.
 
 ```{r}
 # Verletzungsschwere nach Fahrzeugalter (gruppiert)
@@ -2137,7 +2139,6 @@ data %>%
   mutate(anteil = round(n / sum(n) * 100, 1))
 ```
 
-
 Der größte Anteil der Fahrer stammt aus Maryland (88,4 %), dem Bundesstaat, in dem Montgomery County liegt. Mit ungefähr 6,2 % folgen Washington D.C. und Virginia, beide direkte Nachbarn von Montgomery County und geografisch sehr nah gelegen. Nur 5,4 % der Fahrer kommen aus anderen Staaten.
 
 #### Schuldquote nach Herkunft
@@ -2172,7 +2173,7 @@ data %>%
   scale_y_continuous(limits = c(0, 70), expand = expansion(mult = c(0, 0.1)))
 ```
 
-Mit 59 % ist der Anteil schuldiger Fahrer aus anderen Bundesstaaten wie erwartet am höchsten, gefolgt von Fahrern aus Nachbarstaaten mit 51,4 % und einheimischen Fahrern mit 49,4 %. Die Unterschiede sind insgesamt nicht übermäßig groß, was darauf hindeutet, dass Ortskenntnis zwar eine Rolle spielt, sie jedoch nicht allein entscheidend für die Schuld an einem Unfall ist. 
+Mit 59 % ist der Anteil schuldiger Fahrer aus anderen Bundesstaaten wie erwartet am höchsten, gefolgt von Fahrern aus Nachbarstaaten mit 51,4 % und einheimischen Fahrern mit 49,4 %. Die Unterschiede sind insgesamt nicht übermäßig groß, was darauf hindeutet, dass Ortskenntnis zwar eine Rolle spielt, sie jedoch nicht allein entscheidend für die Schuld an einem Unfall ist.
 
 #### Zwischenfazit Fahrzeugtypen und Herkunft
 
@@ -2234,26 +2235,26 @@ Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2
 
 Die Analyse der 204.688 Verkehrsunfälle aus Montgomery County (2015–2025) liefert konkrete, statistisch abgesicherte Erkenntnisse:
 
-1. **Menschliches Verhalten ist der stärkste Risikofaktor:** Bei nachgewiesenem Substanzeinfluss liegt die Schuldquote bei über 97%, verglichen mit nur 34 % bei unverdächtigen Fahrern. Dieser Zusammenhang ist statistisch hochsignifikant (Chi² > 10.000, p < 2.2e-16) und zeigt die zentrale Rolle menschlichen Fehlverhaltens.
+1.  **Menschliches Verhalten ist der stärkste Risikofaktor:** Bei nachgewiesenem Substanzeinfluss liegt die Schuldquote bei über 97%, verglichen mit nur 34 % bei unverdächtigen Fahrern. Dieser Zusammenhang ist statistisch hochsignifikant (Chi² \> 10.000, p \< 2,2 · e⁻¹⁶) und zeigt die zentrale Rolle menschlichen Fehlverhaltens.
 
-2. **Zeitliche Muster ermöglichen gezielte Prävention:** Das höhere Risiko schwerer Verletzungen in der Nacht (1,15 % vs. 0,68-0,83 %) sowie die Rush-Hour-Peaks bieten Ansatzpunkte für verstärkte Polizeipräsenz und Aufklärungskampagnen zu spezifischen Zeiten.
+2.  **Zeitliche Muster ermöglichen gezielte Prävention:** Das höhere Risiko schwerer Verletzungen in der Nacht (1,15 % vs. 0,68-0,83 %) sowie die Rush-Hour-Peaks bieten Ansatzpunkte für verstärkte Polizeipräsenz und Aufklärungskampagnen zu spezifischen Zeiten.
 
-3. **Risikokompensation funktioniert meist:** Bei Regen und Schnee ist das Risiko schwerer Verletzungen niedriger als bei klarem Wetter, was auf angepasstes Fahrverhalten hindeutet. Bei Nebel versagt dieser Mechanismus jedoch (höchste Verletzungsquote mit 1,06 %).
+3.  **Risikokompensation funktioniert meist:** Bei Regen und Schnee ist das Risiko schwerer Verletzungen niedriger als bei klarem Wetter, was auf angepasstes Fahrverhalten hindeutet. Bei Nebel versagt dieser Mechanismus jedoch (höchste Verletzungsquote mit 1,06 %).
 
 ### Limitationen
 
 Diese Analyse unterliegt einigen Einschränkungen:
 
-- **Beobachtungsdaten:** Es handelt sich um Beobachtungsdaten, die keine kausalen Schlüsse erlauben. Die identifizierten Zusammenhänge können durch Drittvariablen beeinflusst sein.
-- **Fehlende Werte:** Einige Variablen weisen hohe NA-Anteile auf (z.B. Related.Non.Motorist bei 96% der Fälle), was die Generalisierbarkeit einschränken kann.
-- **Regionale Beschränkung:** Die Daten stammen ausschließlich aus Montgomery County, Maryland (Vorort von Washington D.C.). Die Ergebnisse sind möglicherweise nicht auf ländliche Gebiete oder andere Bundesstaaten übertragbar.
-- **Dokumentationsqualität:** Die Qualität der Daten hängt von der Dokumentation durch die Polizeibehörden ab. Systematische Verzerrungen in der Erfassung (z.B. Untererfassung von Substanzverdacht) können nicht ausgeschlossen werden.
+-   **Beobachtungsdaten:** Es handelt sich um Beobachtungsdaten, die keine kausalen Schlüsse erlauben. Die identifizierten Zusammenhänge können durch Drittvariablen beeinflusst sein.
+-   **Fehlende Werte:** Einige Variablen weisen hohe NA-Anteile auf (z.B. Related.Non.Motorist bei 96% der Fälle), was die Generalisierbarkeit einschränken kann.
+-   **Regionale Beschränkung:** Die Daten stammen ausschließlich aus Montgomery County, Maryland (Vorort von Washington D.C.). Die Ergebnisse sind möglicherweise nicht auf ländliche Gebiete oder andere Bundesstaaten übertragbar.
+-   **Dokumentationsqualität:** Die Qualität der Daten hängt von der Dokumentation durch die Polizeibehörden ab. Systematische Verzerrungen in der Erfassung (z.B. Untererfassung von Substanzverdacht) können nicht ausgeschlossen werden.
 
 ### Ausblick
 
 Weiterführende Analysen könnten folgende Aspekte vertiefen:
 
-- Zeitreihenanalyse zur Identifikation langfristiger Trends
+-   Zeitreihenanalyse zur Identifikation langfristiger Trends
 
 ## Quellenverzeichnis
 
@@ -2262,21 +2263,24 @@ Weiterführende Analysen könnten folgende Aspekte vertiefen:
 Die folgenden R-Pakete wurden zusätzlich zu den in der Vorlesung behandelten Paketen verwendet:
 
 **skimr** — Datenübersichten und Zusammenfassungen
-```
+
+```         
 Waring E, Quinn M, McNamara A, Arino de la Rubia E, Zhu H, Ellis S (2022).
 skimr: Compact and Flexible Summaries of Data.
 R package version 2.1.5, https://CRAN.R-project.org/package=skimr
 ```
 
 **janitor** — Duplikaterkennung und Datenbereinigung
-```
+
+```         
 Firke S (2023).
 janitor: Simple Tools for Examining and Cleaning Dirty Data.
 R package version 2.2.0, https://CRAN.R-project.org/package=janitor
 ```
 
 **stringdist** — Fuzzy String Matching (Jaro-Winkler-Distanz)
-```
+
+```         
 van der Loo M (2014).
 "The stringdist package for approximate string matching."
 The R Journal, 6(1), 111-122.
@@ -2284,21 +2288,24 @@ https://CRAN.R-project.org/package=stringdist
 ```
 
 **formattable** — Tabellenformatierung
-```
+
+```         
 Ren K, Russell K (2021).
 formattable: Create 'Formattable' Data Structures.
 R package version 0.2.1, https://CRAN.R-project.org/package=formattable
 ```
 
 **scales** — Zahlenformatierung für Visualisierungen
-```
+
+```         
 Wickham H, Pedersen TL, Seidel D (2023).
 scales: Scale Functions for Visualization.
 R package version 1.3.0, https://CRAN.R-project.org/package=scales
 ```
 
 **kableExtra** — Erweiterte Tabellenformatierung
-```
+
+```         
 Zhu H (2024).
 kableExtra: Construct Complex Table with 'kable' and Pipe Syntax.
 R package version 1.4.0, https://CRAN.R-project.org/package=kableExtra
@@ -2307,7 +2314,8 @@ R package version 1.4.0, https://CRAN.R-project.org/package=kableExtra
 ### Datenquelle
 
 **Montgomery County Crash Reporting - Drivers Data**
-```
+
+```         
 Montgomery County, Maryland, USA
 Open Data Portal: https://data.montgomerycountymd.gov/
 Datensatz: Crash Reporting - Drivers Data
