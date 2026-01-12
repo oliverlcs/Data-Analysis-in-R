@@ -1724,7 +1724,7 @@ severe_rates <- data %>%
 severe_rates
 ```
 
-Um den Fokus gezielt auf besonders gravierende Unfallfolgen zu legen, wurden zusätzlich die Kategorien "FATAL" und "SUSPECTED SERIOUS INJURY" zu einer gemeinsamen Gruppe schwerer Verletzungen zusammengefasst. Diese Analyse zeigt bei beiden Gruppierungen geringe Anteile mit unter einem Prozent. Bei reinen Fahrzeugunfällen ist hier der Wert mit 0,85 % der Wert höher als bei Unfällen mit Fußgängern oder Radfahrern mit 0,32 %.
+Um den Fokus gezielt auf besonders gravierende Unfallfolgen zu legen, wurden zusätzlich die Kategorien "FATAL" und "SUSPECTED SERIOUS INJURY" zu einer gemeinsamen Gruppe schwerer Verletzungen zusammengefasst. Diese Analyse zeigt bei beiden Gruppierungen geringe Anteile mit unter einem Prozent. Bei reinen Fahrzeugunfällen ist der Wert mit 0,85 % höher als bei Unfällen mit Fußgängern oder Radfahrern mit 0,32 %.
 
 #### Tageszeit der Fußgänger-/Radfahrerunfälle
 
@@ -2073,7 +2073,7 @@ data %>%
   theme_minimal()
 ```
 
-Die meisten Unfälle treten bei Fahrzeugen auf, die ein bis fünf Jahre alt sind. Mit zunehmendem Alter der Fahrzeuge nimmt ab da die Unfallhäufigkeit kontinuierlich ab. Dies erscheint zunächst überraschend, da man erwarten könnte, dass ältere Autos durch Ausfälle oder technische Mängel ein höheres Unfallrisiko hätten. Wahrscheinlich hängt die Statistik jedoch damit zusammen, dass nur wenige Fahrzeuge über einen sehr langen Zeitraum genutzt werden, da viele Menschen ihr Auto heute nur wenige Jahre besitzen oder leasen.
+Die meisten Unfälle treten bei Fahrzeugen auf, die ein bis fünf Jahre alt sind. Mit zunehmendem Alter der Fahrzeuge nimmt die Unfallhäufigkeit kontinuierlich ab. Dies erscheint zunächst überraschend, da man erwarten könnte, dass ältere Autos durch Ausfälle oder technische Mängel ein höheres Unfallrisiko hätten. Wahrscheinlich hängt die Statistik jedoch damit zusammen, dass nur wenige Fahrzeuge über einen sehr langen Zeitraum genutzt werden, da viele Menschen ihr Auto heute nur wenige Jahre besitzen oder leasen.
 
 ```{r}
 # Verletzungsschwere nach Fahrzeugalter (gruppiert)
@@ -2221,7 +2221,7 @@ Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2
 
 #### Fragestellung F: Räumliche Unfallhotspots
 
-**Ergebnis:** Besonders hohe Unfallhäufigkeiten treten im Bereich zwischen den Längengraden -77,3 und -76,9 sowie den Breitengraden 38,95 und 39,2 auf, was auf die urbaneren Bereiche des Countys hindeutet. Die räumliche Verteilung schwerer Unfälle ähnelt dabei weitgehend der allgemeinen Unfallverteilung, ist jedoch etwas breiter gestreut, was darauf schließt, dass schwere Unfälle nicht ausschließlich in den größten Unfallhotspots auftreten.
+**Ergebnis:** Besonders hohe Unfallhäufigkeiten treten im Bereich zwischen den Längengraden -77,3 und -76,9 sowie den Breitengraden 38,95 und 39,2 auf, was auf die urbaneren Bereiche des Countys hindeutet. Die räumliche Verteilung schwerer Unfälle ähnelt dabei weitgehend der allgemeinen Unfallverteilung, ist jedoch etwas breiter gestreut, was darauf schließen lässt, dass schwere Unfälle nicht ausschließlich in den größten Unfallhotspots auftreten.
 
 **Vergleich mit Hypothese:** Wir hatten angenommen, dass Unfälle sich entlang von Hauptverkehrsachsen und an Knotenpunkten konzentrieren, während schwere Unfälle eher auf Schnellstraßen auftreten. Das ließ sich nicht vollständig prüfen, da der Datensatz keine Informationen zu Straßentypen enthält. Die räumliche Analyse zeigt allerdings klare Hotspots, die vermutlich stark befahrene Bereiche widerspiegeln.
 
