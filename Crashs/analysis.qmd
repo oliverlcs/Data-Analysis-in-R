@@ -57,7 +57,7 @@ Diese Fragestellung untersucht den Zusammenhang zwischen Substanzkonsum und der 
 
 Ablenkung ist eine der Hauptursachen für Verkehrsunfälle. Diese Analyse untersucht, welche Ablenkungsformen (Handynutzung, manuelle Tätigkeiten, visuelle Ablenkung) besonders häufig auftreten und ob bestimmte Ablenkungsarten zu spezifischen Unfalltypen führen. Verwendet werden `Driver.Distracted.By`, `Collision.Type` und `Driver.At.Fault`.
 
-**Hypothese:** Wir erwarten, dass Handynutzung (PHONE USE) die häufigste dokumentierte Ablenkungsform ist und überproportional zu Auffahrunfällen (REAR-END) führt. Der Grund: Bei Handynutzung wird der Blick von der Straße abgewendet, wodurch das vorausfahrende Fahrzeug zu spät wahrgenommen wird.
+**Hypothese:** Wir erwarten, dass Handynutzung die häufigste dokumentierte Ablenkungsform ist und überproportional zu Auffahrunfällen führt. Bei der Handynutzung wird der Blick von der Straße abgewendet, wodurch das vorausfahrende Fahrzeug zu spät wahrgenommen wird.
 
 **Fragestellung E: Fußgänger- und Radfahrerunfälle**
 
@@ -1089,7 +1089,7 @@ data %>%
 
 Zur Untersuchung des Zusammenhangs zwischen Witterungsverhältnissen und der Verletzungsschwere wurden zunächst Datensätze mit fehlenden Werten in den entsprechenden Variablen (Weather, Injury.Severity) bereinigt. Da die absoluten Fallzahlen je nach Wetterlage extrem unterschiedlich ausfallen (z. B. sehr viele Fälle bei „CLEAR“, sehr wenige bei „WIND“), wurden die Daten gruppiert und in relative Anteile umgerechnet. Dies ermöglicht einen direkten Vergleich der Verteilungsstrukturen unabhängig von der Häufigkeit der Wetterereignisse.
 
-Die grafische Auswertung zeigt eine bemerkenswerte Konstanz: Die Verteilung der Verletzungsschwere ist weitgehend unabhängig von den Wetterbedingungen. Über alle Kategorien hinweg – von klarem Himmel („CLEAR“) bis hin zu schwierigen Verhältnissen wie Schnee („SNOW/WINTRY“) oder Nebel – dominiert die Kategorie „NO APPARENT INJURY“ mit einem Anteil von jeweils etwa 80 %. Es lässt sich visuell kein Trend erkennen, dass schlechte Witterungsbedingungen proportional zu signifikant schwereren Unfallfolgen führen würden; die relative Struktur der Schweregrade bleibt über alle Wetterlagen hinweg nahezu identisch.
+Die grafische Auswertung zeigt, dass die Verteilung der Verletzungsschwere weitgehend unabhängig von den Wetterbedingungen ist. Über alle Kategorien hinweg – von klarem Himmel („CLEAR“) bis hin zu schwierigen Verhältnissen wie Schnee („SNOW/WINTRY“) oder Nebel – dominiert die Kategorie „NO APPARENT INJURY“ mit einem Anteil von jeweils etwa 80 %. Es lässt sich visuell kein Trend erkennen, dass schlechte Witterungsbedingungen proportional zu signifikant schwereren Unfallfolgen führen würden; die relative Struktur der Schweregrade bleibt über alle Wetterlagen hinweg nahezu identisch.
 
 ```{r}
 # Anteil schwerer Verletzungen nach Wetter
@@ -1135,7 +1135,7 @@ data %>%
 
 Zur Analyse der Wechselwirkung zwischen Straßenbeschaffenheit und Fahrzeugschäden wurden Datensätze mit fehlenden Angaben in den Variablen Surface.Condition und Vehicle.Damage.Extent bereinigt. Um die stark variierenden absoluten Fallzahlen der verschiedenen Straßenzustände vergleichbar zu machen, wurden die Daten gruppiert und die absoluten Häufigkeiten in relative Anteile innerhalb der jeweiligen Kategorie umgerechnet.
 
-Die Visualisierung verdeutlicht, dass über fast alle Straßenbedingungen hinweg die Schadensarten „DISABLING“ (fahruntüchtig) und „SUPERFICIAL“ (oberflächlich) dominieren. Dennoch zeigen sich bei genauerer Betrachtung spezifische Risikoprofile: Während auf losen Untergründen wie „MUD, DIRT, GRAVEL“ oberflächliche Schäden mit über 40 % überproportional häufig auftreten (olivgrüner Balken), führen glatte Verhältnisse (z. B. „ICE“, „SLUSH“) besonders oft zu Schäden, die das Fahrzeug fahruntüchtig machen. Eine signifikante Anomalie weist die Kategorie „WATER (STANDING/MOVING)“ auf: Hier ist der Anteil an Totalschäden („DESTROYED“) im Vergleich zu allen anderen Bedingungen am höchsten (lila Balken), was auf die fatalen Auswirkungen von Wasser auf Motor und Elektronik hindeutet.
+Die Visualisierung verdeutlicht, dass über fast alle Straßenbedingungen hinweg die Schadensarten „DISABLING“ (fahruntüchtig) und „SUPERFICIAL“ (oberflächlich) dominieren. Dennoch zeigen sich bei genauerer Betrachtung spezifische Risikoprofile: Während auf losen Untergründen wie „MUD, DIRT, GRAVEL“ oberflächliche Schäden mit über 40 % überproportional häufig auftreten (olivgrüner Balken), führen glatte Verhältnisse (z. B. „ICE“, „SLUSH“) besonders oft zu Schäden, die das Fahrzeug fahruntüchtig machen. Auffällig ist die Kategorie „WATER (STANDING/MOVING)". Hier liegt der Anteil an Totalschäden („DESTROYED“) deutlich über allen anderen Bedingungen (lila Balken), was auf die fatalen Auswirkungen von Wasser auf Motor und Elektronik hindeutet.
 
 #### Vergleich: Gutes vs. schlechtes Wetter
 
@@ -1224,7 +1224,7 @@ chisq_surface_damage
 
 Zur statistischen Überprüfung des Zusammenhangs zwischen der Straßenbeschaffenheit und dem Ausmaß des Fahrzeugschadens wurde ein weiterer Chi-Quadrat-Test durchgeführt. Im Vorfeld wurden die Daten erneut bereinigt, indem alle Datensätze mit fehlenden Einträgen in den Variablen `Surface.Condition` und `Vehicle.Damage.Extent` entfernt wurden, um eine valide Kreuztabelle zu erstellen.
 
-Das Testergebnis bestätigt mit einem p-Wert von < 2.2e-16 die statistische Signifikanz auf höchstem Niveau. Damit lässt sich die Nullhypothese, dass Straßenzustand und Schadenshöhe voneinander unabhängig seien, eindeutig verwerfen. Dies untermauert die Erkenntnisse aus der vorangegangenen Visualisierung statistisch: Die beobachteten Auffälligkeiten, etwa die gehäuften Totalschäden bei Wasser oder spezifische Schadensbilder bei Glätte, sind nicht zufällig, sondern es besteht ein systematischer Zusammenhang zwischen dem Untergrund und der Schwere des Sachschadens.
+Das Testergebnis bestätigt mit einem p-Wert von < 2.2e-16 die statistische Signifikanz auf höchstem Niveau. Damit lässt sich die Nullhypothese, dass Straßenzustand und Schadenshöhe voneinander unabhängig seien, eindeutig verwerfen. Dies untermauert die Erkenntnisse aus der vorangegangenen Visualisierung statistisch. Die beobachteten Auffälligkeiten, etwa die gehäuften Totalschäden bei Wasser oder spezifische Schadensbilder bei Glätte, sind nicht zufällig, sondern es besteht ein systematischer Zusammenhang zwischen dem Untergrund und der Schwere des Sachschadens.
 
 #### Zwischenfazit Fragestellung B
 
@@ -1232,7 +1232,7 @@ Die Analyse der Wetterbedingungen bestätigt die kontraintuitive Hypothese volls
 
 **Unfallhäufigkeit:** Die absolute Mehrheit der Unfälle (142.319 Fälle, ca. 73 %) ereignet sich bei klarem Wetter. Widrige Witterungsbedingungen wie Schnee, Nebel oder starker Wind spielen quantitativ eine untergeordnete Rolle.
 
-**Verletzungsschwere:** Der Vergleich zeigt, dass Unfälle bei gutem Wetter tatsächlich einen höheren Anteil schwerer Verletzungen aufweisen (0,86 %) als bei schlechtem Wetter (0,79 %). Besonders auffällig: Bei Regen (0,67 %) und Schnee (0,6 %) ist das Risiko schwerer Verletzungen sogar niedriger als bei klarem Himmel. Die höchste Quote schwerer Verletzungen findet sich bei Nebel/schlechter Sicht (1,06 %), wo die Gefahr offenbar unterschätzt wird.
+**Verletzungsschwere:** Der Vergleich zeigt, dass Unfälle bei gutem Wetter tatsächlich einen höheren Anteil schwerer Verletzungen aufweisen (0,86 %) als bei schlechtem Wetter (0,79 %). Interessanterweise liegt das Risiko schwerer Verletzungen bei Regen (0,67 %) und Schnee (0,6 %) sogar unter dem bei klarem Himmel. Die höchste Quote schwerer Verletzungen findet sich bei Nebel/schlechter Sicht (1,06 %), wo die Gefahr offenbar unterschätzt wird.
 
 **Fahrzeugschäden:** Bei Straßenbedingungen mit Wasser (stehend/fließend) zeigt sich der höchste Anteil an Totalschäden, während bei Glätte (Eis, Schneematsch) Schäden dominieren, die das Fahrzeug fahruntüchtig machen.
 
@@ -1338,7 +1338,7 @@ table(data$Driver.Alcohol, data$Driver.Drugs, useNA = "ifany")
 
 Analog zur Untersuchung des Alkoholeinflusses wurde der Zusammenhang zwischen dem Drogenstatus („Driver.Drugs“) und der Unfallschuld analysiert. Die Verteilung der Schuldanteile ähnelt stark der des Alkoholstatus, was eine nähere Untersuchung der Datenstruktur veranlasste.
 
-Eine Kreuztabellierung der beiden Variablen offenbart eine starke Überlappung der Kategorien. Insbesondere bei den unauffälligen Befunden („NONE DETECTED“, „NOT SUSPECT“) sowie den fehlenden Werten („UNKNOWN“) decken sich die Einträge fast vollständig. Auffällig ist die Kategorie „NO CLASSIFICATION“ beim Drogenstatus: Diese korreliert stark mit einem positiven Alkoholbefund („PRESENT“ oder „CONTRIBUTED“).
+Eine Kreuztabellierung der beiden Variablen offenbart eine starke Überlappung der Kategorien. Insbesondere bei den unauffälligen Befunden („NONE DETECTED“, „NOT SUSPECT“) sowie den fehlenden Werten („UNKNOWN“) decken sich die Einträge fast vollständig. Auffällig ist die Kategorie „NO CLASSIFICATION“ beim Drogenstatus, die stark mit einem positiven Alkoholbefund („PRESENT“ oder „CONTRIBUTED“) korreliert.
 
 Dies lässt darauf schließen, dass bei festgestelltem Alkoholeinfluss häufig auf eine spezifische Klassifizierung des Drogenstatus verzichtet wurde bzw. dieser als „nicht klassifiziert“ eingetragen blieb. Der hohe Schuldanteil in der Kategorie „NO CLASSIFICATION“ (97,7 %) ist somit primär als Effekt des Alkoholeinflusses zu interpretieren und nicht isoliert auf den Drogenstatus zurückzuführen. Echte positive Drogenbefunde („CONTRIBUTED“, „PRESENT“) sind in den Daten deutlich seltener als Alkoholbefunde, weisen aber bei Vorliegen eine ebenso eindeutige Schuldzuweisung (>96 %) auf.
 
@@ -2184,7 +2184,7 @@ Hinsichtlich der Herkunft der Fahrer stammen die meisten Unfallbeteiligten erwar
 
 ### Überblick der Fragestellungen
 
-Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2015–2025) anhand von fünf Fragestellungen. Der Fokus lag auf menschlichen Verhaltensfaktoren und deren Zusammenhang mit Unfallschuld und Verletzungsschwere.
+Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2015–2025) anhand von sieben Fragestellungen. Der Fokus lag auf menschlichen Verhaltensfaktoren und deren Zusammenhang mit Unfallschuld und Verletzungsschwere.
 
 ### Zusammenfassung der Ergebnisse
 
@@ -2198,13 +2198,13 @@ Diese Analyse untersuchte Verkehrsunfalldaten aus Montgomery County, Maryland (2
 
 **Ergebnis:** Bei klarem Wetter liegt der Anteil schwerer Verletzungen (0,86 %) höher als bei schlechtem Wetter (0,79 %). Besonders niedrig ist das Risiko bei Regen (0,67 %) und Schnee (0,60 %). Die höchste Quote findet sich bei Nebel (1,06 %), wo die Gefahr unterschätzt zu werden scheint. Bei Straßenbedingungen mit Wasser treten die meisten Totalschäden auf.
 
-**Vergleich mit Hypothese:** Die Vermutung lautete, dass schlechtes Wetter nicht zwangsläufig zu schwereren Unfällen führt, weil Fahrer ihr Verhalten anpassen. Das bestätigen die Daten: Bei Regen, Schnee oder Eis sinkt die Unfallschwere, was auf vorsichtigeres Fahren hindeutet.
+**Vergleich mit Hypothese:** Die Vermutung lautete, dass schlechtes Wetter nicht zwangsläufig zu schwereren Unfällen führt, weil Fahrer ihr Verhalten anpassen. Die Daten bestätigen, dass bei Regen, Schnee oder Eis die Unfallschwere sinkt, was auf vorsichtigeres Fahren hindeutet.
 
 #### Fragestellung C: Substanzeinfluss und Schuldfrage
 
 **Ergebnis:** Bei nachgewiesenem Alkoholeinfluss liegt der Schuldanteil bei 97,6–98,9 %, bei Drogeneinfluss bei 96,3–99,3 %. Im Vergleich dazu sind nur 33,7 % der Fahrer mit Status „NOT SUSPECT" als schuldig eingestuft. Unfälle unter Alkoholeinfluss zeigen zudem eine Verschiebung hin zu schwereren Verletzungsfolgen (erhöhter Anteil FATAL und SUSPECTED SERIOUS INJURY).
 
-**Vergleich mit Hypothese:** Erwartet hatten wir, dass Fahrer unter Substanzeinfluss häufiger als schuldig eingestuft werden und dass solche Unfälle schwerer ausfallen. Beides zeigt sich deutlich in den Daten: Sowohl die Schuldquote als auch die Verletzungsschwere liegen bei Alkohol- oder Drogeneinfluss klar über dem Durchschnitt.
+**Vergleich mit Hypothese:** Erwartet hatten wir, dass Fahrer unter Substanzeinfluss häufiger als schuldig eingestuft werden und dass solche Unfälle schwerer ausfallen. Aus den Daten geht klar hervor, dass sowohl die Schuldquote als auch die Verletzungsschwere bei Alkohol- oder Drogeneinfluss klar über dem Durchschnitt liegen.
 
 #### Fragestellung D: Ablenkung am Steuer
 
